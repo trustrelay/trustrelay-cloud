@@ -31,32 +31,6 @@ import LightTheme from './assets/themes/TrustRelay/light';
 
 import { MuiThemeProvider } from '@material-ui/core';
 
-// import DashboardPage from './pages/dashboard-page'; 
-// import LandingPageV2 from './pages/landing-page-v2';
-// import SignedOutPage from './pages/signed-out-page';
-// import CommonsPage from './pages/commons-page';
-// import CommonPage from './pages/common-page';
-// import DataspacePage from './pages/dataspace-page';
-// import SignedAgreementsPage from './pages/signed-agreements-page';
-// import SignedAgreementPage from './pages/signed-agreement-page';
-// import ServiceConnectionsPage from './pages/service-connections-page';
-// import TemplateAgreementsPage from './pages/template-agreements-page';
-// import TemplateAgreementWizardPage from './pages/template-agreement-wizard-page';
-// import TemplateAgreementPage from './pages/template-agreement-page';
-// import InsightsPage from './pages/insights-page';
-// import AccountPage from './pages/account-page';
-// import IssuesPage from './pages/issues-page';
-// import JoinPage from './pages/join-page';
-// import UserTasksPage from './pages/user-tasks-page';
-// import ServiceConnectionPage from './pages/service-connection-page';
-// import AuditLogsPage from './pages/audit-logs-page';
-// import RedirectPage from './pages/redirect-page';
-// import OrganizationsPage from './pages/organizations-page';
-// import SubscriptionPage from './pages/subscription-page';
-// import CookiePolicyPage from './pages/cookie-policy-page';
-// import LearnMorePage from './pages/learn-more-page'; 
-// import PrivacyPolicyPage from './pages/privacy-policy-page';
-
 const DashboardPage = lazy(() => import('./pages/dashboard-page'));
 
 const LandingPageV2 = lazy(() => import('./pages/landing-page-v2'));
@@ -403,9 +377,9 @@ const App = (
                               exact
                               path="/"
                               render={props => (
-                                <Page {...props} >
-                                  <LandingPageV2 />
-                                </Page>
+                                <Page {...props} title="TrustRelay | Account">
+                                <AccountPage />
+                              </Page>
                               )}
                             />
 

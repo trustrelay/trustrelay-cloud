@@ -1,5 +1,5 @@
 {
-  "name": "trustrelay-web",
+  "name": "trustrelay-cloud",
   "version": "0.15.1",
   "private": true,
   "dependencies": {
@@ -100,12 +100,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trustrelay/trustrelay-web.git"
+    "url": "git+https://github.com/trustrelay/trustrelay-cloud.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/trustrelay/trustrelay-web/issues"
+    "url": "https://github.com/trustrelay/trustrelay-cloud/issues"
   },
   "homepage": "https://trustrelay.io",
   "devDependencies": {
