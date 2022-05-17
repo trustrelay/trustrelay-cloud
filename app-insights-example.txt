@@ -1,0 +1,51 @@
+*************************************************************************************************
+applicationInsights example:
+
+{
+    "name": "Microsoft.ApplicationInsights.Request",
+    "tags": {
+        "ai.cloud.role": "trustrelay.io",
+        "ai.cloud.roleInstance": "***container-hostname",
+        "ai.user.id": "***loggedin user",
+        "ai.location.ip": "***user ip"
+    },
+    "data": {
+        "baseType": "RequestData",
+        "baseData": {
+            "id": "***request-id",
+            "name": "****GET TrustRelay|Wallets",
+            "success": true,
+            "responseCode": "200",
+            "duration": 0,
+            "url": "***url" 
+        }
+    }
+}
+
+*********************************************************************************************
+existent RUM:
+
+{
+  "id": "017c49a5-55dd-4fb7-b940-f02a8f680e97",
+  "clientId": "91663dbb-3948-47a3-8327-1e121e456117",
+  "deviceType": "PC",
+  "eventAction": "state-load-full",
+  "eventType": "state",
+  "eventStart": 1619933008948,
+  "eventEnd": 1619933603646,
+  "eventSource": "http://localhost:3000/audit-logs",
+  "eventCategory": "TrustRelay | Audit Logs",
+  "viewportHeight": 458,
+  "viewportWidth": 1832,
+  "screenColors": 24,
+  "osName": "Linux",
+  "osVersion": "x86_64",
+  "encoding": "UTF-8",
+  "language": "en",
+  "softwareInfo1": "Chrome",
+  "softwareInfo2": "90.0.4430.85",
+  "manufacturer": "",
+  "model": "",
+  "screenResolutionWidth": 1920,
+  "screenResolutionHeight": 975
+}

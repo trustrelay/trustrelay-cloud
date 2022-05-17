@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://trustrelay.io/</loc>
+      <lastmod>2022-04-22</lastmod>
+   </url> 
+   <url> 
+      <loc>https://trustrelay.io/learn-more</loc>
+      <lastmod>2022-04-22</lastmod>
+   </url>  
+   <url>
+   <loc>https://trustrelay.io/cookie-policy</loc>
+   <lastmod>2022-04-13</lastmod>
+   </url>
+    <url>
+   <loc>https://trustrelay.io/privacy-policy-and-terms-of-use</loc>
+   <lastmod>2022-04-13</lastmod>
+   </url>
+</urlset>

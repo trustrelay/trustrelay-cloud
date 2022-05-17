@@ -1,0 +1,1 @@
+declare module './fonts/Raleway-Bold.woff2';

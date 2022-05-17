@@ -1,0 +1,13 @@
+<svg width="226" height="146" viewBox="0 0 226 146" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="22.5" cy="123.5" r="17.5" stroke="white" stroke-width="10"/>
+<circle cx="203.5" cy="22.5" r="17.5" stroke="white" stroke-width="10"/>
+<line x1="145" y1="123" x2="35" y2="123" stroke="white" stroke-width="10"/>
+<line x1="81" y1="22" x2="191" y2="22" stroke="white" stroke-width="10"/>
+<path d="M139.604 22H82C76.4772 22 72 26.4772 72 32V100.32C72 102.838 72.9503 105.264 74.6609 107.112L86.3968 119.792C88.2894 121.837 90.9495 123 93.7359 123H148C153.523 123 158 118.523 158 113V45.5973C158 43.7417 157.484 41.9226 156.509 40.3437L148.113 26.7464C146.292 23.7961 143.072 22 139.604 22Z" stroke="white" stroke-width="10"/>
+<line x1="87" y1="49.5" x2="143" y2="49.5" stroke="white" stroke-width="5"/>
+<line x1="87" y1="65.5" x2="143" y2="65.5" stroke="white" stroke-width="5"/>
+<line x1="87" y1="57.5" x2="143" y2="57.5" stroke="white" stroke-width="5"/>
+<line x1="87" y1="73.5" x2="143" y2="73.5" stroke="white" stroke-width="5"/>
+<line x1="87" y1="89.5" x2="143" y2="89.5" stroke="white" stroke-width="5"/>
+<line x1="87" y1="81.5" x2="143" y2="81.5" stroke="white" stroke-width="5"/>
+</svg>

@@ -1,0 +1,72 @@
+# Author: Jorge Alvarado
+# Updated: 04.05.2022
+
+name: Deploy to Azure Blob Storage
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 12
+
+      - name: run node version
+        run: which node
+
+      - name: npm install
+        run: npm install
+
+      - name: npm run build
+        run: npm run build:prod
+
+      - name: get az version
+        run: |
+              az --version
+              az account show
+
+      - name: Delete previous files
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+              az storage blob delete-batch \
+              --source '$web' \
+              --account-name trustrelayprod \
+              --pattern '*.js' \
+              --auth-mode key
+
+      - name: Upload website files
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+              az storage blob upload-batch \
+              --verbose \
+              --destination '$web' \
+              --source './build' \
+              --account-name trustrelayprod \
+              --overwrite
+
+      # Azure logout
+      - name: logout
+        run: |
+              az logout
+        if: always()
+

@@ -1,0 +1,82 @@
+# File: azure-pipelines.yml
+
+trigger:
+    - main
+
+variables:
+  keyvault_name: trustrelay-prod
+  keyvault_secretname: storage-key
+
+jobs:
+    - job: develop
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps: 
+        - task: NodeTool@0
+          name: StepInstallNode
+          displayName: Installing NodeJS
+          inputs:
+            versionSpec: '12.x'
+        - script: which node
+          name: StepPrintNodeVersion
+          displayName: Printing NodeJS version 
+  
+        - task: Npm@1
+          name: StepNpmInstall
+          displayName: Npm Install
+          inputs:
+            command: 'install'
+
+        - task: Npm@1
+          name: StepNpmRun
+          displayName: Npm Run Build
+          inputs:
+            command: 'custom'
+            customCommand: 'run build:prod'
+  
+        - task: AzureCLI@2
+          name: StepInstallAzureCli
+          displayName: Installing Azure CLI
+          inputs:
+            azureSubscription: azure-prod
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              az --version
+              az account show
+        - task: AzureCLI@2
+          name: StepGetSecret
+          displayName: Getting Storage Secret
+          inputs:
+            azureSubscription: azure-prod
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              echo "##vso[task.setvariable variable=keyvault_secretvalue]$(az keyvault secret show --name $(keyvault_secretname) --vault-name $(keyvault_name) --query value -o tsv)"
+        - task: AzureCLI@2
+          displayName: Deleting previous files
+          inputs:
+            azureSubscription: azure-prod
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: | 
+              az storage blob delete-batch \
+              --source '$web' \
+              --account-name trustrelayprod \
+              --pattern '*.js' \
+              --account-key $(keyvault_secretvalue) \
+              --auth-mode key
+        - task: AzureCLI@2
+          displayName: Uploading file
+          inputs:
+            azureSubscription: azure-prod
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: | 
+              az storage blob upload-batch \
+              --verbose \
+              --destination '$web' \
+              --source './build' \
+              --account-name trustrelayprod \
+              --account-key $(keyvault_secretvalue) \
+              --overwrite
