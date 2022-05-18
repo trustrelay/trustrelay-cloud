@@ -355,7 +355,7 @@ const MainNavigation = ({
           </AuthenticatedTemplate>
           <Link underline="none" onClick={goHome}>
             <div className={css.home}>
-              <img className={css.logo} src="https://cdn.trustrelay.io/media/TrustRelayLogoMini.svg" alt="TrustRelay logo" width="2em" height="auto" />
+              <img className={css.logo} src="https://cdn.trustrelay.io/media/TrustRelayLogoMini.svg" alt="TrustRelay logo"  />
               <Typography style={{ float: "left", margin: "8px 0 0 -7px" }}>TrustRelay</Typography>
             </div>
           </Link>
