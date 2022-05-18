@@ -52,15 +52,9 @@ const ServiceConnectionPage = lazy(() => import('./pages/service-connection-page
 const AuditLogsPage = lazy(() => import('./pages/audit-logs-page'));
 const RedirectPage = lazy(() => import('./pages/redirect-page'));
 const OrganizationsPage = lazy(() => import('./pages/organizations-page'));
-const SubscriptionPage = lazy(() => import('./pages/subscription-page'));
-const CookiePolicyPage = lazy(() => import('./pages/cookie-policy-page'));
-const LearnMorePage = lazy(() => import('./pages/learn-more-page'));
-const PrivacyPolicyPage = lazy(() => import('./pages/privacy-policy-page'));
-const Whitepaper6StepsToSetupAUniqueDataspaceInYourIndustry = lazy(() => import('./pages/whitepaper-6-steps-to-setup-a-unique-dataspace-in-your-industry'));
-
-const VideoHowToUseTrustRelay = lazy(() => import('./pages/video-how-to-use-trustrelay'));
-
-const GetFreeTrial = lazy(() => import('./pages/get-free-trial'));
+const SubscriptionPage = lazy(() => import('./pages/subscription-page')); 
+  
+ 
 
 
 const App = (
@@ -119,55 +113,8 @@ const App = (
                               )}
                             />
 
-                            <Route
-                              path="/cookie-policy"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Cookie policy">
-                                  <CookiePolicyPage />
-                                </Page>
-                              )}
-                            />
-
-                            <Route
-                              path="/privacy-policy-and-terms-of-use"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Privacy policy and terms of use">
-                                  <PrivacyPolicyPage />
-                                </Page>
-                              )}
-                            />
-
-                            <Route
-                              path="/whitepaper-6-steps-to-setup-a-unique-dataspace-in-your-industry"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Whitepaper - 6 steps to setup a unique dataspace in your industry">
-                                  <Whitepaper6StepsToSetupAUniqueDataspaceInYourIndustry />
-                                </Page>
-                              )}
-                            />
-
-                            <Route
-                              path="/video-how-can-i-use-trustrelay"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Video - How can I use TrustRelay?">
-                                  <VideoHowToUseTrustRelay />
-                                </Page>
-                              )}
-                            />
-
-                            <Route
-                              path="/get-free-trial"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Get free trial">
-                                  <GetFreeTrial />
-                                </Page>
-                              )}
-                            />
+                           
+  
 
                             <Route
                               path="/account"
@@ -382,17 +329,7 @@ const App = (
                               )}
                             />
 
-                            <Route
-                              exact
-                              path="/learn-more"
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Learn more">
-                                  <LearnMorePage />
-                                </Page>
-                              )}
-                            />
-
-
+                          
 
                             <Route
                               exact

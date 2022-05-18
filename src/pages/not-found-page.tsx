@@ -1,12 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { Box, Button, CssBaseline, Grid, makeStyles, MuiThemeProvider, Typography } from '@material-ui/core';
+import { Box, Button, CssBaseline, Grid, makeStyles, Typography } from '@material-ui/core';
 import { useToast } from '../hooks/toast-hook'; 
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { collector, Producer, Transport } from '../apm';
-import { Helmet } from 'react-helmet';
-import LightTheme from '../assets/themes/TrustRelay/light';
-import TopMenu from '../components/landing-page/top-menu';
+import LayoutCentered from '../components/layout-centered';
+import LayoutPage from '../components/layout-one-column';
 
 const useStyles = makeStyles({
   pageContainer: {
@@ -70,40 +69,23 @@ const NotFoundPage = () => {
   })
 
   return (
-    // <LayoutPage
-    //   toast={toast}
-    //   openToast={toast.openToast}
-    //   closeToast={toast.closeToast}
-    // >
-    //   <LayoutCentered fullHeight>
-    <MuiThemeProvider theme={LightTheme}>
-      <CssBaseline />
-      <div id="landingpage" className="landing">
-        <Helmet>
-          <title>404 Page Not Found</title>
-          <meta name="description" content="Page not found" />
-          <meta name="robots" content="noindex" />
-        </Helmet>
-        <TopMenu />
-        <Box className={css.pageContainer}>
-          <Box className={css.leftPad}>&nbsp;</Box>
-          <Box className={css.center}>
-            <Grid item container>
-              <Typography variant="body1">{t('messages.pageNotFound')}</Typography>
-            </Grid>
-            <Grid item container>
-              &nbsp;
-            </Grid>
-            <Grid item container>
-              <Button variant="contained" onClick={() => goHome()}>
-                {t('labels.homePage')}
-              </Button>
-            </Grid>
-          </Box>
-          <Box className={css.rightPad}>&nbsp;</Box>
+    <LayoutPage
+      toast={toast}
+      openToast={toast.openToast}
+      closeToast={toast.closeToast}
+    >
+      <LayoutCentered fullHeight>
+      <Box className={css.pageContainer}>
+        <Box className={css.leftPad}>&nbsp;</Box>
+        <Box className={css.center}>
+          <Grid item container>
+            <Typography variant="h1">Page not found.</Typography>
+          </Grid>
         </Box>
-      </div>
-    </MuiThemeProvider>
+        <Box className={css.rightPad}>&nbsp;</Box>
+      </Box>
+    </LayoutCentered>
+    </LayoutPage>
   );
 };
 
