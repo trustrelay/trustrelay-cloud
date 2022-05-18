@@ -107,7 +107,7 @@
   "bugs": {
     "url": "https://github.com/trustrelay/trustrelay-cloud/issues"
   },
-  "homepage": "https://trustrelay.io",
+  "homepage": "https://cloud.trustrelay.io",
   "devDependencies": {
     "@types/jest": "^26.0.21",
     "@types/jwt-decode": "^3.1.0",

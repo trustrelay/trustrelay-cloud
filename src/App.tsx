@@ -32,8 +32,7 @@ import LightTheme from './assets/themes/TrustRelay/light';
 import { MuiThemeProvider } from '@material-ui/core';
 
 const DashboardPage = lazy(() => import('./pages/dashboard-page'));
-
-const LandingPageV2 = lazy(() => import('./pages/landing-page-v2'));
+ 
 const SignedOutPage = lazy(() => import('./pages/signed-out-page'));
 const CommonsPage = lazy(() => import('./pages/commons-page'));
 const CommonPage = lazy(() => import('./pages/common-page'));
