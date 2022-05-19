@@ -1,5 +1,5 @@
-import React, { useEffect, useState, FunctionComponent } from "react";
-import { Avatar, makeStyles, Theme, withStyles,  useMediaQuery, AvatarProps } from "@material-ui/core";
+
+import { Avatar,  useMediaQuery, AvatarProps } from '@mui/material';
 
 
 

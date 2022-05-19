@@ -1,23 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Typography, makeStyles, TextField, Button, Switch, InputLabel, Select, OutlinedInput, MenuItem, useTheme, Theme, FormControlLabel, IconButton, Grid, AppBar, Tabs, Tab, Box } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Typography, TextField, Button, Switch, InputLabel, Select, OutlinedInput, MenuItem,  FormControlLabel, IconButton, Grid, AppBar, Tabs, Tab, Drawer, Toolbar, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import Countries from '../../api/models/iso3-countries'
 import { Organization } from '../../api/models/models';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import BusinessIcon from '@material-ui/icons/Business';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import BusinessIcon from '@mui/icons-material/Business';
 import TabPanel from '../tab-panel';
-import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { makeStyles  } from '@mui/styles';
 
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: any;
-}
-
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "290px",
+    padding: "0em 0em 0em 0.5em",
+    backgroundColor: "transparent"
+  },
+  tabImage: {
+    height: "40px",
+    width: "40px"
+  },
+}));
 
 function a11yProps(index: any) {
   return {
@@ -141,34 +158,6 @@ const OrganizationDrawer = ({
     event.preventDefault();
     handleClose();
   }
-
-
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "290px",
-      padding: "0em 0em 0em 0.5em",
-      backgroundColor: "transparent"
-    },
-    tabImage: {
-      height: "40px",
-      width: "40px"
-    },
-  })
 
   const [value, setValue] = React.useState(0);
 

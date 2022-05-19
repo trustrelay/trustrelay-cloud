@@ -1,8 +1,7 @@
-import { func, string } from 'prop-types';
-import { FormControlLabel, Switch, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@material-ui/core';
+import {  ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
-import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
-import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useTranslation } from 'react-i18next';
 
 const ToggleFeedback = (

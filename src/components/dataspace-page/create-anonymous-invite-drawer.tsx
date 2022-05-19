@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, Switch, FormGroup, FormControlLabel, Grid, IconButton } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import { Typography, Button,  TextField, Switch, FormGroup, FormControlLabel, IconButton, Drawer, Toolbar, Theme } from '@mui/material';  
 import { useTranslation } from 'react-i18next';
 import { Dataspace } from '../../api/models/models';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+import { CopyToClipboard } from 'react-copy-to-clipboard'; 
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 const CreateAnonymousInviteDrawer = ({
   dataspace,
@@ -21,10 +40,7 @@ const CreateAnonymousInviteDrawer = ({
   onAction: (isEnabled: boolean) => void;
 }) => {
 
-  const { t } = useTranslation();
-  let history = useHistory();
-
- 
+  const { t } = useTranslation(); 
 
   const [isEnabled, setIsEnabled] = useState(dataspace.isInvitationEnabled)
 
@@ -33,50 +49,12 @@ const CreateAnonymousInviteDrawer = ({
     setIsEnabled(newValue);
    onAction(newValue)
   };
-
-  // const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
-  //   event.preventDefault();
-    
-  //   onAction(isEnabled);
-  //   handleClose();
-  // }
-
+ 
   const handleCancel = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     handleClose();
   }
- 
-
-  // const disableContinueButton = () => {
-  //   return (dataspace.isInvitationEnabled === isEnabled)
-
-  // }
-
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
-
-
+  
   const css = useStyles();
 
 
@@ -130,10 +108,7 @@ const CreateAnonymousInviteDrawer = ({
           <br /><br />
           <Button onClick={handleCancel} color="primary">
             {t('labels.close')}
-          </Button>
-          {/* <Button onClick={handleContinue} disabled={disableContinueButton()} color="primary"> 
-            {t('labels.save')} 
-          </Button> */}
+          </Button> 
         </form>
       </div>
     </Drawer>

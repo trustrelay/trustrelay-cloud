@@ -1,10 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import React, {  useState } from 'react';
+import { Typography, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, Drawer, Toolbar } from '@mui/material'; 
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { Common, Organization, Subscription } from '../../api/models/models';
+import { Subscription } from '../../api/models/models';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles(() => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+
+}));
 
 
 const CreateNewDataspaceDrawer = ({
@@ -20,7 +42,7 @@ const CreateNewDataspaceDrawer = ({
 }) => {
 
   const { t } = useTranslation();
-  let history = useHistory();
+  const navigate = useNavigate();
 
 
   const [dataspaceName, setDataspaceName] = useState('');
@@ -56,29 +78,6 @@ const CreateNewDataspaceDrawer = ({
 
   }
 
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
 
 
   const css = useStyles();

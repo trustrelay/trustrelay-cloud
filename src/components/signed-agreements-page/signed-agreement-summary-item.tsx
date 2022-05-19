@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Button, Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader, makeStyles, Paper, SvgIcon, Switch, Typography, useMediaQuery, withStyles } from "@material-ui/core";
-
+import { Button, Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Typography, useMediaQuery, Theme } from '@mui/material';
 import { formatDate,   generateRandomColor } from "../../api/utils";
 import CustomAvatar from "../customAvatar";
-import {  SignedAgreement, SignedAgreementSummary, TemplateAgreementSummary } from "../../api/models/models"; 
-import CodeIcon from '@material-ui/icons/Code'; 
-import { useHistory } from "react-router-dom";
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import TimerIcon from '@material-ui/icons/Timer';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import GavelIcon from '@material-ui/icons/Gavel';
+import {  SignedAgreementSummary } from "../../api/models/models"; 
+import { useNavigate } from "react-router-dom";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import GavelIcon from '@mui/icons-material/Gavel';
 import { useTranslation } from "react-i18next";
-import BallotIcon from '@material-ui/icons/Ballot';
+import BallotIcon from '@mui/icons-material/Ballot';
+import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme:Theme) => ({
     boxContainer: {
         width: "100%", 
         height: "100%",
         padding: "3px 0px 0px 3px",
         backgroundColor: "#ffffff"
     },
- 
-})
-)
+}));
 
 const SignedAgreementSummaryItem = ({  
     signedAgreement,
@@ -40,20 +36,15 @@ const SignedAgreementSummaryItem = ({
     const [loadedColor, setLoadedColor] = useState(false);
     const [color, setColor] = useState('');
   
-    let history = useHistory();
-
+    const navigate = useNavigate();
 
     const goToAction = () => { 
 
-       history.push(`/dataspaces/${signedAgreement.dataspace}/template-agreements/${signedAgreement.id}`)
+       navigate(`/dataspaces/${signedAgreement.dataspace}/template-agreements/${signedAgreement.id}`)
     }
 
- 
-
-
     useEffect(() => {
-       
-         
+
         if (!loadedColor) {
             setColor(generateRandomColor());
             setLoadedColor(true);
@@ -80,8 +71,7 @@ const SignedAgreementSummaryItem = ({
 
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                         <List   >
-                        {/* <List subheader={<ListSubheader>{t('labels.summary')}</ListSubheader>} > */}
-
+                        
                              
                         <ListItem>
                                 <ListItemIcon>

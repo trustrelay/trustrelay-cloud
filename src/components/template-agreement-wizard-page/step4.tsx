@@ -1,6 +1,4 @@
-import { Button, Checkbox, CircularProgress, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, Step, StepLabel, Stepper, TextField, Theme, Typography, useTheme } from "@material-ui/core"
-import React, { useEffect, useState } from "react"; 
-import Countries from "../../api/models/countries";
+import { Button,  Grid, InputLabel, MenuItem, OutlinedInput, Select, Step, StepLabel, Stepper,  Theme, useTheme } from '@mui/material';
 
 const CreateTemplateAgreementStep4 = ({
     next,
@@ -28,12 +26,6 @@ const CreateTemplateAgreementStep4 = ({
     }
 
    
-
-    useEffect(() => {
-        
-
-
-    }, []);
 
     const isAbleToContinue = () => {
         return   ( permissions.length >0)  

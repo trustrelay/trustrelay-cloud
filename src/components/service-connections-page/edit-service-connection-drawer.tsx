@@ -1,9 +1,41 @@
-import React, { useContext, useState } from 'react';
-import { Typography, makeStyles, TextField, Button,  Theme, createStyles, InputLabel, Input } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar'; 
-import { useTranslation } from 'react-i18next'; 
+import React, { useState } from 'react';
+import { Typography, TextField, Button, InputLabel, Input, Drawer, Toolbar, Theme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { ServiceConnection } from '../../api/models/models';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+  toggleGroup: {
+    marginTop: "10px"
+  },
+  tabImage: {
+    height: "40px",
+    width: "40px"
+  },
+  toggleButtonImg: {
+    height: "45px",
+    width: "45px"
+  }
+}));
 
 const EditServiceConnectionDrawer = ({
   serviceConnection,
@@ -11,61 +43,27 @@ const EditServiceConnectionDrawer = ({
   handleClose,
   onAction
 }: {
-  serviceConnection:ServiceConnection;
+  serviceConnection: ServiceConnection;
   open: boolean;
   handleClose: () => void;
   onAction: (
-    serviceConnectionId:string, 
-    serviceConnectionName: string, 
-    hostOrService: string, 
-    hostPort:string, 
-    storageLocation:string,
-    databaseOrContainer:string,
-    accountOrUserOrId:string,
-    secret:string
-    ) => void;
+    serviceConnectionId: string,
+    serviceConnectionName: string,
+    hostOrService: string,
+    hostPort: string,
+    storageLocation: string,
+    databaseOrContainer: string,
+    accountOrUserOrId: string,
+    secret: string
+  ) => void;
 }) => {
 
- 
-  const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    }, 
-      toggleGroup:{
-        marginTop:"10px"
-      },
-      tabImage:{
-        height:"40px",
-        width:"40px"
-      },
-      toggleButtonImg :{
-        height:"45px",
-        width:"45px"
-      }
-  })
-);
 
-  const { t } = useTranslation(); 
-const css = useStyles();
 
-  const [serviceConnectionName, setServiceConnectionName] = useState(serviceConnection.name);  
+  const { t } = useTranslation();
+  const css = useStyles();
+
+  const [serviceConnectionName, setServiceConnectionName] = useState(serviceConnection.name);
   const [storageLocation, setStorageLocation] = useState(serviceConnection.storageLocation);
   const [hostOrService, setHostOrService] = useState(serviceConnection.hostOrService);
   const [hostPort, setHostPort] = useState(serviceConnection.hostPort);
@@ -75,8 +73,8 @@ const css = useStyles();
 
   const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setServiceConnectionName(serviceConnection.name); 
-    onAction(serviceConnection.id, 
+    setServiceConnectionName(serviceConnection.name);
+    onAction(serviceConnection.id,
       serviceConnectionName,
       storageLocation,
       hostOrService,
@@ -84,7 +82,7 @@ const css = useStyles();
       databaseOrContainer,
       accountOrUserOrId,
       secret
-      )
+    )
     handleClose()
   }
 
@@ -98,13 +96,13 @@ const css = useStyles();
   const handleServiceConnectionNameChange = (e: any) => {
     setServiceConnectionName(e.target.value);
   }
- 
+
 
   const disableContinueButton = () => {
-    return serviceConnectionName.length <= 0 
+    return serviceConnectionName.length <= 0
   }
 
-  
+
 
   const handleStorageLocationChange = (e: any) => {
     setStorageLocation(e.target.value);
@@ -130,7 +128,7 @@ const css = useStyles();
     setSecret(e.target.value);
   }
 
-  
+
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >
@@ -153,8 +151,8 @@ const css = useStyles();
             value={serviceConnectionName}
             fullWidth
           />
-  <br /><br />
-<TextField
+          <br /><br />
+          <TextField
             autoComplete="off"
             margin="dense"
             id="hostOrService"
@@ -180,7 +178,7 @@ const css = useStyles();
             fullWidth
           />
           <br /><br />
-          
+
           <TextField
             autoComplete="off"
             margin="dense"
@@ -227,7 +225,7 @@ const css = useStyles();
             value={secret}
             fullWidth
           />
-           
+
           <Button onClick={handleCancel} color="primary">
             {t('labels.cancel')}
           </Button>

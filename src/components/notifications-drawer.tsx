@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  makeStyles,
+import  { useContext, useEffect, useState } from 'react';
+import { 
   LinearProgress,
   Typography,
   Drawer,
@@ -14,24 +13,26 @@ import {
   Avatar,
   ListItemText,
   ListItemSecondaryAction,
-  Link
-} from '@material-ui/core';
+  Link,
+  Theme
+} from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
 import { AppNotificationsContext, ToastMessageType } from '../app-contexts';
 import moment from 'moment';
-import CloseIcon from '@material-ui/icons/Close';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import WarningIcon from '@material-ui/icons/Warning';
-import { green, yellow, red, blue } from '@material-ui/core/colors';
-import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@mui/icons-material/Close';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
+import { green, yellow, red, blue } from '@mui/material/colors';
+import InfoIcon from '@mui/icons-material/Info';
 import swisscomService from '../api/trustrelay-service';
 import { AppNotification } from '../api/models/models';
 import { useAccount, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
+import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme:Theme) => ({
   root: {
     width: '280px',
     flexGrow: 1, 
@@ -78,7 +79,7 @@ const useStyles = makeStyles({
   noNotifications: {
     paddingLeft: "1em"
   }
-});
+}));
 
 const NotificationsDrawer = ({
   isDrawerOpen,

@@ -1,15 +1,40 @@
-import React, { useContext, useState } from 'react';
-import { Typography, makeStyles, TextField, Button, InputLabel, Select, OutlinedInput, MenuItem, Paper, Theme, createStyles, Grid } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { Typography, TextField, Button, InputLabel, Select, OutlinedInput, MenuItem, Paper, Grid, Drawer, Toolbar, Theme } from '@mui/material';  
 import { useTranslation } from 'react-i18next';
-import { ServiceConnection, TemplateAgreementSummary } from '../../api/models/models';
-import Editor from "react-simple-code-editor";
-import Prism, { languages } from 'prismjs'
-// import "prismjs/components/prism-sql";
-// import 'prismjs/components/prism-css';
-// import 'prismjs/themes/prism-funky.css';
+import { TemplateAgreementSummary } from '../../api/models/models'; 
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({ 
+  root: {
+    width: '320px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+  code: {
+    fontSize: theme.typography.pxToRem(12),
+    'overflow-x': 'auto',
+    'white-space': 'pre-wrap',
+    // 'white-space': '-moz-pre-wrap',
+    // 'white-space': '-pre-wrap',
+    // 'white-space': '-o-pre-wrap',
+    'word-wrap': 'break-word',
+  },
+}));
+
 
 const ExportToCommonDrawer = ({
   templateAgreements,
@@ -25,10 +50,7 @@ const ExportToCommonDrawer = ({
   onAction: (commonName: string, templateAgreement: string) => void;
 }) => {
 
-  const { t } = useTranslation();
-  let history = useHistory();
-
-
+  const { t } = useTranslation(); 
 
   const [commonName, setCommonName] = useState('');
 
@@ -59,39 +81,6 @@ const ExportToCommonDrawer = ({
     event.preventDefault();
     handleClose();
   }
-
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      root: {
-        width: '320px',
-        flexGrow: 1,
-      },
-      topnav: {
-        height: "3em",
-        paddingLeft: "0em"
-      },
-      innernav: {
-        paddingTop: "0",
-        paddingBottom: "0",
-        marginTop: "0",
-        marginBottom: "0"
-      },
-      drawerContainer: {
-        width: "350px",
-        padding: "0em 1em 1em 1em",
-        backgroundColor: "transparent"
-      },
-      code: {
-        fontSize: theme.typography.pxToRem(12),
-        'overflow-x': 'auto',
-        'white-space': 'pre-wrap',
-        // 'white-space': '-moz-pre-wrap',
-        // 'white-space': '-pre-wrap',
-        // 'white-space': '-o-pre-wrap',
-        'word-wrap': 'break-word',
-      },
-    })
-  );
 
   const css = useStyles();
 

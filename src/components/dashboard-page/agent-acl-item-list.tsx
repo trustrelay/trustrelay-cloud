@@ -1,9 +1,8 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'; 
 import { Acl } from "../../api/models/models"
 
-import BlockIcon from '@material-ui/icons/Block';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import BlockIcon from '@mui/icons-material/Block';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useTranslation } from "react-i18next";
 
 const AgentAclList = (

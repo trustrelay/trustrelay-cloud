@@ -1,51 +1,45 @@
 import { useTranslation } from 'react-i18next';
-import { Box, Button, CssBaseline, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box,  Grid, Typography, Theme } from '@mui/material';
 import { useToast } from '../hooks/toast-hook'; 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { collector, Producer, Transport } from '../apm';
 import LayoutCentered from '../components/layout-centered';
 import LayoutPage from '../components/layout-one-column';
+import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme:Theme) => ({
   pageContainer: {
     paddingTop: '1.7em',
     width: "100%",
-    height: "100%",
-    // backgroundColor:"pink",
+    height: "100%", 
     flexDirection: "row",
     display: 'flex',
     flexWrap: 'nowrap',
     justifyContent: 'center'
   },
-  leftPad: {
-    // backgroundColor:"green",
+  leftPad: { 
     flexGrow: 0,
     flexShrink: 1
   },
-  rightPad: {
-    // backgroundColor:"red",
+  rightPad: { 
     flexGrow: 0,
     flexShrink: 1
   },
   center: {
-    padding: "0em 0em 1em 1em",
-    // backgroundColor:"blue",
+    padding: "0em 0em 1em 1em", 
     flexGrow: 1,
   },
-});
+}));
 
 
-const NotFoundPage = () => {
-  const { t } = useTranslation();
+const NotFoundPage = () => { 
   const toast = useToast();
-  let history = useHistory();
+  const navigate = useNavigate();
   const css = useStyles();
   const [apmSent, setApmSent] = useState(false);
 
-  const goHome = () => {
-    history.push('/')
-  }
+  
 
   useEffect(() => {
 

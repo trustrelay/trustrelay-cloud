@@ -1,36 +1,34 @@
 import { useEffect, useState } from 'react';
 import LayoutPage from '../components/layout-one-column';
-import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Grid, Typography, Theme } from '@mui/material';
 import { useToast } from '../hooks/toast-hook';
 import { collector, Producer, Transport } from '../apm';
 import { useTranslation } from 'react-i18next';
-const useStyles = makeStyles({
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
   pageContainer: {
     marginTop: '1.7em',
     width: "100%",
-    height: "100%",
-    // backgroundColor:"pink",
+    height: "100%", 
     flexDirection: "row",
     display: 'flex',
     flexWrap: 'nowrap',
     justifyContent: 'center'
   },
-  leftPad: {
-    // backgroundColor:"green",
+  leftPad: { 
     flexGrow: 0,
     flexShrink: 1
   },
-  rightPad: {
-    // backgroundColor:"red",
+  rightPad: { 
     flexGrow: 0,
     flexShrink: 1
   },
   center: {
-    padding: "0em 0em 1em 1em",
-    // backgroundColor:"blue",
+    padding: "0em 0em 1em 1em", 
     flexGrow: 1,
   },
-});
+}));
 
 
 const SignedOutPage = () => {

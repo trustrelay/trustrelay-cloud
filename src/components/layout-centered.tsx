@@ -1,8 +1,8 @@
-import { ReactNode, useEffect } from 'react';
-import { Box, makeStyles, useMediaQuery } from '@material-ui/core';
+import { ReactNode } from 'react';
+import { Box, useMediaQuery, Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme:Theme) => ({
   pageContainer: {
     marginTop: '0em',
     paddingTop:'4em', 
@@ -38,8 +38,7 @@ const useStyles = makeStyles({
     padding: "0em 0em 0em 0em", 
     flexGrow: 1,
   }, 
-   
-});
+}));
 
 const LayoutCentered = ({
   fullHeight,
@@ -57,12 +56,7 @@ const LayoutCentered = ({
     if (lgUp) return css.leftPadlgUp;
     return css.leftPadmd;
 }
-
-
-  useEffect(()=>{
-  
-  })
-
+ 
   return (
     <Box className={css.pageContainer}>
       <Box className={getLeftPageSize()}>&nbsp;</Box>

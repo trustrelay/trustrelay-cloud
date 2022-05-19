@@ -1,36 +1,41 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Chip, Breadcrumbs, makeStyles, Theme, createStyles, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Divider } from '@material-ui/core';
+import { Grid, Typography, Button, Chip, Breadcrumbs,  Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { Agent, TemplateAgreement, } from '../api/models/models';
 import { AppNotificationsContext, AppPushNotificationContext, DataspaceContext } from '../app-contexts';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import  {  PDFViewer } from '@react-pdf/renderer';
 import { useParams, Link } from 'react-router-dom';
 import TemplateAgreementPdf from '../components/template-agreement-page/template-agreement-pdf';
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LayoutCentered from '../components/layout-centered';
-import BallotIcon from '@material-ui/icons/Ballot';
+import BallotIcon from '@mui/icons-material/Ballot';
 import { formatDateTime } from '../api/utils';
 import EditTemplateAgreementDrawer from '../components/template-agreement-page/edit-template-agreement-drawer';
 import DeleteTemplateAgreementDrawer from '../components/template-agreement-page/delete-template-agreement-drawer';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
+
+const MyPDFViewer: any = PDFViewer;
 
 const TemplateAgreementPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+   
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -93,7 +98,7 @@ const TemplateAgreementPage = () => {
     }
 
     const handleEditServiceConnection = (title: string) => {
-        trustRelayService.editTemplateAgreement(jwt, dataspaceid, agreementid, title).then(() => {
+        trustRelayService.editTemplateAgreement(jwt, dataspaceid!, agreementid!, title).then(() => {
 
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
@@ -101,7 +106,7 @@ const TemplateAgreementPage = () => {
     }
 
     const handleDeleteTemplateAgreement = () => {
-        trustRelayService.deleteTemplateAgreement(jwt, dataspaceid, agreementid).then(() => {
+        trustRelayService.deleteTemplateAgreement(jwt, dataspaceid!, agreementid!).then(() => {
 
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
@@ -183,11 +188,11 @@ const TemplateAgreementPage = () => {
             return (<Grid item container>
 
 
-                {(agreement && agreement.id !== "") ? (<PDFViewer style={{ width: "100%", minHeight: "500px" }}>
+                {(agreement && agreement.id !== "") ? (<MyPDFViewer style={{ width: "100%", minHeight: "500px" }}>
                     <TemplateAgreementPdf
                         agreement={agreement}
                     />
-                </PDFViewer>) : <>...</>}
+                </MyPDFViewer>) : <>...</>}
 
 
                 {(agreement && agreement.title && agreement.title.length > 0) ? <EditTemplateAgreementDrawer
@@ -215,7 +220,7 @@ const TemplateAgreementPage = () => {
 
         if (selectedDataspace != "" && !loadedAgent && jwt != "") {
           
-            trustRelayService.getAgent(jwt, dataspaceid).then((res) => {
+            trustRelayService.getAgent(jwt, dataspaceid!).then((res) => {
                 setMyAgent(res)
                 setLoadedAgent(true)
             }).catch((err: Error) => {
@@ -251,7 +256,7 @@ const TemplateAgreementPage = () => {
 
 
                 if (!agreementLoaded) {
-                    trustRelayService.getTemplateAgreement(jwt, dataspaceid, agreementid).then((res) => {
+                    trustRelayService.getTemplateAgreement(jwt, dataspaceid!, agreementid!).then((res) => {
                         setAgreementLoaded(true);
                         setAgreement(res);
 

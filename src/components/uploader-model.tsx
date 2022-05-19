@@ -1,14 +1,11 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import  { ChangeEvent, useEffect, useState } from 'react';
 import { SasInfo } from '../api/models/models';
-import { Grid, TextField, IconButton, Typography, CircularProgress, Button, makeStyles, Theme, createStyles } from '@material-ui/core';
-import trustRelayService from '../api/trustrelay-service';
-import { BlobServiceClient } from '@azure/storage-blob';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { Grid,  IconButton, Typography, CircularProgress, Button,  Theme } from '@mui/material'; 
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import _ from 'lodash';
+import { makeStyles  } from '@mui/styles';
 
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles((theme:Theme) => ({ 
         input: {
             display: 'none',
         },
@@ -43,8 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 width: '80%',
             }
         },
-    }),
-);
+    }));
 
 const ModelUploader = ({
     sasInfo,

@@ -1,19 +1,17 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, CircularProgress, Card, CardContent, Breadcrumbs, Divider } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs, Divider } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
-import { SignedAgreement, SignedAgreementSummary, } from '../api/models/models';
+import  { useContext, useEffect, useState } from 'react';
+import {  SignedAgreementSummary, } from '../api/models/models';
 import { AppNotificationsContext, AppPushNotificationContext, DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { InteractionRequiredAuthError } from '@azure/msal-browser';
 import { getToastMessageTypeByName } from '../components/toast';
-
 import SignedAgreementList from '../components/signed-agreements-page/signed-agreement-item-list';
 import { useTranslation } from 'react-i18next';
-import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import { Link, useParams } from 'react-router-dom';
 
 const SignedAgreementsPage = () => {
@@ -29,8 +27,6 @@ const SignedAgreementsPage = () => {
     const appNotifications = useContext(AppNotificationsContext);
     const latestPushNotification = useContext(AppPushNotificationContext);
     const [jwt, setJwt] = useState('');
-    const [recentPushNotification, setRecentPushNotification] = useState('');
-    const [showLoading, setShowLoading] = useState(false);
     const dataspaceCtx = useContext(DataspaceContext);
 
     const emptyDataspaceAgreementList: Array<SignedAgreementSummary> = [];
@@ -137,9 +133,7 @@ const SignedAgreementsPage = () => {
                             </Link>
                             <Typography variant="body1" color="textPrimary">{t('labels.signedAgreements')}</Typography>
                         </Breadcrumbs>
-                        {/* <Typography variant="body1"  >
-                            {t('labels.common')}
-                        </Typography> */}
+                   
                         <Divider />
                     </Grid>
                     <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >

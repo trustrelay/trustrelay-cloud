@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, Grid } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
-import { Common, Organization } from '../../api/models/models';
-import ToggleDarkMode from './toggle-dark-mode';
-import { useDarkMode } from '../../hooks/dark-mode';
+import React from 'react';
+import { Typography, Button,  Grid, Drawer, Toolbar, Theme } from '@mui/material'; 
+import { useTranslation } from 'react-i18next'; 
+import ToggleDarkMode from './toggle-dark-mode'; 
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({ 
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 
 const SettingsDrawer = ({
@@ -31,30 +49,6 @@ toggleTheme:()=>void;
 
 
   
-
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
 
 
   const css = useStyles();

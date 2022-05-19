@@ -1,44 +1,42 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, AppBar, Tabs, Tab, Divider, Accordion, AccordionSummary, AccordionDetails, Hidden, Chip, makeStyles, Theme, createStyles, Tooltip } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table, TableRow, TableCell, TableBody,  Divider, Accordion, AccordionSummary, AccordionDetails,   Theme  } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import { Common, DailyCount, Ping, ServiceConnection, Task } from '../api/models/models';
+import {  DailyCount, Ping, ServiceConnection } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useHistory, useParams, Link } from "react-router-dom";
-import TabPanel from '../components/tab-panel';
+import { useNavigate, useParams, Link } from "react-router-dom"; 
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import { formatDateTime } from "../api/utils";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import EditServiceConnectionDrawer from '../components/service-connections-page/edit-service-connection-drawer';
 import DeleteServiceConnectionDrawer from '../components/service-connection-page/delete-service-connection-drawer';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const ServiceConnectionPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-);
+ 
 
     const toast = useToast();
-    const { t } = useTranslation();
-    const history = useHistory();
+    const { t } = useTranslation(); 
     const css = useStyles();
-
-
-
+ 
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {});
 
@@ -97,20 +95,8 @@ const ServiceConnectionPage = () => {
     const [pingsPerDay, setPingsPerDay] = useState(emptyDailyPingCountList);
     const [loadedPingsPerDay, setLoadedPingsPerDay] = useState(false);
 
-
-
-
-    const handleTabChange = (event: any, newValue: number) => {
-        setValue(newValue);
-    };
-
-    function a11yProps(index: number) {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`,
-        };
-    }
-
+ 
+ 
 
     const editServiceConnection = (
         serviceConnectionId: string,
@@ -124,7 +110,7 @@ const ServiceConnectionPage = () => {
     ) => {
         trustRelayService.editServiceConnection(
             jwt,
-            dataspaceid,
+            dataspaceid!,
             serviceConnectionId,
             serviceConnectionName, 
             storageLocation,
@@ -143,8 +129,8 @@ const ServiceConnectionPage = () => {
     const deleteServiceConnection = () => {
         trustRelayService.deleteServiceConnection(
             jwt,
-            dataspaceid,
-            serviceconnectionid 
+            dataspaceid!,
+            serviceconnectionid! 
             ).then(() => {
           
             }).catch((err: Error) => {
@@ -159,46 +145,7 @@ const ServiceConnectionPage = () => {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
-                    {/* <AppBar position="static">
-                        <Tabs
-                            variant="scrollable"
-                            scrollButtons={true}
-                            value={value}
-                            onChange={handleTabChange}
-                            aria-label="source tabs">
-
-                         
-                            <Tab label={t('labels.pings')} {...a11yProps(0)} />
-                            <Tab label={t('labels.pingsChart')} {...a11yProps(1)} />
-
-                        </Tabs>
-                    </AppBar>
-
-                  
-
-                    <TabPanel id="pings" value={value} index={0}>
-                        <Grid item container spacing={2} rowGap={1}>
-                            <Grid item container>
-                                &nbsp;
-                            </Grid>
-                            <Grid item xl={10} lg={10} md={12} sm={12} xs={12}>
-                               
-                            </Grid>
-                        </Grid>
-                    </TabPanel>
-
-                    <TabPanel id="chart" value={value} index={1}>
-                        <Grid item container direction="column" rowGap={1}>
-
-                            <Grid item>&nbsp;</Grid>
-
-                            <Grid item style={{ width: "100%", height: "150px", alignContent: "left", textAlign: "left", alignItems: "left" }}>
-                                
-                            </Grid>
-
-                        </Grid>
-
-                    </TabPanel> */}
+                    
 
                     <EditServiceConnectionDrawer
                         serviceConnection={selectedServiceConnection}
@@ -341,7 +288,7 @@ const ServiceConnectionPage = () => {
         if (selectedDataspace != "" && !serviceConnectionLoaded && jwt != "") {
 
 
-            trustRelayService.getServiceConnection(jwt, dataspaceid, serviceconnectionid).then((res) => {
+            trustRelayService.getServiceConnection(jwt, dataspaceid!, serviceconnectionid!).then((res) => {
                 setSelectedServiceConnection(res);
                 setServiceConnectionLoaded(true)
             }).catch((err: Error) => {

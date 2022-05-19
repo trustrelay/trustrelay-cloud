@@ -1,17 +1,42 @@
-import { Accordion, AccordionDetails, AccordionSummary, AppBar, Chip, createStyles, Divider, Grid, IconButton, makeStyles, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Theme, Typography } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary, AppBar,  Grid, IconButton, Tab, Tabs, Theme, Typography } from '@mui/material';
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DrillQueryResponse, QueryHistoryEntry } from "../../api/models/models";
+import {  QueryHistoryEntry } from "../../api/models/models";
 import TabPanel from "../tab-panel";
-import { DataGrid, GridColDef, GridRowData, GridRowsProp } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowData } from '@mui/x-data-grid';
 import { formatDateTime } from "../../api/utils";
-import Prism, { languages } from 'prismjs'
+import Prism from 'prismjs'
 import "prismjs/components/prism-sql"; 
 import 'prismjs/components/prism-css';
 import 'prismjs/themes/prism-funky.css';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    root: {
+        width: '100%' 
+      },
+      heading: {
+        fontSize: theme.typography.pxToRem(15),
+        flexBasis: '33.33%',
+        flexShrink: 0,
+      },
+      secondaryHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        color: theme.palette.text.secondary,
+      },
+      code:{
+        fontSize: theme.typography.pxToRem(12),
+        'overflow-x': 'auto',
+        'white-space': 'pre-wrap',
+        // 'white-space': '-moz-pre-wrap',
+        // 'white-space': '-pre-wrap',
+        // 'white-space': '-o-pre-wrap',
+        'word-wrap': 'break-word',
+      },
+    }));
 
 function sortEntry() {
     return function (a: QueryHistoryEntry, b: QueryHistoryEntry) {
@@ -35,31 +60,6 @@ const ResultsTable = ({
 }) => {
 
 
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            root: {
-                width: '100%' 
-              },
-              heading: {
-                fontSize: theme.typography.pxToRem(15),
-                flexBasis: '33.33%',
-                flexShrink: 0,
-              },
-              secondaryHeading: {
-                fontSize: theme.typography.pxToRem(15),
-                color: theme.palette.text.secondary,
-              },
-              code:{
-                fontSize: theme.typography.pxToRem(12),
-                'overflow-x': 'auto',
-                'white-space': 'pre-wrap',
-                // 'white-space': '-moz-pre-wrap',
-                // 'white-space': '-pre-wrap',
-                // 'white-space': '-o-pre-wrap',
-                'word-wrap': 'break-word',
-              },
-        })
-    );
 
     const { t } = useTranslation();
     const css = useStyles();
@@ -83,9 +83,6 @@ const ResultsTable = ({
         };
     }
 
-
-   
-
     useEffect(() => {
 
         Prism.highlightAll(); 
@@ -101,11 +98,8 @@ const ResultsTable = ({
                     value={value}
                     onChange={handleTabChange}
                     aria-label="query tabs">
-
                     <Tab label={t('labels.results')} {...a11yProps(0)} /> 
                     <Tab label={t('labels.queryHistory')} {...a11yProps(1)} />
-
-
                 </Tabs>
             </AppBar>
 
@@ -135,25 +129,7 @@ const ResultsTable = ({
                     <Grid container item direction="column" xl={12} lg={12} md={12} sm={12} xs={12}  columnGap={1}>
                     <div className={css.root}>
                         {(queryHistory && queryHistory.length > 0) ? queryHistory.sort(sortEntry()).map((item, index) =>
-                            // <Paper style={{ margin: "4px", padding: "2px" }}>
-                            //     <Grid item container direction="row" spacing={2} style={{ paddingLeft: "5px" }}>
-
-                            //         <Grid item><span>{formatDateTime(item.timestamp)}</span></Grid>
-                            //         <Grid item><span>|</span></Grid>
-
-                            //         <Grid item><code className="language-sql">{item.query}</code></Grid>
-                            //         <Grid item>
-                            //             <CopyToClipboard text={item.query}>
-                            //                 <IconButton size="small">
-                            //                     <FileCopyIcon/>
-                            //                 </IconButton>
-                            //             </CopyToClipboard>
-                            //         </Grid>
-
-                            //     </Grid>
-                            //     <Divider />
-                            // </Paper>
-                         
+                            
                             <Accordion expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
                               <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
@@ -172,8 +148,6 @@ const ResultsTable = ({
                                          <pre className={css.code}>{item.query}</pre>
                               </AccordionDetails>
                             </Accordion>
-                           
-                      
 
                         ) : <></>}
                          </div>

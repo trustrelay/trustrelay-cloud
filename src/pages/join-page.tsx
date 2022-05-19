@@ -1,6 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Divider, makeStyles, TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, TextField } from '@material-ui/core';
+import { Grid, Typography, Button, Divider, TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, TextField, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import { useContext, useEffect, useState } from 'react';
 import { AppPushNotificationContext, DataspaceContext } from '../app-contexts';
@@ -12,32 +12,33 @@ import { useTranslation } from 'react-i18next';
 import "prismjs/components/prism-sql";
 import 'prismjs/components/prism-css';
 import 'prismjs/themes/prism-funky.css';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
-import { useParams, Link, useHistory } from 'react-router-dom';
-import { DataspaceSummary, InvitationStatus } from '../api/models/models';
-import { formatDate } from '../api/utils';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { DataspaceSummary, InvitationStatus } from '../api/models/models'; 
 import validator from 'validator'
+import { makeStyles  } from '@mui/styles';
 
+const useStyles = makeStyles((theme:Theme) => ({
+  table: {
+    minWidth: 450,
+    //  width:"100%"
+  },
+  form: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+})
+);
 
 const JoinPage = () => {
 
-  const useStyles = makeStyles(({ palette, ...theme }) => ({
-    table: {
-      minWidth: 450,
-      //  width:"100%"
-    },
-    form: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-    },
-  })
-  );
+ 
 
   const toast = useToast();
   const { t } = useTranslation();
-  let history = useHistory();
+  const navigate = useNavigate();
   const css = useStyles();
 
   const { instance, accounts, inProgress } = useMsal();
@@ -80,15 +81,15 @@ const JoinPage = () => {
   }
 
   const goToDashboard = () => {
-    history.push(`/dataspaces/${dataspaceid}/dashboard`)
+    navigate(`/dataspaces/${dataspaceid}/dashboard`)
   }
 
   const handleCancel = () => {
-    history.push(`/dataspaces/${dataspaceid}/dashboard`)
+    navigate(`/dataspaces/${dataspaceid}/dashboard`)
   }
 
   const handleJoin = () => {
-    trustRelayService.joinDataspace(jwt, dataspaceid, code).then((res) => {
+    trustRelayService.joinDataspace(jwt, dataspaceid!, code!).then((res) => {
       // toast.openToast(`success`, 'Your request has been sent, you can close this window.', getToastMessageTypeByName('info'));
       setJoinRequestSent(true)
     }).catch((err: Error) => {
@@ -97,7 +98,7 @@ const JoinPage = () => {
   }
 
   const handleSignup = () => {
-    trustRelayService.signupToJoinDataspace(email, dataspaceid, code).then((res) => {
+    trustRelayService.signupToJoinDataspace(email, dataspaceid!, code!).then((res) => {
       // toast.openToast(`success`, 'Your request has been sent, please check your inbox.', getToastMessageTypeByName('info'));
       setSignupRequestSent(true)
     }).catch((err: Error) => {
@@ -191,7 +192,7 @@ const JoinPage = () => {
 
 
     if (jwt != "" && !loadedInvitationStatus) {
-      trustRelayService.getInvitationStatus(jwt, dataspaceid, code).then((res) => {
+      trustRelayService.getInvitationStatus(jwt, dataspaceid!, code!).then((res) => {
         setLoadedInvitationStatus(true);
         setInvitationStatus(res);
       }).catch((err: Error) => {
@@ -212,7 +213,7 @@ const JoinPage = () => {
 
 
     if (loadedInvitationStatus && !loadedDataspaceSummary && jwt != "") {
-      trustRelayService.getDataspaceSummary(jwt, dataspaceid).then((res) => {
+      trustRelayService.getDataspaceSummary(jwt, dataspaceid!).then((res) => {
         setLoadedDataspaceSummary(true);
         setDataspaceSummary(res);
       }).catch((err: Error) => {

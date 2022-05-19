@@ -1,12 +1,6 @@
-import React, { useEffect } from 'react';
-import Button from '@material-ui/core/Button'; 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle'; 
-import { Checkbox, Link } from '@material-ui/core';
-import LinkIcon from '@material-ui/icons/Link';
+import React, { useEffect } from 'react'; 
+import { Checkbox, Link, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import LinkIcon from '@mui/icons-material/Link';
 import { useTranslation } from 'react-i18next';
 
 export default function JoinCommonDialog(
@@ -37,9 +31,6 @@ export default function JoinCommonDialog(
     setOpen(false); 
     sendDetails()
   }
- 
- 
- 
 
   const handleCheck = (e:any) => {
     setAcceptedAgreement(e.target.checked)

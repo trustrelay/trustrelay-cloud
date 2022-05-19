@@ -1,4 +1,3 @@
-import { sankeyData } from "./sankey-data";
 import { ResponsiveSankey } from '@nivo/sankey';
 
 const SankeyChart = (

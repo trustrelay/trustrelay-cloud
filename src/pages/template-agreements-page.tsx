@@ -1,30 +1,33 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Fab, Divider, Breadcrumbs, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, Typography, Button,  Divider, Breadcrumbs,  Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { TemplateAgreementSummary } from '../api/models/models';
-import { AppNotificationsContext, AppPushNotificationContext, DataspaceContext } from '../app-contexts';
+import {  DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import AddIcon from '@material-ui/icons/Add';
-import { Link, useHistory, useParams } from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
+import { Link, useNavigate, useParams } from "react-router-dom";
 import TemplateAgreementList from '../components/template-agreements-page/template-agreement-item-list';
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
-import BallotIcon from '@material-ui/icons/Ballot';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import BallotIcon from '@mui/icons-material/Ballot';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const TemplateAgreementsPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-);
+  
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -44,7 +47,7 @@ const TemplateAgreementsPage = () => {
 
     const { dataspaceid } = useParams<{ dataspaceid: string }>();
 
-    let history = useHistory();
+    const navigate = useNavigate();
 
     const refreshData = () => {
         setTemplateAgreements(emptyTemplateAgreementList);
@@ -73,7 +76,7 @@ const TemplateAgreementsPage = () => {
 
 
 
-            trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid).then((res) => {
+            trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid!).then((res) => {
                 setTemplateAgreements(res);
                 setTemplateAgreementsLoaded(true);
             }).catch((err: Error) => {
@@ -182,7 +185,7 @@ const TemplateAgreementsPage = () => {
                         <Button variant="text"
                             color="primary"
                             startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => history.push(`/dataspaces/${dataspaceid}/template-agreement-wizard`)}
+                            onClick={() => navigate(`/dataspaces/${dataspaceid}/template-agreement-wizard`)}
                         >
                             {t('labels.newTemplate')}
                         </Button>

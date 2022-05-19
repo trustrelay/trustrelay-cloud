@@ -1,5 +1,4 @@
-import { Button, Checkbox, CircularProgress, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, Step, StepLabel, Stepper, TextField, Theme, Typography, useTheme } from "@material-ui/core"
-import React, { useEffect, useState } from "react";  
+import { Button, Grid, InputLabel, MenuItem, OutlinedInput, Select, Step, StepLabel, Stepper } from '@mui/material' 
 import Countries from '../../api/models/iso3-countries'
 
 const CreateTemplateAgreementStep6 = ({
@@ -14,7 +13,7 @@ const CreateTemplateAgreementStep6 = ({
     setJurisdiction:(value:string)=>void  
 }) => {
 
-    const theme = useTheme();
+
     
     const handleJurisdictionChange = (event: any) => {  
             setJurisdiction(event.target.value); 
@@ -32,13 +31,6 @@ const CreateTemplateAgreementStep6 = ({
       },
     };
 
-  
-
-    useEffect(() => {
-        
-
-
-    }, []);
 
     const isAbleToContinue = () => {
         return  jurisdiction.length > 0 

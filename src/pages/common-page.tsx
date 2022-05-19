@@ -1,62 +1,57 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, AppBar, Tabs, Tab, Divider, Accordion, AccordionSummary, AccordionDetails, Hidden, Chip, makeStyles, Theme, createStyles, Tooltip, useTheme, CircularProgress } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table,  TableRow, TableCell, TableBody,  AppBar, Tabs, Tab, Divider, Accordion, AccordionSummary, AccordionDetails,  Chip, Tooltip,  CircularProgress, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import { Agent, Common, CommonAgreementSummary, DailyCount, ServiceConnection, SignedAgreementSummary, Task } from '../api/models/models';
+import { Agent, Common, CommonAgreementSummary, DailyCount, ServiceConnection  } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useHistory, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import TabPanel from '../components/tab-panel';
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
-import ArchiveIcon from '@material-ui/icons/Archive';
+import ArchiveIcon from '@mui/icons-material/Archive';
 import { formatDate } from '../api/utils';
-import TableChartIcon from '@material-ui/icons/TableChart';
+import TableChartIcon from '@mui/icons-material/TableChart';
 import SignedAgreementList from '../components/common-page/signed-agreement-list';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CalendarChart from '../components/insights-page/calendar';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import QueuePlayNextIcon from '@material-ui/icons/QueuePlayNext';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import BlurOnIcon from '@material-ui/icons/BlurOn';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import QueuePlayNextIcon from '@mui/icons-material/QueuePlayNext';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import BlurOnIcon from '@mui/icons-material/BlurOn';
 import CreateSynthenticCopyDrawer from '../components/common-page/create-synthetic-copy-drawer';
 import CreateCommonCopyDrawer from '../components/common-page/create-common-copy-drawer';
 import RunModelDrawer from '../components/common-page/run-model-drawer';
 import EditCommonDrawer from '../components/common-page/edit-common-drawer';
 import ExportCommonDrawer from '../components/common-page/export-common-drawer';
 import DeleteCommonDrawer from '../components/common-page/delete-common-drawer';
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
-import { formatDateTime } from "../api/utils";
-import BallotIcon from '@material-ui/icons/Ballot';
-import CloudOffIcon from '@material-ui/icons/CloudOff';
-import CancelIcon from '@material-ui/icons/Cancel';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import BallotIcon from '@mui/icons-material/Ballot';
+import CancelIcon from '@mui/icons-material/Cancel';
 import TerminateAgreementDrawer from '../components/common-page/terminate-agreement-drawer';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const CommonPage = () => {
-
-    // const theme = useTheme();
-
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
-
+ 
     const toast = useToast();
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
     const css = useStyles();
-
-
-
+ 
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {});
 
@@ -112,10 +107,7 @@ const CommonPage = () => {
     const [selectedCommon, setSelectedCommon] = useState(emptyCommon);
     const [commonLoaded, setCommonLoaded] = useState(false);
 
-    const [value, setValue] = React.useState(0);
-
-
-
+    const [value, setValue] = React.useState(0); 
     const emptyCommonAgreements: Array<CommonAgreementSummary> = [];
     const [commonAgreements, setCommonAgreements] = useState(emptyCommonAgreements);
     const [loadedCommonAgreements, setLoadedCommonAgreements] = useState(false);
@@ -123,10 +115,7 @@ const CommonPage = () => {
     const emptyDailyQueryCountList: Array<DailyCount> = [];
     const [queriesPerDay, setQueriesPerDay] = useState(emptyDailyQueryCountList);
     const [loadedQueriesPerDay, setLoadedQueriesPerDay] = useState(false);
-
-
-
-    const [isNewTaskDrawerOpen, setIsNewTaskDrawerOpen] = useState(false);
+ 
     const [isEditCommonDrawerOpen, setIsEditCommonDrawerOpen] = useState(false);
     const [isDeleteCommonDrawerOpen, setIsDeleteCommonDrawerOpen] = useState(false);
     const [isExportCommonDrawerOpen, setIsExportCommonDrawerOpen] = useState(false);
@@ -180,9 +169,7 @@ const CommonPage = () => {
 
 
     const handleTerminateAgreement = (agreement: string) => {
-        trustRelayService.terminateAgreement(jwt, dataspaceid, agreement).then((res) => {
-            // setVerificationRequestSent(true);
-            // toast.openToast(`info`, 'Delete request sent', getToastMessageTypeByName('info'));
+        trustRelayService.terminateAgreement(jwt, dataspaceid!, agreement).then((res) => { 
 
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
@@ -192,7 +179,7 @@ const CommonPage = () => {
 
 
     const handleEditCommon = (commonName: string, dataOwner: string, dataExpert: string) => {
-        trustRelayService.editCommon(jwt, dataspaceid, commonid, commonName, dataOwner, dataExpert).then(() => {
+        trustRelayService.editCommon(jwt, dataspaceid!, commonid!, commonName, dataOwner, dataExpert).then(() => {
 
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
@@ -200,21 +187,11 @@ const CommonPage = () => {
     }
 
     const handleDeleteCommon = (deleteServiceConnection: boolean) => {
-        trustRelayService.deleteCommon(jwt, dataspaceid, commonid, deleteServiceConnection).then(() => {
+        trustRelayService.deleteCommon(jwt, dataspaceid!, commonid!, deleteServiceConnection).then(() => {
 
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
         });
-    }
-
-
-
-    const handleExportCommon = (dataspace: string, commonId: string, commonName: string, dataOwner: string, dataExpert: string) => {
-        // trustRelayService.editCommon(jwt, dataspace, commonId, commonName, dataOwner, dataExpert).then(() => {
-
-        // }).catch((err: Error) => {
-        //     toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
-        // });
     }
 
     const renderContent = () => {
@@ -420,10 +397,7 @@ const CommonPage = () => {
                                                         />
                                                     </TableCell>
                                                 </TableRow>
-                                                {/* <TableRow hover={false}>
-                                                    <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.tags')}</Typography></TableCell>
-                                                    <TableCell align="left"><Typography textAlign="left" variant="body1">{common.tags.join(',')}</Typography></TableCell>
-                                                </TableRow> */}
+                                              
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
@@ -457,7 +431,7 @@ const CommonPage = () => {
         if (selectedDataspace != "" && !commonLoaded && jwt != "") {
 
 
-            trustRelayService.getCommon(jwt, dataspaceid, commonid).then((res) => {
+            trustRelayService.getCommon(jwt, dataspaceid!, commonid!).then((res) => {
                 setSelectedCommon(res);
                 setCommonLoaded(true)
             }).catch((err: Error) => {
@@ -484,7 +458,7 @@ const CommonPage = () => {
         if (commonLoaded && !loadedCommonAgreements && jwt != "") {
 
 
-            trustRelayService.getSignedAgreementsByCommon(jwt, selectedDataspace, commonid).then((res) => {
+            trustRelayService.getSignedAgreementsByCommon(jwt, selectedDataspace, commonid!).then((res) => {
                 setCommonAgreements(res);
                 setLoadedCommonAgreements(true);
             }).catch((err: Error) => {
@@ -505,7 +479,7 @@ const CommonPage = () => {
 
         if (commonLoaded && !loadedServiceConnections && jwt != "") {
 
-            trustRelayService.getAvailableServiceConnections(jwt, dataspaceid).then((res) => {
+            trustRelayService.getAvailableServiceConnections(jwt, dataspaceid!).then((res) => {
                 setServiceConnections(res)
                 setLoadedServiceConnections(true)
             }).catch((err: Error) => {
@@ -520,7 +494,7 @@ const CommonPage = () => {
 
         if (loadedServiceConnections && !loadedAgent && jwt != "") {
 
-            trustRelayService.getAgent(jwt, dataspaceid).then((res) => {
+            trustRelayService.getAgent(jwt, dataspaceid!).then((res) => {
                 setMyAgent(res)
                 setLoadedAgent(true)
             }).catch((err: Error) => {
@@ -537,7 +511,7 @@ const CommonPage = () => {
 
         if (loadedAgent && !loadedQueriesPerDay && jwt != "") {
 
-            trustRelayService.getQueriesPerDay(jwt, dataspaceid, commonid).then((res) => {
+            trustRelayService.getQueriesPerDay(jwt, dataspaceid!, commonid!).then((res) => {
                 setQueriesPerDay(res);
                 setLoadedQueriesPerDay(true);
 
@@ -611,8 +585,6 @@ const CommonPage = () => {
         }
     }, [jwt,
         isAuthenticated])
-    // latestPushNotification
-    // appNotifications.swisscomNotificationsState,
     return (
         <LayoutPage
             toast={toast}
@@ -646,7 +618,7 @@ const CommonPage = () => {
                         <Button variant="text"
                             color="primary"
                             startIcon={<TableChartIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => history.push(`/dashboard`)}
+                            onClick={() => navigate(`/dashboard`)}
                         >
                             {t('labels.browseData')}
                         </Button>
@@ -656,7 +628,7 @@ const CommonPage = () => {
                         {(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ? <Button variant="text"
                             color="primary"
                             startIcon={<CloudDoneIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => history.push(`/dataspaces/${dataspaceCtx.dataspaceState}/settings/service-connections/${selectedCommon.serviceConnectionId}`)}
+                            onClick={() => navigate(`/dataspaces/${dataspaceCtx.dataspaceState}/settings/service-connections/${selectedCommon.serviceConnectionId}`)}
                         >
                             {t('labels.checkServiceConnection')}
                         </Button> : <></>}
@@ -715,7 +687,7 @@ const CommonPage = () => {
                         {(selectedCommon.organization !== myAgent.organization) ? <Button variant="text"
                             color="primary"
                             startIcon={<BallotIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => history.push(`/dataspaces/${dataspaceCtx.dataspaceState}/signed-agreements/${selectedCommon.signedAgreement}`)}
+                            onClick={() => navigate(`/dataspaces/${dataspaceCtx.dataspaceState}/signed-agreements/${selectedCommon.signedAgreement}`)}
                         >
                             {t('labels.terms')}
                         </Button> : <></>}

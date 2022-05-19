@@ -1,16 +1,33 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Toast } from './toast';
-import { Grid, makeStyles, createStyles, Theme, CssBaseline, MuiThemeProvider  } from '@material-ui/core';
+import { Grid, Theme  } from '@mui/material';
 import MainNavigation from './main-navigation';
-import {
-  ToastMessageInfo,
-  ToastMessageType
-} from '../app-contexts';
+import { ToastMessageInfo, ToastMessageType} from '../app-contexts';
 import MainDrawer from './main-drawer';  
 import { collector, Producer, Transport } from '../apm';
 import { useDarkMode } from '../hooks/dark-mode'; 
-import LightTheme from '../assets/themes/TrustRelay/light';
-import DarkTheme from '../assets/themes/TrustRelay/dark';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+  pageContainer: {
+    // marginTop: '4em',
+    width: "100%",
+    height: "100%"
+  },
+  progressMargin: {
+    marginTop: '7em',
+  },
+  mainNavigation: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  pageBody: {
+    width: "100%",
+    minHeight: "100%",
+    height: "100%",
+    flexGrow: 1
+  },
+}));
+
 
 const Layout1Column = ({
   children,
@@ -26,37 +43,9 @@ const Layout1Column = ({
   selectedDataspace?:string;
 }) => {
 
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      pageContainer: {
-        // marginTop: '4em',
-        width: "100%",
-        height: "100%"
-      },
-      progressMargin: {
-        marginTop: '7em',
-      },
-      mainNavigation: {
-        zIndex: theme.zIndex.drawer + 1,
-      },
-      pageBody: {
-        width: "100%",
-        minHeight: "100%",
-        height: "100%",
-        flexGrow: 1
-      },
-     
-    })
-  );
-
-  
- 
   const css = useStyles(); 
   const [isMainDrawerOpen, setIsMainDrawerOpen] = useState(false);
-
   const [apmSent, setApmSent] = useState(false);
-
-
 
   useEffect(() => {
     
@@ -86,15 +75,9 @@ const Layout1Column = ({
   }
 
 
-  const [theme, toggleTheme] = useDarkMode();
-  const themeMode = theme === 'light' ? LightTheme : DarkTheme;
-
-
-
   return (
 
-    <MuiThemeProvider theme={themeMode}>
-         <CssBaseline />
+    <>
         <MainNavigation
           openToast={openToast}
           toggleMainDrawer={toggleMainDrawer} 
@@ -122,7 +105,7 @@ const Layout1Column = ({
           </Grid>
         </Grid>
     
-        </MuiThemeProvider>
+        </>
 
   );
 };

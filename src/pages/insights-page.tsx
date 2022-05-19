@@ -1,9 +1,9 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, AppBar, Tabs, Tab, Divider, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs, AppBar, Tabs, Tab, Divider, Theme} from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import { AppNotificationsContext, AppPushNotificationContext, DataspaceContext } from '../app-contexts';
+import {   DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
@@ -11,21 +11,24 @@ import { Link, useParams } from "react-router-dom";
 import TabPanel from '../components/tab-panel';
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
 import SankeyChart from '../components/insights-page/sankey-chart';
 import { DataProvenanceSet, GeoScore, GeoScores, Usage } from '../api/models/models';
 import ChordChart from '../components/insights-page/chord-chart';
 import GeoChart from '../components/insights-page/geo-chart';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const InsightsPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+   
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -95,16 +98,7 @@ const InsightsPage = () => {
                         </Grid>
                     </TabPanel>
 
-                    {/* <TabPanel id="composition" value={value} index={1}>
-                        <Grid item container spacing={2} rowGap={1}>
-                            <Grid item container>
-                                &nbsp;
-                            </Grid>
-                            <Grid item xl={10} lg={10} md={12} sm={12} xs={12} sx={{ height: "25em", width: "100%" }}>
-                               <TreeMap />
-                            </Grid>
-                        </Grid>
-                    </TabPanel> */}
+                 
 
 
                     <TabPanel id="usage" value={value} index={1}>

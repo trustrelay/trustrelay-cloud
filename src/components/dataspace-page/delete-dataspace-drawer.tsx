@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import { Typography, Button, InputLabel, TextField, FormControlLabel, Checkbox, Drawer, Toolbar, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Dataspace } from '../../api/models/models';
+import { makeStyles } from '@mui/styles';
 
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 const DeleteDataspaceDrawer = ({
   dataspace,
@@ -20,8 +39,6 @@ const DeleteDataspaceDrawer = ({
 }) => {
 
   const { t } = useTranslation();
-  let history = useHistory();
-
 
   const [dataspaceName, setDataspaceName] = useState('');
 
@@ -29,7 +46,7 @@ const DeleteDataspaceDrawer = ({
 
 
   const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault(); 
+    event.preventDefault();
     setDataspaceName('');
     setDeleteEverything(false);
     onAction();
@@ -50,38 +67,11 @@ const DeleteDataspaceDrawer = ({
   }
 
   const disableContinueButton = () => {
-    return ( dataspace.name !== dataspaceName || !deleteEverything)
+    return (dataspace.name !== dataspaceName || !deleteEverything)
 
   }
 
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
-
-
   const css = useStyles();
-
-
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >
@@ -94,7 +84,7 @@ const DeleteDataspaceDrawer = ({
       <div className={css.drawerContainer}>
         <form>
 
-<InputLabel>Type {dataspace.name} <br/>{t('messages.toConfirmDeletion')}</InputLabel>
+          <InputLabel>Type {dataspace.name} <br />{t('messages.toConfirmDeletion')}</InputLabel>
 
           <TextField
             autoFocus
@@ -108,16 +98,16 @@ const DeleteDataspaceDrawer = ({
           />
           <br /><br />
           <FormControlLabel
-        control={
-          <Checkbox
-            checked={deleteEverything}
-            onChange={handleDeleteEverythingChange}
-            name="delete-everything"
-            color="primary"
+            control={
+              <Checkbox
+                checked={deleteEverything}
+                onChange={handleDeleteEverythingChange}
+                name="delete-everything"
+                color="primary"
+              />
+            }
+            label="Delete everything?"
           />
-        }
-        label="Delete everything?"
-      />
           <br /><br />
           <Button onClick={handleCancel} color="primary">
             {t('labels.cancel')}

@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import { Typography, Button, InputLabel, TextField, Drawer, Toolbar, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Common, Organization } from '../../api/models/models';
+import { Organization } from '../../api/models/models';
+import { makeStyles } from '@mui/styles';
 
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 const DeleteOrganizationalUnitDrawer = ({
   organizationalUnit,
@@ -16,19 +35,17 @@ const DeleteOrganizationalUnitDrawer = ({
   organizationalUnit: Organization;
   open: boolean;
   handleClose: () => void;
-  onAction: (organizationId:string) => void;
+  onAction: (organizationId: string) => void;
 }) => {
 
   const { t } = useTranslation();
-  let history = useHistory();
 
-
-  const [organizationName, setOrganizationName] = useState(''); 
+  const [organizationName, setOrganizationName] = useState('');
 
 
   const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setOrganizationName(''); 
+    setOrganizationName('');
     onAction(organizationalUnit.id);
     handleClose();
   }
@@ -42,41 +59,12 @@ const DeleteOrganizationalUnitDrawer = ({
     setOrganizationName(e.target.value)
   }
 
-  
-
   const disableContinueButton = () => {
-    return ( organizationalUnit.name !== organizationName)
+    return (organizationalUnit.name !== organizationName)
 
   }
 
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
-
-
   const css = useStyles();
-
-
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >
@@ -89,7 +77,7 @@ const DeleteOrganizationalUnitDrawer = ({
       <div className={css.drawerContainer}>
         <form>
 
-<InputLabel>Type {organizationalUnit} <br/>{t('messages.toConfirmDeletion')}</InputLabel>
+          <InputLabel>Type {organizationalUnit} <br />{t('messages.toConfirmDeletion')}</InputLabel>
 
           <TextField
             autoFocus
@@ -101,7 +89,7 @@ const DeleteOrganizationalUnitDrawer = ({
             value={organizationName}
             fullWidth
           />
-         
+
           <br /><br />
           <Button onClick={handleCancel} color="primary">
             {t('labels.cancel')}

@@ -1,17 +1,8 @@
-import React, { useEffect } from "react";
-import { Grid, makeStyles, } from "@material-ui/core";
+import { Grid, } from '@mui/material';
 import { SignedAgreementSummary } from "../../api/models/models";
-import { useAccount, useMsal } from "@azure/msal-react";
-
-import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
-import { useTranslation } from "react-i18next";
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import SignedAgreementSummaryItem from "./signed-agreement-summary-item";
 
-
-const useStyles = makeStyles((theme) => ({
-
-})
-)
 
 
 const SignedAgreementList = ({
@@ -21,15 +12,8 @@ const SignedAgreementList = ({
     dataspaceAgreements: Array<SignedAgreementSummary>
     dataspace?: string
 }) => {
-    const { t } = useTranslation();
-    const { instance, accounts, inProgress } = useMsal();
-    const account = useAccount(accounts[0] || {});
 
 
-
-    useEffect(() => {
-         
-    }, [])
 
     const renderDataspaceAgreement = (agreement: SignedAgreementSummary) => {
 

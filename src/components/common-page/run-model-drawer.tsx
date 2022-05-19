@@ -1,31 +1,45 @@
-import React, { useContext, useState } from 'react';
-import { Typography, makeStyles, TextField, Button, InputLabel, Select, OutlinedInput, MenuItem, Slider } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { Typography, TextField, Button, Drawer, Toolbar, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import TreeView from '@material-ui/lab/TreeView';
-import TreeItem from '@material-ui/lab/TreeItem';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { SasInfo, ServiceConnection } from '../../api/models/models';
 import ModelUploader from '../uploader-model';
+import { makeStyles } from '@mui/styles';
 
-const RunModelDrawer = ({ 
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
+
+const RunModelDrawer = ({
   serviceConnections,
   open,
   handleClose,
   onAction
-}: { 
+}: {
   serviceConnections: Array<ServiceConnection>;
   open: boolean;
   handleClose: () => void;
-  onAction: (name: string, schema: string, frequency: string, storageType: string, serviceConnection:string) => void;
+  onAction: (name: string, schema: string, frequency: string, storageType: string, serviceConnection: string) => void;
 }) => {
 
   const { t } = useTranslation();
-  let history = useHistory();
-
 
   const [name, setName] = React.useState('');
   const [selectedSchema, setSelectedSchema] = useState('');
@@ -46,7 +60,7 @@ const RunModelDrawer = ({
   }
 
   const [sasInfo, setSasInfo] = useState(defaultSasInfo);
-const defaultFile : File = new File([""], "filename");
+  const defaultFile: File = new File([""], "filename");
   const [file, setFile] = useState(defaultFile)
 
   const [fileUploaded, setFileUploaded] = useState(false);
@@ -62,7 +76,7 @@ const defaultFile : File = new File([""], "filename");
   const [uploading, setUploading] = useState(false);
 
 
-  
+
 
   const resetToUploadAgain = () => {
     setSasInfo(defaultSasInfo);
@@ -105,59 +119,13 @@ const defaultFile : File = new File([""], "filename");
     return (selectedSchema.length <= 0 || name.length <= 0 || scanFrequency.length <= 0)
   }
 
-  const handleSchemaChange = (event: any, nodeIds: string) => {
-
-    if (nodeIds.indexOf('_') < 0) {
-      setSelectedSchema(nodeIds)
-    } else {
-      setSelectedSchema('')
-    }
-
-  }
-
-  const handleFrequencyChange = (event: any) => {
-    setScanFrequency(event.target.value);
-  }
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
 
 
 
 
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
 
   const css = useStyles();
- 
+
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >
@@ -194,11 +162,11 @@ const defaultFile : File = new File([""], "filename");
             {(serviceConnections && serviceConnections.length > 0) ? serviceConnections.map((item) => <MenuItem value={item.id}>{item.name}</MenuItem>) : <></>}
 
           </Select> */}
-  <br /><br />
-          <ModelUploader 
-          jwt=""
+          <br /><br />
+          <ModelUploader
+            jwt=""
             sasInfo={sasInfo}
-            setSasInfo={setSasInfo}  
+            setSasInfo={setSasInfo}
             file={file}
             setFile={setFile}
             setUploading={setUploading}
@@ -206,9 +174,9 @@ const defaultFile : File = new File([""], "filename");
             setCustomFileSize={setCustomFileSize}
             resetToUploadAgain={resetToUploadAgain}
             setFileUploaded={setFileUploaded}
-            fileUploaded={fileUploaded}    
+            fileUploaded={fileUploaded}
           />
-         
+
           <br /><br />
           <Button onClick={handleCancel} color="primary">
             {t('labels.cancel')}

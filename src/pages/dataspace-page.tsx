@@ -1,45 +1,48 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, makeStyles, Theme, createStyles, Divider, Accordion, AccordionSummary, AccordionDetails, AppBar, Tabs, Tab, IconButton } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table, TableRow, TableCell, TableBody,  Divider, Accordion, AccordionSummary, AccordionDetails, AppBar, Tabs, Tab, IconButton, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { Dataspace, Agent } from '../api/models/models';
-import { AppNotificationsContext, AppPushNotificationContext, DataspaceContext } from '../app-contexts';
+import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { formatDate } from '../api/utils';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import TabPanel from '../components/tab-panel';
 import AgentList from '../components/dashboard-page/agent-item-list';
 import InviteMemberDrawer from '../components/dashboard-page/invite-member-drawer';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
 import EditDataspaceDrawer from '../components/dataspace-page/edit-dataspace-drawer';
 import DeleteDataspaceDrawer from '../components/dataspace-page/delete-dataspace-drawer';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import DisableMembershipDrawer from '../components/dashboard-page/disable-membership-drawer';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import CreateAnonymousInviteDrawer from '../components/dataspace-page/create-anonymous-invite-drawer';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const DataspacePage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+ 
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -391,7 +394,7 @@ const DataspacePage = () => {
 
         if (!dataspaceLoaded && jwt != "") {
 
-            trustRelayService.getDataspace(jwt, dataspaceid).then((res) => {
+            trustRelayService.getDataspace(jwt, dataspaceid!).then((res) => {
                 setSelectedDataspace(res);
                 setDataspaceLoaded(true);
             }).catch((err: Error) => {
@@ -411,7 +414,7 @@ const DataspacePage = () => {
 
         if (selectedDataspace && !agentsLoaded && jwt != "") {
 
-            trustRelayService.getAgents(jwt, dataspaceid).then((res) => {
+            trustRelayService.getAgents(jwt, dataspaceid!).then((res) => {
                 setAgents(res);
                 setAgentsLoaded(true);
             }).catch((err: Error) => {

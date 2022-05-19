@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import React from "react";
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useTranslation } from "react-i18next";
 
 const OrganizationEllipsisMenu = ({

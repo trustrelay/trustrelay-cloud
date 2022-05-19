@@ -1,33 +1,34 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Divider, Breadcrumbs, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, Typography, Button, Divider, Breadcrumbs,  Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { DataspaceInfo, ServiceConnection } from '../api/models/models';
-import { AppNotificationsContext, AppPushNotificationContext, DataspaceContext } from '../app-contexts';
+import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { InteractionRequiredAuthError } from '@azure/msal-browser';
 import ServiceConnectionList from '../components/service-connections-page/service-connection-list';
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast'; 
-import { Link, useHistory, useParams } from 'react-router-dom';
-import HttpsIcon from '@material-ui/icons/Https';
-import AddIcon from '@material-ui/icons/Add';
+import { Link,  useParams } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 import NewServiceConnectionDrawer from '../components/service-connections-page/new-service-connection-drawer';
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const ServiceConnectionsPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-);
+ 
 
     const toast = useToast();
     const css = useStyles();
@@ -35,15 +36,13 @@ const ServiceConnectionsPage = () => {
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {});
     const isAuthenticated = useIsAuthenticated();
-    const [jwt, setJwt] = useState('');
-    const emptyDataspaces: Array<DataspaceInfo> = [];
+    const [jwt, setJwt] = useState(''); 
     const dataspaceCtx = useContext(DataspaceContext);
     const [selectedDataspace, setSelectedDataspace] = useState('');
     const [serviceConnectionsLoaded, setServiceConnectionsLoaded] = useState(false);
     const emptyServiceConnectionsList: Array<ServiceConnection> = [];
     const [serviceConnections, setServiceConnections] = useState(emptyServiceConnectionsList);
-    const { dataspaceid } = useParams<{ dataspaceid: string }>();
-
+    const { dataspaceid } = useParams<{ dataspaceid: string }>(); 
     const [isNewServiceConnectionDrawerOpen, setIsNewServiceConnectionDrawerOpen] = useState(false);
 
 
@@ -63,7 +62,7 @@ const ServiceConnectionsPage = () => {
         ) => {
         trustRelayService.createNewServiceConnection(
             jwt, 
-            dataspaceid, 
+            dataspaceid!, 
             serviceConnectionName, 
             storageProvider, 
             storageLocation, 

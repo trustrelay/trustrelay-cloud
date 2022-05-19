@@ -1,7 +1,7 @@
-import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
+import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import {   Issue,     } from "../../api/models/models";
 import { formatDateTime } from "../../api/utils";
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const IssueList = ({
     issues, 

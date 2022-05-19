@@ -1,21 +1,21 @@
-import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 
-export default createMuiTheme(
+export default createTheme(
     {
         palette: {
-            "mode": "light",
-            "primary": {
-                "main": "#0090BF",
-                "contrastText": "#FFFFFF"
+            mode: "light",
+            primary: {
+                main: "#0090BF",
+                contrastText: "#FFFFFF"
             },
-            "secondary": {
-                "main": "#666666",
-                "contrastText": "#FFFFFF"
+            secondary: {
+                main: "#666666",
+                contrastText: "#FFFFFF"
             },
-            "background": {
-                "default": "#f5f5f5"
+            background: {
+                default: "#f5f5f5"
             },
-            "action":{
+            action:{
                     // "active": lightBlue[200],
                     // "activeOpacity": 1,
                     // "hover": lightBlue[100],
@@ -31,134 +31,139 @@ export default createMuiTheme(
             fontFamily: 'raleway'
         },
         components: {
-            "MuiAppBar": {
-                "defaultProps": {
-                    "elevation": 0,
-                    "sx": {
-                        "backgroundColor": "#FFFFFF"
+            MuiAppBar: {
+                defaultProps: {
+                    elevation: 0,
+                    sx: {
+                        backgroundColor: "#FFFFFF"
                     }
                 },
-                "styleOverrides": {
+                styleOverrides: {
 
                 }
             },
-            "MuiCard": {
-                "styleOverrides": {
-                    "root": {
-                        "backgroundColor": "#FFFFFF",
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: "#FFFFFF",
                         "boxShadow": "none"
                     }
                 },
-                "defaultProps": {
-                    "sx": {
-                        // "backgroundColor": "#FFFFFF"
+                defaultProps: {
+                    sx: {
+                        // backgroundColor: "#FFFFFF"
                         "&:hover": {
                             "boxShadow": "none"
                         }
                     }
                 }
             },
-            "MuiPaper": {
-                "styleOverrides": {
-                    "root": {
-                        // "backgroundColor": "#999999",
+            MuiPaper: {
+                styleOverrides: {
+                    root: {
+                        // backgroundColor: "#999999",
                         "& .MuiCard-root": {
-                            "backgroundColor": "#FFFFFF",
+                            backgroundColor: "#FFFFFF",
                        },
                     }
                 },
-                "defaultProps": {
-                    "sx": {
-                        "backgroundColor": "#FFFFFF"
+                defaultProps: {
+                    sx: {
+                        backgroundColor: "#FFFFFF"
                     }
                 },
             },
-            "MuiLink": {
-                "defaultProps": {
+            MuiLink: {
+                defaultProps: {
                     "underline": "none",
-                    "sx": {
+                    sx: {
                         "color": "#444444"
                     }
                 }
             },
-            "MuiAvatar": {
-                "defaultProps": {
-                    "sx": {
-                        "backgroundColor": "transparent"
+            MuiAvatar: {
+                defaultProps: {
+                    sx: {
+                        backgroundColor: "transparent"
                     }
                 }
 
             },
-            "MuiTabs": {
-                "styleOverrides": {
-                    "root": {
+            MuiTabs: {
+                styleOverrides: {
+                    root: {
                         "& .MuiButtonBase-root": {
                             "minWidth": "80px"
                         },
                     },
                     "flexContainer": {
-                        "backgroundColor": "inherit"
+                        backgroundColor: "inherit"
                     },
                     "scroller": {
-                        "backgroundColor": "inherit"
+                        backgroundColor: "inherit"
                     }
                 }
             },
-            "MuiSvgIcon": {
-                "styleOverrides": {
-                    "root": {
+            MuiSvgIcon: {
+                styleOverrides: {
+                    root: {
                         "color": "#666666"
                     }
                 }
             },
-            "MuiTab": {
-                "defaultProps": {
-                    "sx": {
+            MuiTab: {
+                defaultProps: {
+                    sx: {
                         "textTransform": "none",
                     }
                 }
             },
-            "MuiButton": {
-                "defaultProps": {
-                    "sx": {
-                        "textTransform": "none",
-                        "borderRadius": "5px",
-                        "boxShadow": "none",
-                        "&:hover:not(.Mui-disabled)": {
+            MuiButton: {
+               styleOverrides:{
+                   root:{
+                       backgroundColor:"#0090BF"
+                   }
+               },
+                defaultProps: {
+                    sx: {
+                        textTransform: "none",
+                        borderRadius: "5px",
+                        boxShadow: "none", 
+                        '&:hover:not(.Mui-disabled)': {
                             cursor: "pointer"
                         }
                     },
 
                 }
             },
-            "MuiTable": {
-                "defaultProps": {
-                    "sx": {
+            MuiTable: {
+                defaultProps: {
+                    sx: {
                         // "borderColor": "#ffffff"
                     }
                 }
             },
-            "MuiTableRow": {
-                "defaultProps": {
-                    "sx": {
+            MuiTableRow: {
+                defaultProps: {
+                    sx: {
                         "&:hover": {
                             backgroundColor: "#bbdefb"
                         }
                     }
                 }
             },
-            "MuiTableBody": {
-                "defaultProps": {
-                    "sx": {
+            MuiTableBody: {
+                defaultProps: {
+                    sx: {
                         "&:hover": {
                             // backgroundColor:"green"
                         }
                     }
                 }
             },
-            "MuiTableCell": {
-                "defaultProps": {
-                    "sx": {
+            MuiTableCell: {
+                defaultProps: {
+                    sx: {
                         "borderColor": "#ffffff",
                         "&:hover": {
                             // backgroundColor:"red"
@@ -166,79 +171,79 @@ export default createMuiTheme(
                     }
                 }
             },
-            "MuiAccordion": {
-                "styleOverrides": {
-                    "root": {
+            MuiAccordion: {
+                styleOverrides: {
+                    root: {
                         "borderColor": "#ffffff"
                     }
                 }
             },
-            "MuiAccordionSummary": {
-                "styleOverrides": {
-                    "root": {
+            MuiAccordionSummary: {
+                styleOverrides: {
+                    root: {
                         "flexDirection": "row-reverse"
                     }
                 }
             },
 
-            "MuiTypography": {
-                "styleOverrides": {
-                    "h1": {
+            MuiTypography: {
+                styleOverrides: {
+                    h1: {
                         // "color": "#444444",
                         // "fontStyle": "normal",
                         // "fontWeight": "lighter",
-                        "fontSize": "35px"
+                        fontSize: "35px"
                     },
-                            "h2": {
+                            h2: {
                                 // "color": "#444444",
                                 // "fontStyle": "normal",
                                 // "fontWeight": "lighter",
-                                "fontSize": "30px"
+                                fontSize: "30px"
                             },
-                            "h3": {
+                            h3: {
                                 // "color": "#444444",
                                 // "fontStyle": "normal",
                                 // "fontWeight": "normal",
-                                "fontSize": "25px"
+                                fontSize: "25px"
                             },
-                            "h4": {
+                            h4: {
                                 // "color": "#444444",
-                                "fontSize": "20px"
+                                fontSize: "20px"
                             },
-                            "h5": {
+                            h5: {
                                 // "color": "#444444",
-                                "fontSize": "18px"
+                                fontSize: "18px"
                             },
-                            "h6": {
+                            h6: {
                                 // "color": "#444444",
-                                "fontSize": "16px"
+                                fontSize: "16px"
                             },
                     //         "subtitle1": {
                     //             "color": "#444444",
-                    //             "fontSize": "20px"
+                    //             fontSize: "20px"
                     //         },
                     //         "subtitle2": {
                     //             "color": "#444444",
-                    //             "fontSize": "20px"
+                    //             fontSize: "20px"
                     //         },
-                    "body1": {
+                    body1: {
                         // "color": "#444444",
-                        "fontSize": "13px"
+                        fontSize: "13px"
                     },
                     //         "body2": {
                     //             "color": "#444444",
-                    //             "fontSize": "14px"
+                    //             fontSize: "14px"
                     //         },
-                    "caption": {
+                    caption: {
                         // "color": "#444444",
-                        "fontSize": "10px"
+                        fontSize: "10px"
                     },
                     //         "button": {
                     //             "textTransform": "uppercase",
                     //         },
                     //         "overline": {
                     //             "color": "#444444",
-                    //             "fontSize": "12px"
+                    //             fontSize: "12px"
                     //         }
                 }
             }

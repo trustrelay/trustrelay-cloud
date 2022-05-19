@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { Typography, Button, Drawer, Toolbar, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Common, Subscription } from '../../api/models/models';
+import { Subscription } from '../../api/models/models';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 
 const ExtendTrialSubscriptionDrawer = ({
@@ -20,9 +40,7 @@ const ExtendTrialSubscriptionDrawer = ({
 }) => {
 
   const { t } = useTranslation();
-  let history = useHistory();
 
- 
 
   const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -35,41 +53,13 @@ const ExtendTrialSubscriptionDrawer = ({
     event.preventDefault();
     handleClose();
   }
- 
+
 
   const disableContinueButton = () => {
     return false
-
   }
 
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
-
-
   const css = useStyles();
-
-
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >
@@ -81,8 +71,6 @@ const ExtendTrialSubscriptionDrawer = ({
 
       <div className={css.drawerContainer}>
         <form>
-          
-
           <Button onClick={handleCancel} color="primary">
             {t('labels.cancel')}
           </Button>

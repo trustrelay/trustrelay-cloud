@@ -1,5 +1,4 @@
-import { Button, CircularProgress, FormControl, Grid, InputLabel, Step, StepLabel, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@material-ui/core"
-import React, { useEffect, useState } from "react";
+import { Button, Grid, Step, StepLabel, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { useTranslation } from "react-i18next";
 import {formatDateTime} from '../../api/utils'
 
@@ -38,12 +37,6 @@ const CreateTemplateAgreementStep7 = ({
 }) => {
 
     const { t } = useTranslation();
-
-    useEffect(() => {
-       
-
-
-    }, []);
 
 
     function saveStateAndContinue() {
@@ -117,14 +110,7 @@ const CreateTemplateAgreementStep7 = ({
                             <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.durationType')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{durationType}</Typography></TableCell>
-                            </TableRow>
-
-                       
-{/* 
-                            <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
-                                <TableCell variant="head"><Typography variant="body1">{t('labels.durationFrom')}</Typography></TableCell>
-                                <TableCell variant="head"><Typography variant="body1">{formatDateTime(durationFrom.toString())}</Typography></TableCell>
-                            </TableRow> */}
+                            </TableRow>        
 
                             {(durationType=='fixed') ?      <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.durationUntil')}</Typography></TableCell>
@@ -133,9 +119,7 @@ const CreateTemplateAgreementStep7 = ({
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.durationPeriod')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{durationPeriod}</Typography></TableCell>
                             </TableRow> }
-                           
-                            {/* 
-                            */}
+
                             <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.frequencyOfUpdates')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{frequencyOfUpdates}</Typography></TableCell>

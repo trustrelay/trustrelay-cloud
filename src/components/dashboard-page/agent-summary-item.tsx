@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, makeStyles, Paper, Typography } from "@material-ui/core";
-import { formatDate, generateRandomColor } from "../../api/utils";
-import { useHistory } from "react-router-dom";
+import { Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Typography, Theme } from '@mui/material';
+import { formatDate, generateRandomColor } from "../../api/utils"; 
 import CustomAvatar from "../customAvatar";
 import { Agent } from "../../api/models/models";
 import { useTranslation } from "react-i18next";
-import EventIcon from '@material-ui/icons/Event';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import BusinessIcon from '@material-ui/icons/Business';
+import EventIcon from '@mui/icons-material/Event';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import BusinessIcon from '@mui/icons-material/Business';
+import { makeStyles  } from '@mui/styles';
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme:Theme) => ({
     boxContainer: {
         width: "100%",
         height: "100%",
         padding: "3px 0px 0px 3px",
         backgroundColor: "#ffffff"
     },
-
-
-})
-)
+}));
 
 const AgentSummaryItem = ({
     agent,
@@ -36,7 +32,7 @@ const AgentSummaryItem = ({
     const [color, setColor] = useState('');
     const { t } = useTranslation();
 
-    let history = useHistory();
+    
 
     useEffect(() => {
        

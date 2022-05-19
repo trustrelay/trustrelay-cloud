@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import {  Theme } from '@material-ui/core/styles'; 
+import {  Theme } from '@mui/material'; 
 
 import {AppNotification, Membership} from './api/models/models'
 

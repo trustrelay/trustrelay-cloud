@@ -1,14 +1,15 @@
-import React from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid, TextField, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import DateFnsUtils from '@date-io/date-fns';
-import { DatePicker, TimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DatePicker, TimePicker } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   pad: {
     width: '1em',
   },
-});
+}));
 
 const UntilDateSelect = (
   { until, onChange }: { until: Date; onChange: any }) => {
@@ -16,17 +17,17 @@ const UntilDateSelect = (
   const css = useStyles();
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid item container rowGap={1} columnGap={1} sx={{display:"flex"}}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Grid item container rowGap={1} columnGap={1} sx={{ display: "flex" }}>
         <Grid item>
-        <DatePicker value={until} onChange={onChange} label={t('labels.time.untilDate')} />
+          <DatePicker value={until} onChange={onChange} label={t('labels.time.untilDate')} renderInput={props => <TextField label={t('labels.time.untilDate')} helperText={t('labels.time.untilDate')} />} />
         </Grid>
         <Grid item>
-        <TimePicker value={until} onChange={onChange} label={t('labels.time.untilTime')} />
+          <TimePicker value={until} onChange={onChange} label={t('labels.time.untilTime')} renderInput={props => <TextField label={t('labels.time.untilTime')} helperText={t('labels.time.untilTime')} />} />
         </Grid>
-        </Grid> 
-      
-    </MuiPickersUtilsProvider>
+      </Grid>
+
+    </LocalizationProvider>
   );
 };
 

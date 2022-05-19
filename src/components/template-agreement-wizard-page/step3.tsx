@@ -1,7 +1,4 @@
-import { Button, Checkbox, CircularProgress, FormControl, Grid, InputLabel, Step, StepLabel, Stepper, TextField, Typography } from "@material-ui/core"
-import { access } from "node:fs";
-import React, { useEffect, useState } from "react";
-
+import { Button,  Grid, InputLabel, Step, StepLabel, Stepper, TextField } from '@mui/material'
 
 const CreateTemplateAgreementStep3 = ({
     next,
@@ -17,18 +14,10 @@ const CreateTemplateAgreementStep3 = ({
     setRightsAndResponsibilities:(value:string)=>any 
 }) => {
 
-   
-   
-
     const handleRightsAndResponsibilitiesChange = (event: any) => {
         setRightsAndResponsibilities(event.target.value);
     }
 
-    useEffect(() => {
-        
-
-
-    }, []);
 
     const isAbleToContinue = () => {
         return (  rightsAndResponsibilities.length>0 )

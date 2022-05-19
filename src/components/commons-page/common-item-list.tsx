@@ -1,19 +1,10 @@
-import React, { useEffect } from "react";
-import { Grid,  makeStyles } from "@material-ui/core";
+import { useEffect } from "react";
+import { Grid } from '@mui/material';
 import { Common } from "../../api/models/models";
-import trustRelayService from '../../api/trustrelay-service'; 
 import { useAccount, useMsal } from "@azure/msal-react";
-import JoinCommonDialog from "./join-common-dialog"; 
 
-import ArchiveIcon from '@material-ui/icons/Archive';
-import CommonSummaryItem from "./common-summary-item";
-import { useHistory } from "react-router";
-
-const useStyles = makeStyles((theme) => ({
-
-})
-)
-
+import ArchiveIcon from '@mui/icons-material/Archive';
+import CommonSummaryItem from "./common-summary-item"; 
 
 const CommonList = ({
     commons,
@@ -24,25 +15,23 @@ const CommonList = ({
 }: {
     commons: Array<Common>;
     agent: string;
-    currentUser:string;
+    currentUser: string;
     dataspace: string,
     jwt: string;
 }) => {
 
     const { instance, accounts, inProgress } = useMsal();
-    const account = useAccount(accounts[0] || {});
-
-    const history = useHistory();
+    
 
     useEffect(() => {
-      
+
 
 
     }, [agent])
 
-    
 
-     
+
+
 
     const renderCommon = (common: Common) => {
 

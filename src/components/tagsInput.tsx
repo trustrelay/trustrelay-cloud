@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Chip, makeStyles, TextField, TextFieldProps } from "@material-ui/core";
+import { Chip, TextField, TextFieldProps, Theme } from '@mui/material';
 import _ from "lodash";
-const useStyles = makeStyles((theme) => ({
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
   chip: {
     marginRight: "5px"
   }
-})
-)
+}));
 
 type TagsInputProps = TextFieldProps & {
   placeholder: string;
@@ -22,26 +23,14 @@ const TagsInput = (props: TagsInputProps) => {
   const [inputValue, setInputValue] = useState("");
   const emptyArray: Array<string> = []
   const [selectedItems, setSelectedItems] = useState(emptyArray);
-
-
-
+ 
   useEffect(() => {
     if (tags && !_.isEqual(tags, selectedItems)) {
       
       setSelectedItems(tags);
     }
-
-    
-
-
-  }, [tags, enabled]);
-
-  // useEffect(() => { 
-  //   if(selectedItems && !_.isEqual(tags, selectedItems)){
-  //     onTagsChange(selectedItems);  
-  //   }
-
-  // }, [selectedItems]);
+ 
+  }, [tags, enabled]); 
 
   const handleKeyDown = (event: any) => {
     
@@ -64,6 +53,7 @@ const TagsInput = (props: TagsInputProps) => {
 
       onTagsChange(newSelectedItems); //new
     }
+
     if (
       selectedItems.length &&
       !inputValue.length &&
@@ -75,16 +65,6 @@ const TagsInput = (props: TagsInputProps) => {
       onTagsChange(newSelection); //new
     }
   }
-
-  // const handleChange = (item:any) => {
- 
-  //   let newSelectedItems = [...selectedItems];
-  //   if (newSelectedItems.indexOf(item) === -1) {
-  //     newSelectedItems = [...newSelectedItems, item];
-  //   }
-  //   setInputValue("");
-  //   setSelectedItems(newSelectedItems);
-  // }
 
   const handleDelete = (item: any) => {
     if (enabled) {
@@ -103,8 +83,7 @@ const TagsInput = (props: TagsInputProps) => {
   }
 
 
-  return (
-    <Fragment>
+  return <Fragment>
 
       <TextField
         name="tagsInput"
@@ -131,7 +110,6 @@ const TagsInput = (props: TagsInputProps) => {
         }}
       />
     </Fragment>
-  )
-}
-
+  
+} 
 export default TagsInput;

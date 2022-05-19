@@ -1,8 +1,8 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, LinearProgress, makeStyles, createStyles, Divider } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs,   Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
@@ -14,11 +14,19 @@ import { Organization } from '../api/models/models';
 import { getToastMessageTypeByName } from '../components/toast';
 import OrganizationList from '../components/organizations-page/organization-item-list';
 import OrganizationDrawer from '../components/organizations-page/organization-drawer';
-import BusinessIcon from '@material-ui/icons/Business';
-import AddLocationIcon from '@material-ui/icons/AddLocation';
+import BusinessIcon from '@mui/icons-material/Business';
+import AddLocationIcon from '@mui/icons-material/AddLocation';
 import NewOrganizationalUnitDrawer from '../components/organizations-page/new-organizational-unit-drawer';
-import RefreshIcon from '@material-ui/icons/Refresh'; 
-import DeleteIcon from '@material-ui/icons/Delete'; 
+import RefreshIcon from '@mui/icons-material/Refresh'; 
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 export const formatDateTime = (value: string): string => {
     return `${moment(value).format('MMM Do, hh:mm:ss A')}`;
@@ -28,16 +36,10 @@ export const formatDateTime = (value: string): string => {
 
 const OrganizationsPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+  
 
     const toast = useToast();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const css = useStyles();
 
     const { instance, accounts, inProgress } = useMsal();
@@ -334,7 +336,7 @@ const OrganizationsPage = () => {
                         </Button>
 
                     </Grid>
-                    {/* { generateGeneralInfoTable()} */}
+                  
                     <AuthenticatedTemplate>
 
 

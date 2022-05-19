@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Grid, IconButton, makeStyles  } from "@material-ui/core";
+import  { useEffect } from "react";
+import { Grid  } from '@mui/material';
 import {  TemplateAgreementSummary } from "../../api/models/models"; 
-import BallotIcon from '@material-ui/icons/Ballot';
+import BallotIcon from '@mui/icons-material/Ballot';
 import TemplateAgreementSummaryItem from "./template-agreement-summary-item";
-import { useTranslation } from "react-i18next";
-
-const useStyles = makeStyles((theme) => ({
-     
-})
-)
 
 
 const TemplateAgreementList = ({ 
@@ -16,9 +10,6 @@ const TemplateAgreementList = ({
 }: { 
     templateAgreements: Array<TemplateAgreementSummary> 
 }) => {
-
-    const { t } = useTranslation();
-
 
     useEffect(() => {
       

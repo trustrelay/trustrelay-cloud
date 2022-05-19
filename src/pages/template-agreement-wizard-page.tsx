@@ -1,16 +1,16 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, CircularProgress, Card, CardContent, Fab, Theme, useTheme, makeStyles, createStyles, Breadcrumbs, Divider } from '@material-ui/core';
+import { Grid, Typography, Button,  Breadcrumbs, Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
-import { CreateTemplateAgreementPayload, TemplateAgreement } from '../api/models/models';
-import { AppNotificationsContext, AppPushNotificationContext, MembershipsContext, DataspaceContext } from '../app-contexts';
+import  { useContext, useEffect, useState } from 'react';
+import { CreateTemplateAgreementPayload } from '../api/models/models';
+import { AppNotificationsContext, AppPushNotificationContext,  DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
 import { useWizard } from 'react-wizard-primitive';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import CreateTemplateAgreementStep1 from '../components/template-agreement-wizard-page/step1';
 import CreateTemplateAgreementStep2 from '../components/template-agreement-wizard-page/step2';
 import CreateTemplateAgreementStep3 from '../components/template-agreement-wizard-page/step3';
@@ -19,20 +19,22 @@ import CreateTemplateAgreementStep5 from '../components/template-agreement-wizar
 import CreateTemplateAgreementStep6 from '../components/template-agreement-wizard-page/step6';
 import CreateTemplateAgreementStep7 from '../components/template-agreement-wizard-page/step7';
 import { getToastMessageTypeByName } from '../components/toast';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const TemplateAgreementWizardPage = () => {
 
 
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+    
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -45,8 +47,7 @@ const TemplateAgreementWizardPage = () => {
     const isAuthenticated = useIsAuthenticated();
     const appNotifications = useContext(AppNotificationsContext);
     const latestPushNotification = useContext(AppPushNotificationContext);
-    const [jwt, setJwt] = useState('');
-    const [recentPushNotification, setRecentPushNotification] = useState('');
+    const [jwt, setJwt] = useState(''); 
 
 
     const dataspace = useContext(DataspaceContext);
@@ -55,7 +56,7 @@ const TemplateAgreementWizardPage = () => {
 
     const { dataspaceid } = useParams<{ dataspaceid: string }>();
 
-    let history = useHistory();
+    const navigate = useNavigate();
 
 
     const createTemplate = () => {
@@ -79,12 +80,12 @@ const TemplateAgreementWizardPage = () => {
             //step 6
             jurisdiction
         } as CreateTemplateAgreementPayload;
-        trustRelayService.createNewTemplateAgreement(jwt, dataspaceid, template).then(() => {
+        trustRelayService.createNewTemplateAgreement(jwt, dataspaceid!, template).then(() => {
 
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
         });
-        history.push(`/dataspaces/${dataspaceid}/template-agreements`)
+        navigate(`/dataspaces/${dataspaceid}/template-agreements`)
     }
 
     const wizard = useWizard();

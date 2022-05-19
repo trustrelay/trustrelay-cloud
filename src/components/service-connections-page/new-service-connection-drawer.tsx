@@ -1,29 +1,42 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Typography, makeStyles, TextField, Button, InputLabel,  AppBar, Tabs, Tab, ToggleButtonGroup, ToggleButton, Theme, createStyles, Tooltip, Input } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import { Typography, TextField, Button, InputLabel,  AppBar, Tabs, Tab, ToggleButtonGroup, ToggleButton, Tooltip, Input, Drawer, Toolbar, Theme } from '@mui/material'; 
 import { DataspaceContext } from '../../app-contexts';
 import { useTranslation } from 'react-i18next'; 
 import TabPanel from '../tab-panel'; 
+import { makeStyles  } from '@mui/styles';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+  toggleGroup: {
+    marginTop: "10px"
+  },
+  tabImage: {
+    height: "40px",
+    width: "40px"
+  },
+  toggleButtonImg: {
+    height: "45px",
+    width: "45px"
+  }
+}));
 
 const NewServiceConnectionDrawer = ({
   open,
@@ -44,43 +57,8 @@ const NewServiceConnectionDrawer = ({
 }) => {
 
 
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      root: {
-        width: '350px',
-        flexGrow: 1,
-      },
-      topnav: {
-        height: "3em",
-        paddingLeft: "0em"
-      },
-      innernav: {
-        paddingTop: "0",
-        paddingBottom: "0",
-        marginTop: "0",
-        marginBottom: "0"
-      },
-      drawerContainer: {
-        width: "350px",
-        padding: "0em 1em 1em 1em",
-        backgroundColor: "transparent"
-      },
-      toggleGroup: {
-        marginTop: "10px"
-      },
-      tabImage: {
-        height: "40px",
-        width: "40px"
-      },
-      toggleButtonImg: {
-        height: "45px",
-        width: "45px"
-      }
-    })
-  );
 
-  const { t } = useTranslation();
-  let history = useHistory();
+  const { t } = useTranslation(); 
   const css = useStyles();
 
   const [serviceConnectionName, setServiceConnectionName] = useState('');
@@ -104,8 +82,7 @@ const NewServiceConnectionDrawer = ({
 
   const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setServiceConnectionName('');
-    // setStorageProvider('azure-storage-account');
+    setServiceConnectionName(''); 
     setHostOrService(''); 
     setDatabaseOrContainer('');
     setAccountOrUserOrId('');
@@ -199,13 +176,8 @@ const NewServiceConnectionDrawer = ({
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
-
-  const dataspaceCtx = useContext(DataspaceContext);
-
-  useEffect(()=>{
-
-  },[])
-
+ 
+ 
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >

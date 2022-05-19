@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {  Button, getBottomNavigationActionUtilityClass, Grid, Hidden, IconButton, makeStyles, Paper, SvgIcon, Typography, useMediaQuery, withStyles } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import {  Button, Grid,  Paper, Typography, useMediaQuery, Theme } from '@mui/material';
 import {  generateRandomColor } from "../../api/utils";  
-import { useHistory } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom"; 
 import CustomAvatar from "../customAvatar";
 import JoinDataspaceDialog from "./join-dataspace-dialog";
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useTranslation } from "react-i18next";
+import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme:Theme) => ({
     boxContainer: {
         width: "100%", 
         height: "100%",
         padding: "3px 0px 0px 3px",
         backgroundColor: "#ffffff"
     },
- 
-})
-)
+}));
 
 
 const DataspaceSummaryItem = ({
@@ -40,11 +39,11 @@ const DataspaceSummaryItem = ({
     const [color, setColor] = useState('');
 
 
-    let history = useHistory();
+    const navigate = useNavigate();
 
     const goToAction = () => {
         if (href != null) {
-            history.push(href);
+            navigate(href);
         }
     }
 

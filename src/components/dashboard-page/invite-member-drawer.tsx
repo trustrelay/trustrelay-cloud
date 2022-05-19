@@ -1,10 +1,29 @@
-import React, { useContext } from 'react';
-import { Typography, makeStyles,  TextField, Button } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer'; 
-import Toolbar from '@material-ui/core/Toolbar'; 
-import { useHistory } from "react-router-dom";  
+import React  from 'react';
+import { Typography, TextField, Button, Drawer, Toolbar, Theme } from '@mui/material';   
 import { useTranslation } from 'react-i18next';
+import { makeStyles  } from '@mui/styles';
 
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 const InviteMemberDrawer = ({
   open,
@@ -16,9 +35,7 @@ const InviteMemberDrawer = ({
   onAction: (email: string) => void;
 }) => {
 
-  const { t } = useTranslation();
-  let history = useHistory();
-
+  const { t } = useTranslation(); 
 
   const [email, setEmail] = React.useState('');
 
@@ -34,7 +51,6 @@ const InviteMemberDrawer = ({
     handleClose();
   }
  
-
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
   }
@@ -42,32 +58,7 @@ const InviteMemberDrawer = ({
 
   const disableContinueButton = () => {
     return (email.length <= 0 )
-
   }
-
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  }) 
 
   const css = useStyles();
 

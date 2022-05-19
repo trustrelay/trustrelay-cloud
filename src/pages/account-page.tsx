@@ -1,31 +1,40 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, LinearProgress, makeStyles, createStyles, Divider, Theme, AppBar, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Tooltip, Select, OutlinedInput, MenuItem, InputLabel } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs, Divider, AppBar, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import AddIcon from '@material-ui/icons/Add';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AddIcon from '@mui/icons-material/Add';
 import TabPanel from '../components/tab-panel';
-import { TrustRelayAccount, DataspaceInfo, Subscription, Organization } from '../api/models/models';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { TrustRelayAccount, DataspaceInfo, Subscription } from '../api/models/models';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { formatDate } from '../api/utils';
 import { getToastMessageTypeByName } from '../components/toast';
 import SubscriptionList from '../components/account-page/subscription-item-list';
 import DataspaceList from '../components/account-page/dataspace-item-list';
 import { useDarkMode } from '../hooks/dark-mode';
-import BusinessIcon from '@material-ui/icons/Business';
-import SettingsIcon from '@material-ui/icons/Settings';
+import BusinessIcon from '@mui/icons-material/Business';
+import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsDrawer from '../components/account-page/settings-drawer'; 
-import RefreshIcon from '@material-ui/icons/Refresh';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import CreateNewDataspaceDrawer from '../components/account-page/create-new-dataspace-drawer';
 import CreateNewSubscriptionDrawer from '../components/account-page/create-new-subscription-drawer';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({ 
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+}));
+
 
 export const formatDateTime = (value: string): string => {
     return `${moment(value).format('MMM Do, hh:mm:ss A')}`;
@@ -35,13 +44,7 @@ export const formatDateTime = (value: string): string => {
 
 const AccountPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+   
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -53,7 +56,7 @@ const AccountPage = () => {
     const [jwt, setJwt] = useState('');
 
     const [theme, toggleTheme] = useDarkMode();
-    let history = useHistory();
+    const navigate = useNavigate();
 
     const [value, setValue] = React.useState(0);
     const emptyAccount: TrustRelayAccount = { id: "", timestamp: "", theme: "", email: "", defaultDataspace: "", organization: "", organizationName:"" };
@@ -104,14 +107,7 @@ const AccountPage = () => {
     }
 
 
-
-    const handleChangeOrganizationalUnit = (organizationId: string) => {
-        trustRelayService.changeOrganizationalUnit(jwt, organizationId).then((res) => {
-
-        }).catch((err: Error) => {
-            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
-        });
-    }
+ 
 
     const handleCreateNewDataspace = (subscriptionId: string, dataspaceName: string) => {
         trustRelayService.createNewDataspace(jwt, subscriptionId, dataspaceName).then((res) => {
@@ -184,31 +180,7 @@ const AccountPage = () => {
                                                             <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.email')}</Typography></TableCell>
                                                             <TableCell align="left"><Typography textAlign="left" variant="body1">{thisAccount.email}</Typography></TableCell>
                                                         </TableRow>
-
-                                                        {/* <TableRow hover={false}>
-                                                            <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.subscriptionId')}</Typography></TableCell>
-                                                            <TableCell align="left"><Typography textAlign="left" variant="body1">{currentSubscription.id}</Typography></TableCell>
-                                                        </TableRow>
-                                                        <TableRow hover={false}>
-                                                            <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.subscriptionType')}</Typography></TableCell>
-                                                            <TableCell align="left"><Typography textAlign="left" variant="body1">{currentSubscription.subscriptionType}</Typography></TableCell>
-                                                        </TableRow>
-                                                        <TableRow hover={false}>
-                                                            <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.expires')}</Typography></TableCell>
-                                                            <TableCell align="left"><Typography textAlign="left" variant="body1">{formatDate(currentSubscription.expires)}</Typography></TableCell>
-                                                        </TableRow>
-                                                        <TableRow hover={false}>
-                                                            <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.maxDataspaces')}</Typography></TableCell>
-                                                            <TableCell align="left"><Typography textAlign="left" variant="body1">{currentSubscription.maxDataspaces}</Typography></TableCell>
-                                                        </TableRow>
-                                                        <TableRow hover={false}>
-                                                            <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.maxMembers')}</Typography></TableCell>
-                                                            <TableCell align="left"><Typography textAlign="left" variant="body1">{currentSubscription.maxMembers}</Typography></TableCell>
-                                                        </TableRow>
-                                                        <TableRow hover={false}>
-                                                            <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.maxCommons')}</Typography></TableCell>
-                                                            <TableCell align="left"><Typography textAlign="left" variant="body1">{currentSubscription.maxCommons}</Typography></TableCell>
-                                                        </TableRow> */}
+ 
 
                                                         <TableRow hover={false}>
                                                             <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.organization')}</Typography></TableCell>
@@ -251,8 +223,7 @@ const AccountPage = () => {
                     )
 
                 }
-            }
-            // return <span>  {t('labels.loading')}</span>
+            } 
         }
 
     }
@@ -436,9 +407,7 @@ const AccountPage = () => {
                 <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
                     <Grid item container>
                         <Breadcrumbs aria-label="breadcrumb">
-                            {/* <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceCtx.dataspaceState}/dashboard`} >
-                                {t('labels.dashboard')}
-                            </Link> */}
+                            
                             <Typography variant="body1" color="textPrimary">{t('labels.account')}</Typography>
                             <Typography variant="body1" color="textPrimary"> &gt;</Typography>
                         </Breadcrumbs>
@@ -474,7 +443,7 @@ const AccountPage = () => {
                         <Button variant="text"
                             color="primary"
                             startIcon={<BusinessIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={()=>history.push(`/organizations`)}
+                            onClick={()=>navigate(`/organizations`)}
                         >
                             {t('labels.organizations')}
                         </Button>

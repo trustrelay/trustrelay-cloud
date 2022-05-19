@@ -1,9 +1,15 @@
 import React, {   useEffect  } from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer';
 import {  TemplateAgreement } from '../../api/models/models'; 
-import { toUpper } from 'lodash';
-import { useTranslation } from 'react-i18next'; 
-import {getCountryNameByIsoCode} from '../../api/utils' 
+import { toUpper } from 'lodash'; 
+import {getCountryNameByIsoCode} from '../../api/utils' ;
+
+
+// rename helper for react17 overload
+const MyDocument: any = Document
+const MyPage: any = Page
+const MyText: any = Text;
+
 const SignedAgreementPdf = ({
   agreement,
   dataspaceName,
@@ -11,8 +17,7 @@ const SignedAgreementPdf = ({
   agreement: TemplateAgreement;
   dataspaceName:string;
 }) => {
-
-  const { t } = useTranslation();
+ 
   
   const styles = StyleSheet.create({
     body: {
@@ -82,13 +87,13 @@ const SignedAgreementPdf = ({
 
   const renderSection = (index: number, name: string, include: boolean, content: string) => {
     if (include) {
-      return (<><Text style={styles.subtitle}>
+      return (<><MyText style={styles.subtitle}>
         {`${converToRomanNumeral(index)}. ${toUpper(name)}`}
-      </Text>
-        <Text style={styles.text}>
+      </MyText>
+        <MyText style={styles.text}>
           {content}
 
-        </Text></>)
+        </MyText></>)
     }
   }
 
@@ -192,39 +197,39 @@ const SignedAgreementPdf = ({
 
   return (
     
-    <Document>
+    <MyDocument>
       {(agreement) ? (
-      <Page style={styles.body}>
-        <Text style={styles.header} fixed>
+      <MyPage style={styles.body}>
+        <MyText style={styles.header} fixed>
           {`~ ${agreement.title} ~`}
-        </Text>
-        <Text style={styles.title}>{agreement.title}</Text>
-        <Text style={styles.author}>{dataspaceName}</Text>
+        </MyText>
+        <MyText style={styles.title}>{agreement.title}</MyText>
+        <MyText style={styles.author}>{dataspaceName}</MyText>
 
 
-        <Text style={styles.text}>
+        <MyText style={styles.text}>
           This Data Sharing Agreement (this “Agreement”) is made on [AGREEMENT_DATE] (the
           “Effective Date”) between [PROVIDER_FULL_NAME], with its principal place of business at [PROVIDER_ADDRESS],
           hereinafter referred to as “PROVIDER” and [RECIPIENT_FULL_NAME], with its
           principal place of business at [RECIPIENT_ADDRESS], hereinafter referred to as “RECIPIENT”
           (referred to collectively hereinafter as the “Parties” and individually as “Party”).
-        </Text>
+        </MyText>
 
         {renderSections()}
 
 
-        <Text style={styles.subtitle} break>
+        <MyText style={styles.subtitle} break>
           Agreed &amp; Accepted:
-        </Text>
-        <Text style={styles.text}>
+        </MyText>
+        <MyText style={styles.text}>
 
-        </Text>
-        <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+        </MyText>
+        <MyText style={styles.pageNumber} render={({ pageNumber, totalPages }:{pageNumber:any; totalPages:any;}) => (
           `${pageNumber} / ${totalPages}`
         )} fixed />
-      </Page>
+      </MyPage>
        ) : <></>}
-    </Document>
+    </MyDocument>
    
   )
 }

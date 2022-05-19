@@ -1,11 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, makeStyles, Button, TextField, InputLabel, Grid, FormControlLabel, Checkbox } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import React, {  useState } from 'react';
+import { Typography, Button, TextField, InputLabel, Grid, FormControlLabel, Checkbox, Drawer, Toolbar, Theme } from '@mui/material';  
 import { useTranslation } from 'react-i18next';
 import ToggleFeedback from './toggle-feedback';
+import { makeStyles  } from '@mui/styles';
 
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 const FeedbackDrawer = ({
   open,
@@ -18,8 +37,7 @@ const FeedbackDrawer = ({
   onAction: (satisfactionLevel:string, textFeedback:string, canEmailYou: boolean) => void;
 }) => {
 
-  const { t } = useTranslation();
-  let history = useHistory();
+  const { t } = useTranslation(); 
 
 
   const [feedbackText, setFeedbackText] = useState('');
@@ -58,33 +76,7 @@ const FeedbackDrawer = ({
   }
 
 
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
-
-
   const css = useStyles();
-
-
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >

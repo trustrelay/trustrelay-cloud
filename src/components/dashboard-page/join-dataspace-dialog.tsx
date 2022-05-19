@@ -1,12 +1,6 @@
 import React, { useEffect } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle'; 
-import LinkIcon from '@material-ui/icons/Link';
+import {Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@mui/material'; 
+import LinkIcon from '@mui/icons-material/Link';
 import { useTranslation } from 'react-i18next';
 
 export default function JoinDataspaceDialog(

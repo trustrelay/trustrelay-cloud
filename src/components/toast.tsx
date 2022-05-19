@@ -1,28 +1,26 @@
 import {
   Snackbar, 
-  IconButton,
-  makeStyles,
-  createStyles,
+  IconButton, 
   Paper, 
   ListItem,
   ListItemAvatar,
   ListItemText,
   ListItemSecondaryAction,
   List, 
-  Avatar 
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+  Avatar,
+  Theme
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import {  ToastMessageInfo } from '../app-contexts'; 
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import WarningIcon from '@material-ui/icons/Warning';
-import { green, yellow, red, blue } from '@material-ui/core/colors';
-import InfoIcon from '@material-ui/icons/Info';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
+import { green, yellow, red, blue } from '@mui/material/colors';
+import InfoIcon from '@mui/icons-material/Info';
 import { ToastMessageType } from '../app-contexts';
+import { makeStyles  } from '@mui/styles';
 
-
-const useStyles = makeStyles((theme) =>
-  createStyles({
+const useStyles = makeStyles((theme:Theme) => ({
     error: {
       color: theme.palette.error.main,
     },
@@ -74,8 +72,7 @@ const useStyles = makeStyles((theme) =>
       margin: '0',
       textAlign: "right"
     }
-  }),
-);
+  }));
 
 export const getToastMessageTypeByName = (name: string) => {
   switch (name) {

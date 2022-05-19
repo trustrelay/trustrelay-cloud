@@ -1,6 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Paper, Divider, Accordion, AccordionSummary, AccordionDetails, makeStyles,  LinearProgress, Card, CardContent, ButtonGroup, Popper, Grow, ClickAwayListener, MenuList, MenuItem, CircularProgress } from '@material-ui/core';
+import { Grid, Typography, Button, Paper, Divider, Accordion, AccordionSummary, AccordionDetails, LinearProgress, Card, CardContent, ButtonGroup, Popper, Grow, ClickAwayListener, MenuList, MenuItem, CircularProgress, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppPushNotificationContext, DataspaceContext, ToastMessageType } from '../app-contexts';
@@ -10,63 +10,64 @@ import { loginRequest, protectedResources } from '../authConfig';
 import { getToastMessageTypeByName } from '../components/toast';
 import { DashboardStats, DrillQueryResponse, QueryHistoryEntry, QueryHistoryRequest, TemplateAgreementSummary } from '../api/models/models';
 import { useTranslation } from 'react-i18next';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import ResultsTable from '../components/dashboard-page/results-table';
-import Editor from "react-simple-code-editor";
-import Prism, { languages } from 'prismjs'
-import "prismjs/components/prism-sql";
-// import 'prismjs/components/prism-css';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ResultsTable from '../components/dashboard-page/results-table'; 
+import CodeEditor from '@uiw/react-textarea-code-editor';
+// import Prism, { languages } from 'prismjs'
+import "prismjs/components/prism-sql"; 
 import 'prismjs/themes/prism-funky.css';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import CloudOffIcon from '@material-ui/icons/CloudOff';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import CloudOffIcon from '@mui/icons-material/CloudOff';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import QueryStats from '../components/dashboard-page/query-stats';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GridColDef, GridRowData } from '@mui/x-data-grid';
-import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
+import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
 import ExportToCommonDrawer from '../components/dashboard-page/export-to-common-drawer';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    root: {
+        margin: '0px 0px 0px 0px',
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        border: "0px none #FFFFFF"
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
+    iconButton: {
+        padding: 10,
+    },
+    divider: {
+        height: 28,
+        margin: 4,
+    },
+    loading: {
+        width: "100%"
+    },
+    card: {
+        "&:hover:not(.Mui-disabled)": {
+            cursor: "pointer"
+        }
+    },
+    number: {
+        fontWeight: "bolder",
+    }
+})
+);
 
 const DashboardPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        root: {
-            margin: '0px 0px 0px 0px',
-            display: 'flex',
-            alignItems: 'center',
-            width: '100%',
-            border: "0px none #FFFFFF"
-        },
-        input: {
-            marginLeft: theme.spacing(1),
-            flex: 1,
-        },
-        iconButton: {
-            padding: 10,
-        },
-        divider: {
-            height: 28,
-            margin: 4,
-        },
-        loading: {
-            width: "100%"
-        },
-        card: {
-            "&:hover:not(.Mui-disabled)": {
-                cursor: "pointer"
-            }
-        },
-        number: {
-            fontWeight: "bolder",
-        }
-    })
-    );
 
     const toast = useToast();
     const { t } = useTranslation();
     const css = useStyles();
-    let history = useHistory();
+    const navigate = useNavigate();
 
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {});
@@ -137,8 +138,8 @@ const DashboardPage = () => {
 
     const [completeSignUpSent, setCompleteSignUpSent] = useState(false);
 
-    const handleQueryChange = (code: string) => {
-        setQuery(code)
+    const handleQueryChange = (evt: any) => {
+        setQuery(evt.target.value)
     }
 
 
@@ -181,7 +182,7 @@ const DashboardPage = () => {
     };
 
     const handleExportToCommon = (commonName: string, templateAgreement: string) => {
-        trustRelayService.exportToCommon(jwt, dataspaceid, commonName, query, templateAgreement).then((res) => {
+        trustRelayService.exportToCommon(jwt, dataspaceid!, commonName, query, templateAgreement).then((res) => {
         }).catch((e) => {
             toast.openToast('query error', 'Failed request to export to common', ToastMessageType.Error)
 
@@ -194,13 +195,13 @@ const DashboardPage = () => {
         // alert(`index: ${selectedRunIndex}`)
         // let previousHistory = queryHistory;
         // let now = new Date()
-        // previousHistory.push({ id:'', timestamp: now.toString(), query: query } as QueryHistoryEntry)
+        // previousnavigate({ id:'', timestamp: now.toString(), query: query } as QueryHistoryEntry)
         // setQueryHistory(previousHistory)
 
         if (selectedRunIndex === 0) {
             setLoading(true);
 
-            trustRelayService.query(jwt, dataspaceid, query).then((res) => {
+            trustRelayService.query(jwt, dataspaceid!, query).then((res) => {
                 setDrillQueryResponse(res);
                 setLoading(false);
 
@@ -266,7 +267,7 @@ const DashboardPage = () => {
                             <Grid item xs={5} sm={4} md={2} lg={2} xl={2}>
                                 <Card
                                     className={css.card}
-                                    onClick={() => history.push(`/dataspaces/${dataspaceid}/commons`)}>
+                                    onClick={() => navigate(`/dataspaces/${dataspaceid}/commons`)}>
                                     <CardContent>
                                         <Grid container direction="row">
                                             <Grid item alignContent="left" xs={1} sm={1} md={1} lg={1} xl={1}>
@@ -285,7 +286,7 @@ const DashboardPage = () => {
                             <Grid item xs={5} sm={4} md={2} lg={2} xl={2}>
                                 <Card
                                     className={css.card}
-                                    onClick={() => history.push(`/dataspaces/${dataspaceid}`)}>
+                                    onClick={() => navigate(`/dataspaces/${dataspaceid}`)}>
                                     <CardContent>
                                         <Grid container direction="row">
                                             <Grid item alignContent="left" xs={1} sm={1} md={1} lg={1} xl={1}>
@@ -304,7 +305,7 @@ const DashboardPage = () => {
                             <Grid item xs={5} sm={4} md={2} lg={2} xl={2}>
                                 <Card
                                     className={css.card}
-                                    onClick={() => history.push(`/dataspaces/${dataspaceid}/settings/service-connections`)}>
+                                    onClick={() => navigate(`/dataspaces/${dataspaceid}/settings/service-connections`)}>
                                     <CardContent>
                                         <Grid container direction="row">
                                             <Grid item alignContent="left" xs={1} sm={1} md={1} lg={1} xl={1}>
@@ -333,7 +334,7 @@ const DashboardPage = () => {
                 <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <Paper variant="outlined" className={css.root}>
-                            <Editor
+                            {/* <Editor
                                 value={query}
                                 onValueChange={handleQueryChange}
                                 highlight={(code) => Prism.highlight(code, languages.sql, 'sql')}
@@ -346,7 +347,19 @@ const DashboardPage = () => {
                                     height: "150px",
                                     backgroundColor: "rgba(var(--body), 0.1)" 
                                 }}
-                            />
+                            /> */}
+                             <CodeEditor
+      value={query}
+      language="sql"
+      placeholder="Please enter SQL code."
+      onChange={handleQueryChange}
+      padding={15}
+      style={{
+        fontSize: 12,
+        backgroundColor: "#f5f5f5",
+        fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
+      }}
+    />
                         </Paper>
                     </Grid>
                     {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>Schema</Grid> */}
@@ -484,7 +497,7 @@ const DashboardPage = () => {
 
             var queryHistoryReq: QueryHistoryRequest = { continuationNextPartitionKey: "", continuationNextRowKey: "" }
 
-            trustRelayService.getQueryHistory(jwt, dataspaceid, queryHistoryReq).then((res) => {
+            trustRelayService.getQueryHistory(jwt, dataspaceid!, queryHistoryReq).then((res) => {
                 setQueryHistory(res.value);
                 setQueriesLoaded(true);
                 if (res.value.length > 0) {
@@ -508,7 +521,7 @@ const DashboardPage = () => {
 
         if (queriesLoaded && !loadedAgreementTemplates && jwt != "") {
 
-            trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid).then((res) => {
+            trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid!).then((res) => {
                 setTemplateAgreements(res)
                 setLoadedAgreementTemplates(true)
             }).catch((err: Error) => {
@@ -523,7 +536,7 @@ const DashboardPage = () => {
 
        
         if (dataspaceid !== localDataspace) {
-            setLocaDataspace(dataspaceid)
+            setLocaDataspace(dataspaceid!)
             setStatsLoaded(false);
             setQueriesLoaded(false);
             setLoadedAgreementTemplates(false);
@@ -561,7 +574,7 @@ const DashboardPage = () => {
 
                 if (!statsLoaded) {
 
-                    trustRelayService.getStats(jwt, dataspaceid).then((res) => {
+                    trustRelayService.getStats(jwt, dataspaceid!).then((res) => {
                         setStats(res);
                         setStatsLoaded(true);
                         setQueriesLoaded(false);

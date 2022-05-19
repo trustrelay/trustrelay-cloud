@@ -1,6 +1,6 @@
-import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 
-export default createMuiTheme(
+export default createTheme(
     {
         palette: {
             "mode": "dark",

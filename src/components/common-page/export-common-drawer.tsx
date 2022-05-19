@@ -1,14 +1,30 @@
-import React, { useContext, useState } from 'react';
-import { Typography, makeStyles, TextField, Button, InputLabel, Select, OutlinedInput, MenuItem, Slider } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
-import TreeView from '@material-ui/lab/TreeView';
-import TreeItem from '@material-ui/lab/TreeItem';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import React, { useState } from 'react';
+import { Typography, TextField, Button, InputLabel, Select, OutlinedInput, MenuItem, Drawer, Toolbar, Theme } from '@mui/material';  
+import { useTranslation } from 'react-i18next'; 
 import { Common, ServiceConnection } from '../../api/models/models';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 const ExportCommonDrawer = ({
   common,
@@ -24,8 +40,7 @@ const ExportCommonDrawer = ({
   onAction: (name: string, schema: string, storageType: string, serviceConnection:string) => void;
 }) => {
 
-  const { t } = useTranslation();
-  let history = useHistory();
+  const { t } = useTranslation(); 
 
 
   const [name, setName] = React.useState('');
@@ -62,48 +77,8 @@ const ExportCommonDrawer = ({
   const disableContinueButton = () => {
     return (selectedSchema.length <= 0 || name.length <= 0 || scanFrequency.length <= 0)
   }
- 
- 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
-
-
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
 
   const css = useStyles();
-
- 
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >

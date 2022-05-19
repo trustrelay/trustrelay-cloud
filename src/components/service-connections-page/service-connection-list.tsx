@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Grid, makeStyles } from "@material-ui/core";
-import { Agent, ServiceConnection } from "../../api/models/models"; 
-import { useMsal, useAccount, } from '@azure/msal-react';  
-import HttpsIcon from '@material-ui/icons/Https';
-import { useTranslation } from "react-i18next";
+import { Grid, Theme } from '@mui/material';
+import {  ServiceConnection } from "../../api/models/models";  
+import HttpsIcon from '@mui/icons-material/Https'; 
 import ServiceConnectionSummaryItem from "./service-connection-summary-item";
+import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme:Theme) => ({
     graphContainer: {
         width: "100%",
         height: "100%",
@@ -29,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#AAAAAA",
         fontSize: "12px"
     }
-})
-)
+}));
 
 
 const ServiceConnectionList = ({
@@ -40,14 +37,8 @@ const ServiceConnectionList = ({
     dataspace:string;
     serviceConnections: Array<ServiceConnection>;
 }) => {
-    const { t } = useTranslation(); 
-
-    useEffect(() => {
-        
-    }, [])
-
-
-
+ 
+ 
     const renderServiceConnection = (serviceConnection: ServiceConnection) => {
 
         return <Grid item key={`agent_${serviceConnection.id}`} xl={3} lg={3} md={5} sm={5} xs={12} >

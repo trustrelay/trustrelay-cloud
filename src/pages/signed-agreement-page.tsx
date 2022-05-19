@@ -1,36 +1,35 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, CircularProgress, Card, CardContent, Paper, makeStyles, GridTypeMap, GridProps, Chip, Breadcrumbs, AppBar, Tabs, Tab, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Divider, createStyles, Theme } from '@material-ui/core';
+import { Grid, Typography, Button, Paper, Breadcrumbs, AppBar, Tabs, Tab, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { SignedAgreement, TemplateAgreement, } from '../api/models/models';
 import { AppNotificationsContext, AppPushNotificationContext,  DataspaceContext } from '../app-contexts';
-import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { InteractionRequiredAuthError } from '@azure/msal-browser';
 import { getToastMessageTypeByName } from '../components/toast';
-import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
-import UserAgreementList from '../components/template-agreements-page/template-agreement-item-list';
-import { useParams, Link } from 'react-router-dom';
-import TemplateAgreementPdf from '../components/template-agreement-page/template-agreement-pdf';
-import TagsInput from '../components/tagsInput';
-import { Label } from '@material-ui/icons';
+import {  PDFViewer } from '@react-pdf/renderer'; 
+import { useParams, Link } from 'react-router-dom'; 
 import TabPanel from '../components/tab-panel';
 import { formatDateTime } from '../api/utils';
 import SignedAgreementPdf from '../components/signed-agreement-page/signed-agreement-pdf';
 import { useTranslation } from 'react-i18next';
-import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
+
+const MyPDFViewer : any = PDFViewer;
 
 const SignedAgreementPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
 
-    })
-);
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -42,8 +41,7 @@ const SignedAgreementPage = () => {
     const isAuthenticated = useIsAuthenticated();
     const appNotifications = useContext(AppNotificationsContext);
     const latestPushNotification = useContext(AppPushNotificationContext);
-    const [jwt, setJwt] = useState('');
-    const [recentPushNotification, setRecentPushNotification] = useState(''); 
+    const [jwt, setJwt] = useState(''); 
     const [selectedDataspace, setSelectedDataspace] = useState('');
 
 
@@ -224,12 +222,12 @@ const SignedAgreementPage = () => {
 
                                 {/* {(signedAgreement && signedAgreement.url.length > 0) ? <iframe width="100%" height="600px" style={{ minHeight: "500px" }} src="https://trustrelaystgprod.blob.core.windows.net/docs/DSA Template version.pdf" /> : <>...</>} */}
                                 
-                                 {(signedAgreement && templateAgreement && signedAgreement.id!=="" && templateAgreement.id !=="") ? (<PDFViewer style={{width:"100%", minHeight:"500px"}}>
+                                 {(signedAgreement && templateAgreement && signedAgreement.id!=="" && templateAgreement.id !=="") ? (<MyPDFViewer style={{width:"100%", minHeight:"500px"}}>
                         <SignedAgreementPdf 
                         dataspaceName={signedAgreement.dataspaceName}
                         agreement={templateAgreement}
                         />
-                    </PDFViewer>) : <>...</>}
+                    </MyPDFViewer>) : <>...</>}
                                 
                  
 
@@ -276,7 +274,7 @@ const SignedAgreementPage = () => {
 
 
                 if (!signedAgreementLoaded) {
-                    trustRelayService.getSignedAgreement(jwt, dataspaceid, agreementid).then((res) => {
+                    trustRelayService.getSignedAgreement(jwt, dataspaceid!, agreementid!).then((res) => {
                         setSignedAgreementLoaded(true);
                         setSignedAgreement(res);
 
@@ -287,7 +285,7 @@ const SignedAgreementPage = () => {
                 }
 
                 if (signedAgreementLoaded && !templateAgreementLoaded && signedAgreement && signedAgreement.agreement.length>0) {
-                    trustRelayService.getTemplateAgreement(jwt, dataspaceid, signedAgreement.agreement).then((res) => {
+                    trustRelayService.getTemplateAgreement(jwt, dataspaceid!, signedAgreement.agreement).then((res) => {
                         setTemplateAgreementLoaded(true);
                         setTemplateAgreement(res);
 
@@ -350,10 +348,7 @@ const SignedAgreementPage = () => {
                                     Signed Agreements
                                 </Link>
                                 <Typography variant="body1" color="textPrimary">{agreementid}</Typography>
-                            </Breadcrumbs>
-                        {/* <Typography variant="body1"  >
-                            {t('labels.common')}
-                        </Typography> */}
+                            </Breadcrumbs> 
                         <Divider />
                     </Grid>
                     <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >

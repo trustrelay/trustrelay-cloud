@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Grid, IconButton, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
+import { useEffect } from "react";
+import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { DataspaceInfo } from "../../api/models/models"; 
-import { useHistory } from "react-router";
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../api/utils";
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-const useStyles = makeStyles((theme) => ({
-
-})
-)
 
 
 const DataspaceList = ({
@@ -20,16 +16,11 @@ const DataspaceList = ({
     jwt: string
 }) => {
     const { t } = useTranslation();
-    const history = useHistory();
-
-    useEffect(() => {
-        
-    }, [])
-
+    const navigate = useNavigate();
 
  
     const go = (dataspace: string) => {
-        history.push(`/dataspaces/${dataspace}`)
+        navigate(`/dataspaces/${dataspace}`)
     }
 
 

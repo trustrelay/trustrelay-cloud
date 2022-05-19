@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, Chip, getBottomNavigationActionUtilityClass, Grid, Hidden, IconButton, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader, makeStyles, Paper, SvgIcon, Typography, useMediaQuery, withStyles } from "@material-ui/core";
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import { formatDate, formatDateTime, generateRandomColor } from "../../api/utils";
-import { useHistory } from "react-router-dom";
+import {  Button, Chip,  Grid,  List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Typography, Theme } from '@mui/material';
+import { formatDate, generateRandomColor } from "../../api/utils";
+import { useNavigate } from "react-router-dom";
 import CustomAvatar from "../customAvatar";
 import { ServiceConnection } from "../../api/models/models";
 import { useTranslation } from "react-i18next";
-import StorageIcon from '@material-ui/icons/Storage';
-import TodayIcon from '@material-ui/icons/Today';
-import LabelIcon from '@material-ui/icons/Label';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import DnsIcon from '@material-ui/icons/Dns';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import TodayIcon from '@mui/icons-material/Today';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import DnsIcon from '@mui/icons-material/Dns';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme:Theme) => ({
     boxContainer: {
         width: "100%", 
         height: "100%",
@@ -24,8 +21,6 @@ const useStyles = makeStyles((theme) => ({
  
 })
 )
-
-
 
 const ServiceConnectionSummaryItem = ({
     dataspace,
@@ -39,7 +34,7 @@ const ServiceConnectionSummaryItem = ({
 
     const css = useStyles();
     const { t } = useTranslation(); 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [loadedColor, setLoadedColor] = useState(false);
     const [color, setColor] = useState('');
@@ -117,7 +112,7 @@ const ServiceConnectionSummaryItem = ({
                             variant="contained"
                             color="secondary" 
                             endIcon={<NavigateNextIcon/>}
-                            onClick={()=>history.push(`/dataspaces/${dataspace}/settings/service-connections/${serviceConnection.id}`)}
+                            onClick={()=>navigate(`/dataspaces/${dataspace}/settings/service-connections/${serviceConnection.id}`)}
                         >
                             {t('labels.details')}
                         </Button>

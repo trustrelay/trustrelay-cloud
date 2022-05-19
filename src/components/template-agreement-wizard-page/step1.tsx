@@ -1,6 +1,4 @@
-import { Button, Checkbox, CircularProgress, FormControl, Grid, InputLabel, Step, StepLabel, Stepper, TextField, Typography } from "@material-ui/core"
-import React, { useEffect, useState } from "react"; 
-
+import { Button, Grid, InputLabel, Step, StepLabel, Stepper, TextField } from '@mui/material'
 
 const CreateTemplateAgreementStep1 = ({
     next,
@@ -24,13 +22,7 @@ const CreateTemplateAgreementStep1 = ({
         setPurpose(event.target.value);
     }
 
-  
-
-    useEffect(() => {
-        
-
-
-    }, []);
+   
 
     const isAbleToContinue = () => {
         return (

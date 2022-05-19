@@ -1,10 +1,30 @@
 import React, { useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import { Typography, Button, InputLabel, TextField, Drawer, Toolbar, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Common, ServiceConnection } from '../../api/models/models';
+import { ServiceConnection } from '../../api/models/models';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 
 const DeleteServiceConnectionDrawer = ({
@@ -20,10 +40,8 @@ const DeleteServiceConnectionDrawer = ({
 }) => {
 
   const { t } = useTranslation();
-  let history = useHistory();
 
-
-  const [serviceConnectionName, setServiceConnectionName] = useState(''); 
+  const [serviceConnectionName, setServiceConnectionName] = useState('');
 
 
   const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
@@ -43,33 +61,9 @@ const DeleteServiceConnectionDrawer = ({
   }
 
   const disableContinueButton = () => {
-    return (serviceConnection.name !== serviceConnectionName )
+    return (serviceConnection.name !== serviceConnectionName)
 
   }
-
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
 
 
   const css = useStyles();
@@ -87,7 +81,7 @@ const DeleteServiceConnectionDrawer = ({
       <div className={css.drawerContainer}>
         <form>
 
-        <InputLabel>Type {serviceConnection.name} <br/>{t('messages.toConfirmDeletion')}</InputLabel>
+          <InputLabel>Type {serviceConnection.name} <br />{t('messages.toConfirmDeletion')}</InputLabel>
 
           <TextField
             autoFocus
@@ -100,7 +94,7 @@ const DeleteServiceConnectionDrawer = ({
             fullWidth
           />
           <br /><br />
-         
+
           <Button onClick={handleCancel} color="primary">
             {t('labels.cancel')}
           </Button>

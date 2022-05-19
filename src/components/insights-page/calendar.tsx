@@ -1,28 +1,11 @@
-import { calendarData } from "./calendar-data";
 import { ResponsiveCalendar } from '@nivo/calendar';
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
-import { css } from "@material-ui/styled-engine";
 
 const CalendarChart = ({ data }: { data: any }) => {
-
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            calendarBackground: {
-                // color: theme.palette.primary.main
-                color:"#ff0000"
-            }
-
-        })
-    );
-
-    const css = useStyles();
 
     var today = new Date()
     var thisYear = today.getFullYear()
     var firstDayOfYear = `${thisYear}-01-01`
     var lastDayOfYear = `${thisYear}-12-31`
-
-    
 
     return (
         <ResponsiveCalendar

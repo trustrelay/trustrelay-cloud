@@ -1,8 +1,8 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, LinearProgress, makeStyles, createStyles, Divider, Theme, AppBar, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs,    Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
@@ -11,12 +11,20 @@ import { useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { AuditLogsRequest, AuditLogEntry } from '../api/models/models';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getToastMessageTypeByName } from '../components/toast';
-import { useDarkMode } from '../hooks/dark-mode';
 import AuditLogList from '../components/audit-logs-page/audit-log-item-list';
-import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
+import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import LogDetailsDrawer from '../components/audit-logs-page/log-details-drawer';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
+
 
 export const formatDateTime = (value: string): string => {
     return `${moment(value).format('MMM Do, hh:mm:ss A')}`;
@@ -26,13 +34,7 @@ export const formatDateTime = (value: string): string => {
 
 const AuditLogsPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+ 
 
     const toast = useToast();
     const { t, i18n } = useTranslation();
@@ -192,11 +194,7 @@ const AuditLogsPage = () => {
                         </Grid>
                     </Grid>
                     <Divider />
-                    {/* <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
- 
-
-                    </Grid> */}
-                    {/* { generateGeneralInfoTable()} */}
+                    
                     <AuthenticatedTemplate>
 
 

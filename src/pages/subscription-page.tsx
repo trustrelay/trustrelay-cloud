@@ -1,46 +1,45 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, AppBar, Tabs, Tab, Divider, Accordion, AccordionSummary, AccordionDetails, Hidden, Chip, makeStyles, Theme, createStyles, Tooltip } from '@material-ui/core';
+import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table,  TableRow, TableCell, TableBody,  Divider, Accordion, AccordionSummary, AccordionDetails,  Theme} from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import { Common, DailyCount, Ping, ServiceConnection, Subscription, Task } from '../api/models/models';
+import {  DailyCount, Ping,  Subscription } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useHistory, useParams, Link } from "react-router-dom";
-import TabPanel from '../components/tab-panel';
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import { formatDate, formatDateTime } from "../api/utils";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
-import CancelIcon from '@material-ui/icons/Cancel';
-import ClassIcon from '@material-ui/icons/Class';
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import EditIcon from '@mui/icons-material/Edit';
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ClassIcon from '@mui/icons-material/Class';
 import UpgradeSubscriptionDrawer from '../components/subscription-page/upgrade-subscription-drawer';
 import CancelSubscriptionDrawer from '../components/subscription-page/cancel-subscription-drawer';
 import EditSubscriptionDrawer from '../components/subscription-page/edit-subscription-drawer';
-import Forward30Icon from '@material-ui/icons/Forward30';
+import Forward30Icon from '@mui/icons-material/Forward30';
 import ExtendTrialSubscriptionDrawer from '../components/subscription-page/extend-trial-subscription-drawer';
-import { time } from 'console';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const SubscriptionPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-    );
+ 
 
     const toast = useToast();
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
     const css = useStyles();
 
 
@@ -147,7 +146,7 @@ const SubscriptionPage = () => {
     const handleCancelSubscription = () => {
         trustRelayService.cancelSubscription(
             jwt,
-            subscriptionid
+            subscriptionid!
         ).then(() => {
            
         }).catch((err: Error) => {
@@ -159,7 +158,7 @@ const SubscriptionPage = () => {
     const handleEditSubscription = (subscriptionName: string, procurementEmail: string) => {
         trustRelayService.editSubscription(
             jwt,
-            subscriptionid,
+            subscriptionid!,
             subscriptionName,
             procurementEmail
         ).then(() => {
@@ -172,7 +171,7 @@ const SubscriptionPage = () => {
     const handleExtendTrialSubscription = (subscriptionId: string) => {
         trustRelayService.extendTrialSubscription(
             jwt,
-            subscriptionid
+            subscriptionid!
         ).then(() => {
             
         }).catch((err: Error) => {
@@ -323,7 +322,7 @@ const SubscriptionPage = () => {
         if (selectedDataspace != "" && !subscriptionLoaded && jwt != "") {
 
 
-            trustRelayService.getSubscription(jwt, subscriptionid).then((res) => {
+            trustRelayService.getSubscription(jwt, subscriptionid!).then((res) => {
                 setSelectedSubscription(res);
                 setSubscriptionLoaded(true)
             }).catch((err: Error) => {
@@ -401,9 +400,7 @@ const SubscriptionPage = () => {
 
         }
     }, [jwt,
-        isAuthenticated])
-    // latestPushNotification
-    // appNotifications.swisscomNotificationsState,
+        isAuthenticated]) 
     return (
         <LayoutPage
             toast={toast}
@@ -414,10 +411,7 @@ const SubscriptionPage = () => {
             <LayoutCentered fullHeight>
                 <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
                     <Grid item container>
-                        <Breadcrumbs aria-label="breadcrumb">
-                        {/* <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceCtx.dataspaceState}/dashboard`} >
-                                {t('labels.dashboard')}
-                            </Link> */}
+                        <Breadcrumbs aria-label="breadcrumb"> 
                             <Link className={css.breadcrumbLink} to={`/account`} >
                                 {t('labels.account')}
                             </Link>

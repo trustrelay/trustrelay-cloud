@@ -1,28 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MenuIcon from '@material-ui/icons/Menu';
-import {
-  IconButton,
-  Link,
-  Toolbar,
-  AppBar,
-  makeStyles,
-  Tooltip,
-  Badge,
-  Typography,
-  MenuItem,
-  Menu,
-  ToggleButton
-} from '@material-ui/core';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import MenuIcon from '@mui/icons-material/Menu';
+import {  IconButton,  Link,  Toolbar,  AppBar,  Tooltip,  Badge,  Typography,  MenuItem,  Menu, Theme } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsDrawer from './notifications-drawer';
 import { AppNotificationsContext, AppPushNotificationContext, MembershipsContext, DataspaceContext, ToastMessageType } from '../app-contexts';
 import { PathNames } from '../CustomRouter'; 
-import { useHistory } from "react-router-dom";
-import PersonIcon from '@material-ui/icons/Person';
+import { useNavigate } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useAccount, useIsAuthenticated, useMsal } from '@azure/msal-react';
-import { loginRequest, b2cPolicies } from "../authConfig";
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import { loginRequest } from "../authConfig";
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { protectedResources } from '../authConfig';
 import trustRelayService from '../api/trustrelay-service';
 import { AppNotification } from '../api/models/models';
@@ -30,13 +18,15 @@ import { sortByTime } from '../api/utils';
 import { InteractionRequiredAuthError } from '@azure/msal-browser';
 import * as signal from '@aspnet/signalr';
 import { getToastMessageTypeByName } from './toast';
-import TurnedInIcon from '@material-ui/icons/TurnedIn';
-import WarningIcon from '@material-ui/icons/Warning'; 
-import HelpIcon from '@material-ui/icons/Help';
-import FeedbackIcon from '@material-ui/icons/Feedback';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import WarningIcon from '@mui/icons-material/Warning'; 
+import HelpIcon from '@mui/icons-material/Help';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import HelpDrawer from './help-drawer';
 import FeedbackDrawer from './feedback-drawer';
-const useStyles = makeStyles({
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
 
   topnav: {
     // height: "4em",
@@ -94,7 +84,7 @@ const useStyles = makeStyles({
   themeToggler: {
     border: 'none'
   }
-});
+}));
 
 
 
@@ -111,7 +101,7 @@ const MainNavigation = ({
   const { t } = useTranslation();
   const [isNotificationsDrawerOpen, setIsNotificationsDrawerOpen] = useState(false);
   const css = useStyles();
-  let history = useHistory();
+  const navigate = useNavigate();
   const { instance, accounts, inProgress } = useMsal();
   const trustRelayNotifications = useContext(AppNotificationsContext);
   const latestPushNotification = useContext(AppPushNotificationContext);
@@ -174,7 +164,7 @@ const MainNavigation = ({
 
     if (dataspaceCtx != null) {
       localStorage.setItem('selectedDataspace', dataspaceId)
-      history.push(`/dataspaces/${dataspaceId}/dashboard`)
+      navigate(`/dataspaces/${dataspaceId}/dashboard`)
       dataspaceCtx.setDataspaceState(dataspaceId);
     }
 
@@ -184,12 +174,9 @@ const MainNavigation = ({
   const handleClickAccountSettings = () => {
 
     setAnchorSettingsElement(null);
-    history.push(PathNames.Account)
+    navigate(PathNames.Account)
   }
-
-  const handleClickEditProfile = () => {
-    instance.loginRedirect(b2cPolicies.authorities.editProfile)
-  }
+ 
 
   const handleSendFeedback = (satisfactionLevel: string, feedbackText: string, canEmailYou: boolean) => {
     trustRelayService.sendFeedback(jwt, satisfactionLevel, feedbackText, canEmailYou).then(() => {
@@ -309,7 +296,7 @@ const MainNavigation = ({
 
   const goHome = () => {
     let home = isAuthenticated ? `/dataspaces/${dataspaceCtx.dataspaceState}/dashboard` : PathNames.Home
-    history.push(home)
+    navigate(home)
   }
 
   const hubNotificationHandler = (
@@ -427,9 +414,7 @@ const MainNavigation = ({
                 keepMounted
                 open={Boolean(anchorAccountElement)}
                 onClose={handleCloseAccount}
-              >
-
-                {/* <MenuItem onClick={handleClickEditProfile}>Edit Profile</MenuItem> */}
+              > 
                 <MenuItem onClick={handleClickAccountSettings}>{t('labels.accountSettings')}</MenuItem>
                 <MenuItem onClick={handleClickSignout}>{t('labels.signout')}</MenuItem>
 

@@ -1,8 +1,8 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Divider, Breadcrumbs, Theme, StylesProvider, MuiThemeProvider, CssBaseline, makeStyles, createStyles } from '@material-ui/core';
+import { Grid, Typography, Button, Divider, Breadcrumbs, Theme} from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { Common, TemplateAgreementSummary, ServiceConnection, Subscription, Agent } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
@@ -12,22 +12,25 @@ import CommonList from '../components/commons-page/common-item-list';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
-import ArchiveIcon from '@material-ui/icons/Archive';
-import AddIcon from '@material-ui/icons/Add';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import AddIcon from '@mui/icons-material/Add';
 import NewCommonDrawer from '../components/commons-page/new-common-drawer';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import JoinCommonDrawer from '../components/commons-page/join-common-drawer';
-import LinkIcon from '@material-ui/icons/Link';
+import LinkIcon from '@mui/icons-material/Link';
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const CommonsPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-            breadcrumbLink: {
-                color: palette.primary.main
-            }
-
-        })
-    );
+  
 
     const toast = useToast();
     const css = useStyles();
@@ -91,7 +94,7 @@ const CommonsPage = () => {
     }
 
     const createNewCommon = (commonName: string, serviceConnection: string, templateAgreement: string) => {
-        trustRelayService.createNewCommon(jwt, dataspaceid, commonName, serviceConnection, templateAgreement).then(() => {
+        trustRelayService.createNewCommon(jwt, dataspaceid!, commonName, serviceConnection, templateAgreement).then(() => {
           
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
@@ -99,7 +102,7 @@ const CommonsPage = () => {
     }
 
     const handleJoinCommon = (commonId: string) => {
-        trustRelayService.joinCommon(jwt, dataspaceid, commonId).then(() => {
+        trustRelayService.joinCommon(jwt, dataspaceid!, commonId).then(() => {
            
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
@@ -142,7 +145,7 @@ const CommonsPage = () => {
                         {`${getRemainingCommons()} ${t('labels.commonsReserved')}`}
                     </Grid>
                     <Grid container item xs={12} sm={12} md={12} lg={11} xl={11}>
-                        <CommonList currentUser={account.localAccountId} jwt={jwt} dataspace={dataspaceid} agent="TODO-missing" commons={commons} />
+                        <CommonList currentUser={account.localAccountId} jwt={jwt} dataspace={dataspaceid!} agent="TODO-missing" commons={commons} />
                     </Grid>
                     <NewCommonDrawer
                         serviceConnections={serviceConnections}
@@ -191,7 +194,7 @@ const CommonsPage = () => {
 
         if (loadedCommons && !loadedAgreementTemplates && jwt != "") {
 
-            trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid).then((res) => {
+            trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid!).then((res) => {
                 setTemplateAgreements(res)
                 setLoadedAgreementTemplates(true)
             }).catch((err: Error) => {
@@ -205,7 +208,7 @@ const CommonsPage = () => {
 
         if (loadedAgreementTemplates && !loadedServiceConnections && jwt != "") {
 
-            trustRelayService.getAvailableServiceConnections(jwt, dataspaceid).then((res) => {
+            trustRelayService.getAvailableServiceConnections(jwt, dataspaceid!).then((res) => {
                 setServiceConnections(res)
                 setLoadedServiceConnections(true)
             }).catch((err: Error) => {
@@ -219,7 +222,7 @@ const CommonsPage = () => {
 
         if (loadedServiceConnections && !loadedSubscription && jwt != "") {
 
-            trustRelayService.getDataspaceSubscription(jwt, dataspaceid).then((res) => {
+            trustRelayService.getDataspaceSubscription(jwt, dataspaceid!).then((res) => {
                 setSelectedSubscription(res)
                 setLoadedSubscription(true)
             }).catch((err: Error) => {
@@ -233,7 +236,7 @@ const CommonsPage = () => {
 
         if (loadedSubscription && !loadedAgent && jwt != "") {
 
-            trustRelayService.getAgent(jwt, dataspaceid).then((res) => {
+            trustRelayService.getAgent(jwt, dataspaceid!).then((res) => {
                 setMyAgent(res)
                 setLoadedAgent(true)
             }).catch((err: Error) => {

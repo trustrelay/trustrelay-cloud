@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
-import {  Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader, makeStyles, Paper,  Typography, useMediaQuery, withStyles } from "@material-ui/core";
-
+import {  Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader,  Paper,  Typography, useMediaQuery, Theme } from '@mui/material';
 import { formatDate,   generateRandomColor } from "../../api/utils";
 import CustomAvatar from "../customAvatar";
 import { Acl } from "../../api/models/models"; 
 import trustrelayService from "../../api/trustrelay-service";
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme:Theme) => ({
     boxContainer: {
         width: "100%", 
         height: "100%",
         padding: "3px 0px 0px 3px",
         backgroundColor: "#ffffff"
     },
-
-   
-})
-)
+}));
 
 
 

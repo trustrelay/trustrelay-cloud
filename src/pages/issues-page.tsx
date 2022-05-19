@@ -1,34 +1,34 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Fab, Divider, Breadcrumbs, makeStyles, Theme, createStyles, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@material-ui/core';
+import { Grid, Typography, Button,  Divider, Breadcrumbs,  Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
-import { Issue, TemplateAgreementSummary } from '../api/models/models';
-import { AppNotificationsContext, AppPushNotificationContext, DataspaceContext } from '../app-contexts';
+import  { useContext, useEffect, useState } from 'react';
+import { Issue } from '../api/models/models';
+import {  DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import AddIcon from '@material-ui/icons/Add';
-import { Link, useHistory, useParams } from "react-router-dom";
-import TemplateAgreementList from '../components/template-agreements-page/template-agreement-item-list';
+import AddIcon from '@mui/icons-material/Add';
+import { Link,  useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
-import BallotIcon from '@material-ui/icons/Ballot';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { formatDate } from '../api/utils';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import IssueList from '../components/issues-page/issue-list';
+
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+    breadcrumbLink: {
+        color: theme.palette.primary.main
+    }
+
+})
+);
 
 const IssuesPage = () => {
 
-    const useStyles = makeStyles(({ palette, ...theme }) => ({
-        breadcrumbLink: {
-            color: palette.primary.main
-        }
-
-    })
-);
+    
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -47,8 +47,6 @@ const IssuesPage = () => {
     const [issuesLoaded, setIssuesLoaded] = useState(false);
 
     const { dataspaceid } = useParams<{ dataspaceid: string }>();
-
-    let history = useHistory();
 
     const refreshData = () => {
         setIssues(emptyIssueList);
@@ -75,7 +73,7 @@ const IssuesPage = () => {
 
         if (selectedDataspace != "" && !issuesLoaded && jwt != "") {
 
-            trustRelayService.getIssues(jwt, dataspaceid).then((res)=>{
+            trustRelayService.getIssues(jwt, dataspaceid!).then((res)=>{
                 setIssues(res)
                 setIssuesLoaded(true)
                 

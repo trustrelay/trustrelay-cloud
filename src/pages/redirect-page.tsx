@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-const RedirectPage = () => {
-  let history = useHistory();
-
-  const goTo = (url: string) => {
-    history.push(url)
-  }
-
+import {  useLocation } from "react-router-dom";
+const RedirectPage = () => { 
 
   const [loaded, setLoaded] = useState(false);
 
@@ -24,9 +18,7 @@ const RedirectPage = () => {
       setLoaded(true)
     }
     if (loaded) {
-    
-
-      // goTo(redirectUrl)
+     
     }
  
 

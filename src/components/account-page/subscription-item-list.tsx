@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
-import { Grid, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
+import  { useEffect } from "react";
+import {  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import {  Subscription } from "../../api/models/models";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "../../api/utils";
 
-const useStyles = makeStyles((theme) => ({
-
-})
-)
 
 
 const SubscriptionList = ({
@@ -19,32 +15,18 @@ const SubscriptionList = ({
     jwt: string
 }) => {
     const { t } = useTranslation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-      
-    }, [])
-
-
-    // const join = (jwt: string, dataspace: string, agentName: string) => {
-    //     trustRelayService.joinDataspace(jwt, dataspace, agentName).then(() => {
-    //         history.push(`/dataspaces`)
-    //     })
-    // }
+ 
  
     const go = (subscription: string) => {
-        history.push(`/settings/subscriptions/${subscription}`)
+        navigate(`/settings/subscriptions/${subscription}`)
     }
 
     const renderSubscription = (subscription: Subscription) => {
 
         return <TableRow  onClick={() => go(subscription.id)} key={`subscription_${subscription.id}`} style={{ cursor: "pointer" }}>
-
-            {/* <TableCell>
-                <Typography variant="body1" textAlign="left">
-                    {subscription.id}
-                </Typography>
-            </TableCell> */}
+ 
             <TableCell>
                 <Typography variant="body1" textAlign="left">
                     {subscription.name}
@@ -72,7 +54,7 @@ const SubscriptionList = ({
             </TableCell>
             <TableCell>
                 <Typography variant="body1" textAlign="left">
-                {/* {subscription.maxMembers} */}
+                 
                   
                     {`${(subscription.currentMembers-subscription.currentDataspaces)}/${((subscription.maxMembers*subscription.maxDataspaces)-subscription.currentDataspaces)}`}
                 </Typography>
@@ -97,8 +79,7 @@ const SubscriptionList = ({
             <Table size="small">
                 <TableHead>
                     <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}> 
-                        {/* <TableCell variant="head" sx={{ maxWidth: "200px" }}><Typography variant="body1" textAlign="left">{t('labels.subscriptionId')}</Typography></TableCell> */}
-                        <TableCell variant="head" sx={{ maxWidth: "200px" }}><Typography variant="body1" textAlign="left">{t('labels.name')}</Typography></TableCell>
+                         <TableCell variant="head" sx={{ maxWidth: "200px" }}><Typography variant="body1" textAlign="left">{t('labels.name')}</Typography></TableCell>
                        
                         <TableCell variant="head" sx={{ maxWidth: "200px" }}><Typography variant="body1" textAlign="left">{t('labels.subscriptionType')}</Typography></TableCell>
                         <TableCell variant="head" sx={{ maxWidth: "200px" }}><Typography variant="body1" textAlign="left">{t('labels.created')}</Typography></TableCell> 

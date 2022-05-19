@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Grid, IconButton, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
-import { AuditLogEntry, DataspaceInfo } from "../../api/models/models";
-import trustRelayService from '../../api/trustrelay-service';
-import DataspaceSummaryItem from "../dashboard-page/dataspace-summary-item";
-import { useHistory } from "react-router";
+import {  IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { AuditLogEntry } from "../../api/models/models"; 
 import { useTranslation } from "react-i18next";
-import { formatDate, formatDateTime } from "../../api/utils";
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { formatDateTime } from "../../api/utils";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-const useStyles = makeStyles((theme) => ({
-
-})
-)
 
 
 const AuditLogList = ({
@@ -26,11 +18,6 @@ const AuditLogList = ({
     jwt: string;
 }) => {
     const { t } = useTranslation();
-    const history = useHistory();
-
-    useEffect(() => {
-       
-    }, [])
 
 
     const handleSelection = (entry:AuditLogEntry) => {

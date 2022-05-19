@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import {  useState, lazy, Suspense } from 'react';
 import {
   ToastContext,
   TOAST_CONTEXT_DEFAULT,
@@ -13,12 +13,11 @@ import {
 } from './app-contexts';
 import NotFoundPage from './pages/not-found-page';
 import {
-  Switch,
+  Routes,
   Route,
   BrowserRouter as Router
-} from 'react-router-dom';
-import GlobalCss from "./styles/jss/GlobalCss.jsx";
-import Scrollbar from "react-perfect-scrollbar";
+} from 'react-router-dom'; 
+import PerfectScrollbar  from "react-perfect-scrollbar";
 import { MsalProvider } from "@azure/msal-react";
 
 import './App.css';
@@ -28,8 +27,11 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import Page from './components/page';
 
 import LightTheme from './assets/themes/TrustRelay/light';
+import DarkTheme from './assets/themes/TrustRelay/dark';
 
-import { MuiThemeProvider } from '@material-ui/core';
+
+import { ThemeProvider  } from '@mui/styles';
+import { CssBaseline } from '@mui/material';
 
 const DashboardPage = lazy(() => import('./pages/dashboard-page'));
  
@@ -54,7 +56,7 @@ const RedirectPage = lazy(() => import('./pages/redirect-page'));
 const OrganizationsPage = lazy(() => import('./pages/organizations-page'));
 const SubscriptionPage = lazy(() => import('./pages/subscription-page')); 
   
- 
+ const MyPerfectScrollbar : any = PerfectScrollbar
 
 
 const App = (
@@ -76,41 +78,44 @@ const App = (
   const [membershipsState, setMembershipsState] = useState(MEMBERSHIPS_CONTEXT_DEFAULT.membershipsState);
   const membershipsProviderValue = { membershipsState, setMembershipsState };
 
-
-  useEffect(() => {
-
-  })
-
-
-
+ 
 
   return (
-    <MuiThemeProvider theme={LightTheme}>
-
+    <ThemeProvider theme={LightTheme}>
+<CssBaseline />
       <MsalProvider instance={msalInstance}>
         <ToastContext.Provider value={toastProviderValue}>
           <AppNotificationsContext.Provider value={trustRelayNotificationsProviderValue}>
             <AppPushNotificationContext.Provider value={trustRelayPushNotificationProviderValue}>
               <DataspaceContext.Provider value={dataspaceProviderValue}>
                 <MembershipsContext.Provider value={membershipsProviderValue}>
-                  <GlobalCss>
-                    <Scrollbar
+                  
+                    {/* <MyPerfectScrollbar
                       className="h-full-screen scrollable-content"
                       options={{ suppressScrollX: true }}
-                    >
+                    > */}
                       <Router>
                         <Suspense fallback={<div>Loading...</div>}>
-                          <Switch>
+                          <Routes>
+
+ 
+
+
+                          <Route
+                              index  
+                              element={  <Page title="TrustRelay | Account">
+                                <AccountPage />
+                              </Page>
+                              }
+                            />
 
 
                             <Route
                               path="/redirect"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Redirecting">
+                              
+                              element={    <Page  title="TrustRelay | Redirecting">
                                   <RedirectPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                            
@@ -118,96 +123,78 @@ const App = (
 
                             <Route
                               path="/account"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Account">
+                              
+                              element={ <Page   title="TrustRelay | Account">
                                   <AccountPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/organizations"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Organizations">
+                              
+                              element={  <Page  title="TrustRelay | Organizations">
                                   <OrganizationsPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
                             <Route
                               path="/settings/subscriptions/:subscriptionid"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Subscription">
+                              
+                              element={   <Page  title="TrustRelay | Subscription">
                                   <SubscriptionPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
 
                             <Route
                               path="/dataspaces/:dataspaceid"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Dataspace">
+                              
+                              element={  <Page title="TrustRelay | Dataspace">
                                   <DataspacePage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
                             <Route
                               path="/dataspaces/:dataspaceid/dashboard"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Dashboard">
+                              
+                              element={  <Page   title="TrustRelay | Dashboard">
                                   <DashboardPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/issues"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Issues">
+                              
+                              element={   <Page title="TrustRelay | Issues">
                                   <IssuesPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/join/:code"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Join">
+                              
+                              element={  <Page  title="TrustRelay | Join">
                                   <JoinPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/audit-logs"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Audit Logs">
+                              
+                              element={  <Page title="TrustRelay | Audit Logs">
                                   <AuditLogsPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/tasks"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Tasks">
+                              
+                              element={ <Page  title="TrustRelay | Tasks">
                                   <UserTasksPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
@@ -215,159 +202,125 @@ const App = (
 
                             <Route
                               path="/dataspaces/:dataspaceid/commons/:commonid"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Common">
+                              
+                              element={   <Page  title="TrustRelay | Common">
                                   <CommonPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/commons"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Commons">
+                              
+                              element={   <Page  title="TrustRelay | Commons">
                                   <CommonsPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
                             <Route
                               path="/dataspaces/:dataspaceid/signed-agreements/:agreementid"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Signed Agreement">
+                              
+                              element={  <Page  title="TrustRelay | Signed Agreement">
                                   <SignedAgreementPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
                             <Route
                               path="/dataspaces/:dataspaceid/signed-agreements"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Dataspace Agreements">
+                              
+                              element={   <Page  title="TrustRelay | Dataspace Agreements">
                                   <SignedAgreementsPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/template-agreements/:agreementid"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Template Agreement">
+                              
+                              element={   <Page  title="TrustRelay | Template Agreement">
                                   <TemplateAgreementPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/template-agreements"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Template Agreements">
+                              
+                              element={  <Page  title="TrustRelay | Template Agreements">
                                   <TemplateAgreementsPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/template-agreement-wizard"
-                              exact
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Create Template Agreement">
+                              
+                              element={  <Page  title="TrustRelay | Create Template Agreement">
                                   <TemplateAgreementWizardPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
 
                             <Route
-                              exact
+                              
                               path="/dataspaces/:dataspaceid/settings/service-connections"
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Service Connections">
+                              element={  <Page  title="TrustRelay | Service Connections">
                                   <ServiceConnectionsPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
                             <Route
-                              exact
+                              
                               path="/dataspaces/:dataspaceid/settings/service-connections/:serviceconnectionid"
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Service Connection">
+                              element={   <Page  title="TrustRelay | Service Connection">
                                   <ServiceConnectionPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
                             <Route
-                              exact
+                              
                               path="/dataspaces/:dataspaceid/insights"
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Insights">
+                              element={  <Page  title="TrustRelay | Insights">
                                   <InsightsPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
-                            <Route
-                              exact
-                              path="/"
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Account">
-                                <AccountPage />
-                              </Page>
-                              )}
-                            />
-
+                        
                           
 
-                            <Route
-                              exact
+                            <Route 
                               path="/signed-out"
-                              component={SignedOutPage}
-                              render={props => (
-                                <Page {...props} title="TrustRelay | Signed Out">
+                            
+                              element={  <Page  title="TrustRelay | Signed Out">
                                   <SignedOutPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
 
 
                             <Route
-                              component={NotFoundPage}
-                              render={props => (
-                                <Page {...props} title="TrustRelay | 404 Not Found">
+                             path="*"
+                              element={   <Page  title="TrustRelay | 404 Not Found">
                                   <NotFoundPage />
-                                </Page>
-                              )}
+                                </Page> }
                             />
 
 
 
-                          </Switch>
+                          </Routes>
                         </Suspense>
                       </Router>
-                    </Scrollbar>
-                  </GlobalCss>
+                    {/* </MyPerfectScrollbar> */}
+                  
                 </MembershipsContext.Provider>
               </DataspaceContext.Provider>
             </AppPushNotificationContext.Provider>
           </AppNotificationsContext.Provider>
         </ToastContext.Provider>
       </MsalProvider>
-    </MuiThemeProvider>
+    </ThemeProvider>
 
   );
 };

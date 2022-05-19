@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
-import {
-    Grid,
-    Card,
-    TextField,
-    Button,
-    MenuItem,
-    FormControlLabel,
-    Checkbox,
-    makeStyles,
-    Typography,
-} from "@material-ui/core";
+import {Grid,Card,TextField,Button,FormControlLabel,Checkbox,Typography, Theme } from '@mui/material';
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import validator from 'validator'
 import PasswordChecklist from "react-password-checklist"
+import { makeStyles  } from '@mui/styles';
+
+const useStyles = makeStyles((theme:Theme) => ({
+
+    top: {
+        marginTop: "6rem"
+    },
+    link: {
+        color: theme.palette.primary.main
+    },
+    smalllink: {
+        color: theme.palette.primary.main,
+        fontSize:"12px"
+    },
+    error: {
+        color: 'red'
+    }
+}));
 
 const inputProps = {
     style: {
@@ -22,22 +30,6 @@ const inputProps = {
 };
 
 
-const useStyles = makeStyles(({ palette, ...theme }) => ({
-
-    top: {
-        marginTop: "6rem"
-    },
-    link: {
-        color: palette.primary.main
-    },
-    smalllink: {
-        color: palette.primary.main,
-        fontSize:"12px"
-    },
-    error: {
-        color: 'red'
-    }
-}));
 
 const SignupForm = () => {
 
@@ -202,10 +194,7 @@ const SignupForm = () => {
                                             disabled={shouldDisable()}
                                         >
                                             SIGN UP
-                                        </Button>
-                                        {/* <Grid item xs={12} container flexDirection="row" >
-                                            &nbsp;
-                                            </Grid> */}
+                                        </Button> 
                                         <Grid item xs={12} container flexDirection="row" >
                                             <Typography variant="body1">Already have an account?</Typography>&nbsp;
                                             <Link to="/dashboard" className={css.smalllink}>Sign in</Link>
@@ -218,8 +207,7 @@ const SignupForm = () => {
 
                     </Grid>
                     <Grid item xl={3} lg={3} md={3} sm={1} xs={1}>&nbsp;</Grid>
-                </Grid>
-                {/* </Grid> */}
+                </Grid> 
             </div>
         </section>
     );

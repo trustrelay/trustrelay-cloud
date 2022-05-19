@@ -1,12 +1,31 @@
 import React, { useContext } from 'react';
-import { Typography, makeStyles,  TextField, Button, InputLabel, Select,   OutlinedInput, MenuItem } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer'; 
-import Toolbar from '@material-ui/core/Toolbar'; 
-import { useHistory } from "react-router-dom"; 
+import { Typography, TextField, Button, InputLabel, Select,   OutlinedInput, MenuItem, Drawer, Toolbar, Theme } from '@mui/material';  
 import { DataspaceContext } from '../../app-contexts';
 import { useTranslation } from 'react-i18next';
 import { Subscription } from '../../api/models/models';
+import { makeStyles  } from '@mui/styles';
 
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 const NewDataspaceDrawer = ({
   subscriptions,
@@ -20,15 +39,11 @@ const NewDataspaceDrawer = ({
   onAction: (subscription:string, dataspaceName: string, agentName: string) => void;
 }) => {
 
-  const { t } = useTranslation();
-  let history = useHistory();
-
+  const { t } = useTranslation(); 
 
   const [dataspaceName, setDataspaceName] = React.useState('');
   const [agentName, setAgentName] = React.useState('');
-
   const [subscription, setSubscription] = React.useState('');
-
 
   const handleContinue = (event:React.MouseEvent<HTMLElement>) => { 
     event.preventDefault();
@@ -56,37 +71,10 @@ const NewDataspaceDrawer = ({
     setSubscription(e.target.value);
   }
 
-
   const disableContinueButton = () => {
     return (agentName.length <= 0 || subscription.length<=0)
 
-  }
-
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
-
-  const dataspaceCtx = useContext(DataspaceContext);
+  } 
 
   const css = useStyles();
 

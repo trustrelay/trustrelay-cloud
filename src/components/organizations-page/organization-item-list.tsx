@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Button, Grid, IconButton, makeStyles, Menu, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
-import { DataspaceInfo, Organization, Subscription } from "../../api/models/models";
-import { useHistory } from "react-router";
-import { useTranslation } from "react-i18next";
-import { formatDate } from "../../api/utils";
+import { useEffect, useState } from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Organization } from "../../api/models/models"; 
+import { useTranslation } from "react-i18next"; 
 import OrganizationEllipsisMenu from "./organization-ellipsis-menu";
 
-const useStyles = makeStyles((theme) => ({
-
-})
-)
-
+ 
 
 const OrganizationList = ({
     organizations,
@@ -45,9 +39,7 @@ const OrganizationList = ({
         scorePeople: 0
     }
 
-    const [org, setOrg] = useState(emptyOrganization);
-
-  
+ 
 
     useEffect(() => {
         

@@ -1,10 +1,30 @@
 import React, { useState } from 'react';
-import { Typography, makeStyles, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import { Typography,  Button, InputLabel, TextField, FormControlLabel, Checkbox, Drawer, Toolbar, Theme } from '@mui/material';  
 import { Common } from '../../api/models/models';
+import { makeStyles  } from '@mui/styles';
+import { useTranslation } from 'react-i18next';
+
+const useStyles = makeStyles((theme:Theme) => ({
+  root: {
+    width: '350px',
+    flexGrow: 1,
+  },
+  topnav: {
+    height: "3em",
+    paddingLeft: "0em"
+  },
+  innernav: {
+    paddingTop: "0",
+    paddingBottom: "0",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  drawerContainer: {
+    width: "350px",
+    padding: "0em 1em 1em 1em",
+    backgroundColor: "transparent"
+  },
+}));
 
 
 const DeleteCommonDrawer = ({
@@ -19,9 +39,7 @@ const DeleteCommonDrawer = ({
   onAction: (deleteServiceConnection: boolean) => void;
 }) => {
 
-  const { t } = useTranslation();
-  let history = useHistory();
-
+  const { t } = useTranslation(); 
 
   const [commonName, setCommonName] = useState('');
 
@@ -54,34 +72,7 @@ const DeleteCommonDrawer = ({
 
   }
 
-
-  const useStyles = makeStyles({
-    root: {
-      width: '350px',
-      flexGrow: 1,
-    },
-    topnav: {
-      height: "3em",
-      paddingLeft: "0em"
-    },
-    innernav: {
-      paddingTop: "0",
-      paddingBottom: "0",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    drawerContainer: {
-      width: "350px",
-      padding: "0em 1em 1em 1em",
-      backgroundColor: "transparent"
-    },
-
-  })
-
-
   const css = useStyles();
-
-
 
   return (
     <Drawer className={css.root} variant="temporary" anchor="right" open={open} onClose={handleClose} >

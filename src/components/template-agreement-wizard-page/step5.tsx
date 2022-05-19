@@ -1,8 +1,8 @@
-import { Button, Checkbox, CircularProgress, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, Step, StepLabel, Stepper, TextField, Typography } from "@material-ui/core"
-import React, { useEffect, useState } from "react";
-import UntilDateSelect from "../until-date-select";
-import DateFnsUtils from '@date-io/date-fns';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { Button, Grid, InputLabel, MenuItem, OutlinedInput, Select, Step, StepLabel, Stepper, TextField } from '@mui/material'
+import  { useEffect, useState } from "react"; 
+import { DatePicker } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 const CreateTemplateAgreementStep5 = ({
     next,
@@ -178,23 +178,13 @@ const CreateTemplateAgreementStep5 = ({
                                 <MenuItem value="fixed">Fixed</MenuItem>
                             </Select>
 
-                            {/* <TextField
-                            id="duration"
-                            label="duration"
-                            multiline
-                            rows={2}
-                            fullWidth
-                            maxRows={4}
-                            disabled={!includeDuration}
-                            value={duration}
-                            onChange={handleDurationChange}
-                        /> */}
+                            
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             &nbsp;
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            {/* <InputLabel htmlFor="duration-period-unit-select">How long will the data be shared?</InputLabel> */}
+                        
                             <TextField
                                 disabled={durationType == 'fixed'}
                                 value={durationPeriodValue}
@@ -220,16 +210,19 @@ const CreateTemplateAgreementStep5 = ({
                             </Grid>
                         <Grid item container xs={12} sm={12} md={12} lg={12} xl={12}>
                             <Grid item xs={6} sm={6} md={6} lg={6} xl={6} spacing={4}>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DatePicker value={durationFrom} 
                                        disabled={durationType != 'fixed'}
-                                    onChange={handleDurationFromChange} label="From" />
-                                </MuiPickersUtilsProvider>&nbsp;&nbsp;
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    onChange={handleDurationFromChange} label="From"
+                                    renderInput={props => <TextField label="Date" helperText="" />}
+                                    />
+                                </LocalizationProvider>&nbsp;&nbsp;
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DatePicker value={durationUntil} 
                                        disabled={durationType != 'fixed'}
-                                    onChange={handleDurationUntilChange} label="Until" />
-                                </MuiPickersUtilsProvider>
+                                    onChange={handleDurationUntilChange} label="Until"
+                                    renderInput={props => <TextField label="Date" helperText="" />} />
+                                </LocalizationProvider>
 
                             </Grid>
                             
@@ -256,17 +249,7 @@ const CreateTemplateAgreementStep5 = ({
                             <MenuItem value="monthly">Monthly</MenuItem>
                             <MenuItem value="yearly">Yearly</MenuItem>
                         </Select>
-                        {/* <TextField
-                            id="frequencyOfUpdates"
-                            label="Frequency of updates"
-                            multiline
-                            fullWidth
-                            rows={2}
-                            maxRows={4}
-                            disabled={!includeFrequencyOfUpdates}
-                            value={frequencyOfUpdates}
-                            onChange={handleFrequencyOfUpdatesChange}
-                        /> */}
+                       
                     </Grid>
                 </Grid>
                 <Grid item container xs={12} sm={12} md={12} lg={12} xl={12}>
