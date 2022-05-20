@@ -33,6 +33,7 @@ const SignedAgreementPage = () => {
 
     const toast = useToast();
     const { t } = useTranslation();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars 
     const [finishedLoading, setFinishedLoading] = useState(false);
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {});
@@ -42,6 +43,7 @@ const SignedAgreementPage = () => {
     const appNotifications = useContext(AppNotificationsContext);
     const latestPushNotification = useContext(AppPushNotificationContext);
     const [jwt, setJwt] = useState(''); 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars 
     const [selectedDataspace, setSelectedDataspace] = useState('');
 
 
@@ -109,15 +111,7 @@ const SignedAgreementPage = () => {
         };
     }
 
-    const handleTagsChange = (tags: Array<string>) => {
-        if (signedAgreement && signedAgreement.tags.length !== tags.length) {
-            signedAgreement.tags = tags
-            setSignedAgreement(signedAgreement);
-       
- 
-        }
-    }
-
+   
     const generateTableAgreement = (agreement:SignedAgreement) => {
 
         if (agreement) {
@@ -152,25 +146,7 @@ const SignedAgreementPage = () => {
                                         Timestamp
                                     </TableCell>
                                     <TableCell align="left">{formatDateTime(agreement.timestamp)}</TableCell>
-                                </TableRow>
-
-                                {/* <TableRow>
-                                    <TableCell component="th" scope="row">
-                                        Tags
-                                    </TableCell>
-                                    <TableCell align="left">
-                                    <TagsInput
-                                    onTagsChange={(tags) => handleTagsChange(tags)}
-                                    fullWidth
-                                    variant="outlined"
-                                    id="tags"
-                                    name="tags"
-                                    placeholder="add Tags"
-                                    tags={agreement.tags}
-                                    label="tags"
-                                />
-                                    </TableCell>
-                                </TableRow> */}
+                                </TableRow> 
 
                             </TableBody>
                         </Table>
@@ -185,7 +161,7 @@ const SignedAgreementPage = () => {
     }
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState != null && dataspaceState != "") {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "") {
             return (
 
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -219,9 +195,7 @@ const SignedAgreementPage = () => {
                                 &nbsp;
                             </Grid>
                             <Grid item container alignItems="center" alignContent="center" textAlign="center">
-
-                                {/* {(signedAgreement && signedAgreement.url.length > 0) ? <iframe width="100%" height="600px" style={{ minHeight: "500px" }} src="https://trustrelaystgprod.blob.core.windows.net/docs/DSA Template version.pdf" /> : <>...</>} */}
-                                
+ 
                                  {(signedAgreement && templateAgreement && signedAgreement.id!=="" && templateAgreement.id !=="") ? (<MyPDFViewer style={{width:"100%", minHeight:"500px"}}>
                         <SignedAgreementPdf 
                         dataspaceName={signedAgreement.dataspaceName}
@@ -253,7 +227,7 @@ const SignedAgreementPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
              
 

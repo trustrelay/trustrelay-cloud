@@ -136,7 +136,7 @@ const CommonsPage = () => {
 
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState != null && dataspaceState != "" && account && account.localAccountId && account.localAccountId.length>0) {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "" && account && account.localAccountId && account.localAccountId.length>0) {
             return (
 
                 <Grid container item xs={12} sm={12} md={12} lg={12} xl={12} direction="row" rowGap={1}>
@@ -174,7 +174,7 @@ const CommonsPage = () => {
 
     useEffect(() => {
 
-        if (selectedDataspace != "" && !loadedCommons && jwt != "") {
+        if (selectedDataspace !== "" && !loadedCommons && jwt !== "") {
 
 
              
@@ -192,7 +192,7 @@ const CommonsPage = () => {
 
     useEffect(() => {
 
-        if (loadedCommons && !loadedAgreementTemplates && jwt != "") {
+        if (loadedCommons && !loadedAgreementTemplates && jwt !== "") {
 
             trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid!).then((res) => {
                 setTemplateAgreements(res)
@@ -206,7 +206,7 @@ const CommonsPage = () => {
 
     useEffect(() => {
 
-        if (loadedAgreementTemplates && !loadedServiceConnections && jwt != "") {
+        if (loadedAgreementTemplates && !loadedServiceConnections && jwt !== "") {
 
             trustRelayService.getAvailableServiceConnections(jwt, dataspaceid!).then((res) => {
                 setServiceConnections(res)
@@ -220,7 +220,7 @@ const CommonsPage = () => {
 
     useEffect(() => {
 
-        if (loadedServiceConnections && !loadedSubscription && jwt != "") {
+        if (loadedServiceConnections && !loadedSubscription && jwt !== "") {
 
             trustRelayService.getDataspaceSubscription(jwt, dataspaceid!).then((res) => {
                 setSelectedSubscription(res)
@@ -234,7 +234,7 @@ const CommonsPage = () => {
 
     useEffect(() => {
 
-        if (loadedSubscription && !loadedAgent && jwt != "") {
+        if (loadedSubscription && !loadedAgent && jwt !== "") {
 
             trustRelayService.getAgent(jwt, dataspaceid!).then((res) => {
                 setMyAgent(res)
@@ -251,7 +251,7 @@ const CommonsPage = () => {
  
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
                     setSelectedDataspace(dataspaceCtx.dataspaceState)

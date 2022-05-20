@@ -73,7 +73,7 @@ const InsightsPage = () => {
 
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState != null && dataspaceState != "") {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "") {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
@@ -135,7 +135,7 @@ const InsightsPage = () => {
 
     useEffect(() => {
         
-        if (selectedDataspace != "" && jwt != "" && !dataProvenanceLoaded) {
+        if (selectedDataspace !== "" && jwt !== "" && !dataProvenanceLoaded) {
             trustRelayService.getDataProvenance(jwt, selectedDataspace).then((res) => {
                 setDataProvenance(res)
                 setDataProvenanceLoaded(true)
@@ -149,7 +149,7 @@ const InsightsPage = () => {
     useEffect(() => {
         
 
-        if (dataProvenanceLoaded && jwt != "" && !usageLoaded) {
+        if (dataProvenanceLoaded && jwt !== "" && !usageLoaded) {
             trustRelayService.getUsage(jwt, selectedDataspace).then((res) => {
                 setUsage(res)
                 setUsageLoaded(true)
@@ -162,7 +162,7 @@ const InsightsPage = () => {
     useEffect(() => {
         
 
-        if (usageLoaded && !geoscoresLoaded && jwt != "") {
+        if (usageLoaded && !geoscoresLoaded && jwt !== "") {
             trustRelayService.getGeoscores(jwt, selectedDataspace).then((res) => {
                 setGeoscores(res)
                 setGeoscoresLoaded(true)
@@ -178,7 +178,7 @@ const InsightsPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
                     setSelectedDataspace(dataspaceCtx.dataspaceState)

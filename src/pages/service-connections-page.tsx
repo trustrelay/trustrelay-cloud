@@ -81,7 +81,7 @@ const ServiceConnectionsPage = () => {
     const renderContent = () => {
 
 
-        if (dataspaceCtx && dataspaceCtx.dataspaceState  && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState  && dataspaceCtx.dataspaceState !== "") {
             return (
                 <Grid container item xs={12} sm={12} md={12} lg={12} xl={12} direction="row" rowGap={1}>
 
@@ -108,7 +108,7 @@ const ServiceConnectionsPage = () => {
     useEffect(() => {
  
 
-        if (selectedDataspace != "" && !serviceConnectionsLoaded && jwt != "") {
+        if (selectedDataspace !== "" && !serviceConnectionsLoaded && jwt !== "") {
             trustRelayService.getAllServiceConnections(jwt, selectedDataspace).then((res) => {
                 setServiceConnections(res);
                 setServiceConnectionsLoaded(true);
@@ -129,7 +129,7 @@ const ServiceConnectionsPage = () => {
  
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
                     setSelectedDataspace(dataspaceCtx.dataspaceState)
                     setServiceConnectionsLoaded(false);

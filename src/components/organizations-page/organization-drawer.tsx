@@ -155,7 +155,7 @@ const OrganizationDrawer = ({
   }
 
   const disableAssessButton = () => {
-    return (!maturityUrl || maturityUrl.length <= 0 || maturityUrl == organization.maturityUrl)
+    return (!maturityUrl || maturityUrl.length <= 0 || maturityUrl === organization.maturityUrl)
   }
 
   const disableVerifyButton = () => {
@@ -166,13 +166,13 @@ const OrganizationDrawer = ({
       !city || city.length <= 0 ||
       !country || country.length <= 0 ||
       !website || website.length <= 0 ||
-      (registryIdentifier == organization.registry &&
-        organizationName == organization.name &&
-        addressLine1 == organization.addressLine1 &&
-        postalCode == organization.postalCode &&
-        city == organization.city &&
-        country == organization.country &&
-        website == organization.website) ||
+      (registryIdentifier === organization.registry &&
+        organizationName === organization.name &&
+        addressLine1 === organization.addressLine1 &&
+        postalCode === organization.postalCode &&
+        city === organization.city &&
+        country === organization.country &&
+        website === organization.website) ||
       organization.isVerified
     )
   }

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { Organization } from "../../api/models/models"; 
 import { useTranslation } from "react-i18next"; 
@@ -20,30 +19,7 @@ const OrganizationList = ({
     onSetAsMyOrganization: (org:string) => void;
 }) => {
     const { t } = useTranslation();
-    const emptyOrganization: Organization = {
-        id: "",
-        name: "",
-        registry: "",
-        admin: "",
-        addressLine1: "",
-        postalCode: "",
-        city: "",
-        country: "",
-        website: "",
-        isVerified: false,
-        isAssessed: false,
-        maturityUrl: "",
-        scoreOverall: 0,
-        scorePractice: 0,
-        scorePurpose: 0,
-        scorePeople: 0
-    }
-
- 
-
-    useEffect(() => {
-        
-    }, [])
+     
 
     const handleSelection = (org: Organization) => {
         toggleOrganizationDrawer();

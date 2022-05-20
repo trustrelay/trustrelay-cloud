@@ -27,12 +27,9 @@ import Page from './components/page';
 
 
 import GlobalCss from "./styles/jss/GlobalCss";
-import './App.css';
-import styled from '@emotion/styled'
-import { withTheme, Global, css, jsx, ClassNames } from '@emotion/react'
+import './App.css'; 
 import LightTheme from './assets/themes/TrustRelay/light';
-import DarkTheme from './assets/themes/TrustRelay/dark';
-import PlaceholderTheme from './assets/themes/TrustRelay/placeholder';
+import DarkTheme from './assets/themes/TrustRelay/dark'; 
 
 
 import { ThemeProvider } from '@mui/material/styles'
@@ -85,16 +82,17 @@ const App = (
   const [membershipsState, setMembershipsState] = useState(MEMBERSHIPS_CONTEXT_DEFAULT.membershipsState);
   const membershipsProviderValue = { membershipsState, setMembershipsState };
 
-  const [theme, toggleTheme] = useDarkMode();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars 
+  const [theme, themeToggler] = useDarkMode();
   const themeMode = theme === 'light' ? LightTheme : DarkTheme;
 
   useEffect(() => {
   }, [theme])
 
   return <ThemeProvider theme={themeMode}>
-
+ <CssBaseline />
     <GlobalCss>
-      <CssBaseline />
+     
       <MsalProvider instance={msalInstance}>
         <ToastContext.Provider value={toastProviderValue}>
           <AppNotificationsContext.Provider value={trustRelayNotificationsProviderValue}>

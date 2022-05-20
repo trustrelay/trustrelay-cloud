@@ -37,7 +37,7 @@ const SignedAgreementsPage = () => {
     const { dataspaceid } = useParams<{ dataspaceid: string }>();
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState != null && dataspaceState != "") {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "") {
             return (
                 <Grid container item xs={12} sm={12} md={12} lg={12} xl={12} direction="row" rowGap={1}>
 
@@ -57,10 +57,10 @@ const SignedAgreementsPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
                 if (typeof window !== 'undefined') {
-                    if (localStorage.getItem('selectedDataspace') == null) {
-                        if (dataspaceCtx.dataspaceState == '') {
+                    if (localStorage.getItem('selectedDataspace') === null) {
+                        if (dataspaceCtx.dataspaceState === '') {
                             trustRelayService.getAccount(jwt).then((res) => {
                                 dataspaceCtx.setDataspaceState(res.defaultDataspace)
 

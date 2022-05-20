@@ -151,7 +151,7 @@ const OrganizationDrawer = ({
   }
 
   const disableContinueButton = () => {
-    return (!maturityUrl || maturityUrl.length <= 0 || maturityUrl == organization.maturityUrl)
+    return (!maturityUrl || maturityUrl.length <= 0 || maturityUrl === organization.maturityUrl)
   }
 
   const handleCancel = (event: React.MouseEvent<HTMLElement>) => {

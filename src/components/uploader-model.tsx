@@ -1,76 +1,76 @@
-import  { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { SasInfo } from '../api/models/models';
-import { Grid,  IconButton, Typography, CircularProgress, Button,  Theme } from '@mui/material'; 
+import { Grid, IconButton, Typography, CircularProgress, Button, Theme } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import _ from 'lodash';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({ 
-        input: {
-            display: 'none',
-        },
-        uploadIcon: {
-            maxWidth: '45px',
-            height: 'auto',
-            width: '20%',
-            objectFit: 'contain',
-        },
-        withMargins: {
-            margin: '1rem 0',
-        },
-        imageBox: {
-            width: '100%',
-            lineHeight: 0,
-            overflow: 'hidden',
-            display: 'block',
-            position: 'relative',
-            height: '130px',
-        },
-        dropBox: {
-            textAlign: 'center',
-            cursor: 'pointer',
-            height: '130px',
-        },
-        withBorder: {
-            border: `1px solid ${theme.palette.grey[500]}`,
-        },
-        form: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '80%',
-            }
-        },
-    }));
+const useStyles = makeStyles((theme: Theme) => ({
+    input: {
+        display: 'none',
+    },
+    uploadIcon: {
+        maxWidth: '45px',
+        height: 'auto',
+        width: '20%',
+        objectFit: 'contain',
+    },
+    withMargins: {
+        margin: '1rem 0',
+    },
+    imageBox: {
+        width: '100%',
+        lineHeight: 0,
+        overflow: 'hidden',
+        display: 'block',
+        position: 'relative',
+        height: '130px',
+    },
+    dropBox: {
+        textAlign: 'center',
+        cursor: 'pointer',
+        height: '130px',
+    },
+    withBorder: {
+        border: `1px solid ${theme.palette.grey[500]}`,
+    },
+    form: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '80%',
+        }
+    },
+}));
 
 const ModelUploader = ({
     sasInfo,
     setSasInfo,
-    jwt, 
+    jwt,
     uploading,
     setFile,
     file,
     setCustomFileSize,
     setUploading,
     setFileUploaded,
-    fileUploaded, 
+    fileUploaded,
     resetToUploadAgain
 }: {
     sasInfo: SasInfo;
     setSasInfo: (sasInfo: SasInfo) => void;
-    jwt: string; 
+    jwt: string;
     uploading: boolean;
     setUploading: (uploading: boolean) => void;
     setFile: (file: File) => any;
     file: File;
     setCustomFileSize: (size: number) => void;
     setFileUploaded: (uploaded: boolean) => void;
-    fileUploaded: boolean; 
+    fileUploaded: boolean;
     resetToUploadAgain: () => any;
 }) => {
 
     const css = useStyles();
 
-const [fileName, setFilename] = useState('')
+    const [fileName, setFilename] = useState('')
 
     const getFormattedSize = (size: number) => {
         if (size <= 1024) {
@@ -117,9 +117,9 @@ const [fileName, setFilename] = useState('')
         // })
     }
 
-    useEffect(() => { 
-     
-    }, [fileUploaded, uploading,   sasInfo.id, fileName]);
+    useEffect(() => {
+
+    }, [fileUploaded, uploading, sasInfo.id, fileName]);
 
     return (
         <Grid item container>
@@ -130,7 +130,7 @@ const [fileName, setFilename] = useState('')
                     <IconButton color="primary" aria-label="upload dataset" component="span">
                         <CloudUploadIcon />
                     </IconButton>
-                    <Typography variant="overline">{(fileName==''? 'Browse file' : fileName)}</Typography>
+                    <Typography variant="overline">{(fileName === '' ? 'Browse file' : fileName)}</Typography>
                 </label>
             </Grid>
             <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -142,7 +142,7 @@ const [fileName, setFilename] = useState('')
                         {`${fileName} (${getFormattedSize(file.size)})`}
                     </Typography>
                 ) : (<></>)}
-            </Grid> 
+            </Grid>
             <Grid item >
                 {(uploading) ? (
                     <CircularProgress />
@@ -153,7 +153,7 @@ const [fileName, setFilename] = useState('')
             <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
                 &nbsp;
             </Grid>
-          
+
 
         </Grid>
     );

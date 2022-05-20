@@ -2,13 +2,13 @@ import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
 import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table,  TableRow, TableCell, TableBody,  Divider, Accordion, AccordionSummary, AccordionDetails,  Theme} from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import React, { useContext, useEffect, useState } from 'react';
-import {  DailyCount, Ping,  Subscription } from '../api/models/models';
+import  { useContext, useEffect, useState } from 'react';
+import {   Subscription } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useNavigate, useParams, Link } from "react-router-dom";
+import {  useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import { formatDate, formatDateTime } from "../api/utils";
@@ -38,8 +38,7 @@ const SubscriptionPage = () => {
  
 
     const toast = useToast();
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation(); 
     const css = useStyles();
 
 
@@ -101,33 +100,7 @@ const SubscriptionPage = () => {
     const [selectedSubscription, setSelectedSubscription] = useState(emptySubscription);
     const [subscriptionLoaded, setSubscriptionLoaded] = useState(false);
 
-    const [value, setValue] = React.useState(0);
-
-
-
-    const emptyPingList: Array<Ping> = [];
-    const [pings, setPings] = useState(emptyPingList);
-    const [loadedPings, setLoadedPings] = useState(false);
-
-    const emptyDailyPingCountList: Array<DailyCount> = [];
-    const [pingsPerDay, setPingsPerDay] = useState(emptyDailyPingCountList);
-    const [loadedPingsPerDay, setLoadedPingsPerDay] = useState(false);
-
-
-
-
-    const handleTabChange = (event: any, newValue: number) => {
-        setValue(newValue);
-    };
-
-    function a11yProps(index: number) {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`,
-        };
-    }
-
-
+     
     const handleUpgradeSubscription = (
         subscriptionId: string,
         subscriptionType: string
@@ -181,7 +154,7 @@ const SubscriptionPage = () => {
 
 
     const renderContent = () => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "" && selectedSubscription.id.length > 0) {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "" && selectedSubscription.id.length > 0) {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
@@ -308,18 +281,13 @@ const SubscriptionPage = () => {
 
     const refreshData = () => {
         setSubscriptionLoaded(false);
-        setSelectedSubscription(emptySubscription);
-        setPingsPerDay(emptyDailyPingCountList);
-        setLoadedPingsPerDay(false);
-        setPings(emptyPingList);
-        setLoadedPings(false);
-
+        setSelectedSubscription(emptySubscription); 
     }
 
     useEffect(() => {
        
 
-        if (selectedDataspace != "" && !subscriptionLoaded && jwt != "") {
+        if (selectedDataspace !== "" && !subscriptionLoaded && jwt !== "") {
 
 
             trustRelayService.getSubscription(jwt, subscriptionid!).then((res) => {
@@ -350,17 +318,13 @@ const SubscriptionPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
 
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
                     setSelectedDataspace(dataspaceCtx.dataspaceState)
                     setSubscriptionLoaded(false);
-                    setSelectedSubscription(emptySubscription);
-                    setPingsPerDay(emptyDailyPingCountList);
-                    setLoadedPingsPerDay(false);
-                    setPings(emptyPingList);
-                    setLoadedPings(false);
+                    setSelectedSubscription(emptySubscription); 
 
                 }
                 else {

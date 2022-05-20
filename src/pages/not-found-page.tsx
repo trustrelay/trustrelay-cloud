@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { Box,  Grid, Typography, Theme } from '@mui/material';
 import { useToast } from '../hooks/toast-hook'; 
 import { useNavigate } from "react-router-dom";
@@ -35,7 +34,6 @@ const useStyles = makeStyles((theme:Theme) => ({
 
 const NotFoundPage = () => { 
   const toast = useToast();
-  const navigate = useNavigate();
   const css = useStyles();
   const [apmSent, setApmSent] = useState(false);
 

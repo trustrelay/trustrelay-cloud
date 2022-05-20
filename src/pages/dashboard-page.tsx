@@ -14,8 +14,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ResultsTable from '../components/dashboard-page/results-table'; 
-import CodeEditor from '@uiw/react-textarea-code-editor';
-// import Prism, { languages } from 'prismjs'
+// import Editor from '@uiw/react-textarea-code-editor';
+import Editor from "react-simple-code-editor";
+import Prism, { languages } from 'prismjs'
 import "prismjs/components/prism-sql"; 
 import 'prismjs/themes/prism-funky.css';
 import ArchiveIcon from '@mui/icons-material/Archive';
@@ -60,6 +61,8 @@ const useStyles = makeStyles((theme:Theme) => ({
     }
 })
 );
+
+const MyEditor : any = Editor;
 
 const DashboardPage = () => {
 
@@ -138,8 +141,8 @@ const DashboardPage = () => {
 
     const [completeSignUpSent, setCompleteSignUpSent] = useState(false);
 
-    const handleQueryChange = (evt: any) => {
-        setQuery(evt.target.value)
+    const handleQueryChange = (code: string) => {
+        setQuery(code)
     }
 
 
@@ -334,10 +337,10 @@ const DashboardPage = () => {
                 <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <Paper variant="outlined" className={css.root}>
-                            {/* <Editor
+                            <MyEditor
                                 value={query}
-                                onValueChange={handleQueryChange}
-                                highlight={(code) => Prism.highlight(code, languages.sql, 'sql')}
+                                onValueChange={(code:string)=>handleQueryChange(code)}
+                                highlight={(code:string) => Prism.highlight(code, languages.sql, 'sql')}
                                 padding={10}
 
                                 style={{
@@ -347,7 +350,7 @@ const DashboardPage = () => {
                                     height: "150px",
                                     backgroundColor: "rgba(var(--body), 0.1)" 
                                 }}
-                            /> */}
+                            />
                              {/* <CodeEditor
       value={query}
       language="sql"
@@ -359,14 +362,14 @@ const DashboardPage = () => {
         fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
       }}
     /> */}
-    <TextField  style={{
+    {/* <TextField  style={{
                                     fontFamily: '"Fira code", "Fira Mono", monospace',
                                     fontSize: 12,
                                     width: "100%",
                                     height: "150px",
                                     backgroundColor: "rgba(var(--body), 0.1)" 
                                 }}
-                                 onChange={handleQueryChange} value={query}/>
+                                 onChange={handleQueryChange} value={query}/> */}
                         </Paper>
                     </Grid>
                     {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>Schema</Grid> */}
@@ -500,7 +503,7 @@ const DashboardPage = () => {
     useEffect(() => {
         
 
-        if (statsLoaded && !queriesLoaded && jwt != "") {
+        if (statsLoaded && !queriesLoaded && jwt !== "") {
 
             var queryHistoryReq: QueryHistoryRequest = { continuationNextPartitionKey: "", continuationNextRowKey: "" }
 
@@ -526,7 +529,7 @@ const DashboardPage = () => {
 
     useEffect(() => {
 
-        if (queriesLoaded && !loadedAgreementTemplates && jwt != "") {
+        if (queriesLoaded && !loadedAgreementTemplates && jwt !== "") {
 
             trustRelayService.getTemplateAgreementSummaries(jwt, dataspaceid!).then((res) => {
                 setTemplateAgreements(res)
@@ -552,7 +555,7 @@ const DashboardPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
                 trustRelayService.getAccount(jwt).then((res) => {
 

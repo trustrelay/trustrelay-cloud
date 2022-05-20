@@ -1,7 +1,7 @@
 import { HttpStatusCode } from './models/http-status-code';
 import { AxiosResponse, AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import axiosClient from './client';
-import _, { isNull } from 'lodash';
+import  { isNull } from 'lodash';
 import { collector, Producer, Transport } from '../apm';
 import ErrorCollector from '../apm/collector/ErrorCollector';
 

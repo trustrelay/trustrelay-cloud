@@ -9,7 +9,7 @@ import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
 import AddIcon from '@mui/icons-material/Add';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link,  useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -54,7 +54,7 @@ const UserTasksPage = () => {
     }
 
     const renderContent = () => {
-        if (dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "") {
             return (
 
                 <Grid container item xs={12} sm={12} md={12} lg={11} xl={11}>
@@ -71,7 +71,7 @@ const UserTasksPage = () => {
     useEffect(() => {
          
 
-        if (selectedDataspace != "" && !userTasksLoaded && jwt != "") {
+        if (selectedDataspace !== "" && !userTasksLoaded && jwt !== "") {
             trustRelayService.getUserTasks(jwt, dataspaceid!).then((res)=>{
                 setUserTasks(res)
                 setUserTasksLoaded(true)
@@ -90,7 +90,7 @@ const UserTasksPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
 
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 export const useDarkMode = () => {
     const [theme, setTheme] = useState('light');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars 
     const [componentMounted, setComponentMounted] = useState(false);
 
     const setMode = (mode: string) => {

@@ -1,8 +1,8 @@
-import React, {   useEffect  } from 'react';
+import React, { useEffect } from 'react';
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer';
-import {  TemplateAgreement } from '../../api/models/models'; 
-import { toUpper } from 'lodash'; 
-import {getCountryNameByIsoCode} from '../../api/utils' ;
+import { TemplateAgreement } from '../../api/models/models';
+import { toUpper } from 'lodash';
+import { getCountryNameByIsoCode } from '../../api/utils';
 
 
 // rename helper for react17 overload
@@ -15,10 +15,10 @@ const SignedAgreementPdf = ({
   dataspaceName,
 }: {
   agreement: TemplateAgreement;
-  dataspaceName:string;
+  dataspaceName: string;
 }) => {
- 
-  
+
+
   const styles = StyleSheet.create({
     body: {
       paddingTop: 35,
@@ -68,8 +68,8 @@ const SignedAgreementPdf = ({
   });
 
 
- 
-//TODO: call in App.tsx
+
+  //TODO: call in App.tsx
   // const registerFont = () => {
   //   Font.register({
   //   family: "Montserrat",
@@ -127,110 +127,110 @@ const SignedAgreementPdf = ({
   const renderSections = () => {
     var result: Array<React.ReactNode> = []
     var index: number = 0;
- 
-
-    if(agreement){
-
-   
-
-     index = index + 1;
-
-    result.push(renderSection(index, 'Purpose', true, agreement.purpose))
- 
-  index = index + 1;
 
 
-    result.push(renderSection(index, 'Data assets', true, `The data assets provided will be in ${agreement.dataAssets} format.`))
- 
-   index = index + 1;
-
-    result.push(renderSection(index, 'Rights and responsibilities', true, agreement.rightsAndResponsibilities))
- 
-  index = index + 1;
-
-    result.push(renderSection(index, 'Permissions', true, `[RECIPIENT] will be able to perform the following operations on the data provided: ${agreement.permissions}.`))
-
-     
-     index = index + 1;
-
-    // result.push(renderSection(index, 'Duration Type', true, agreement.durationType))
+    if (agreement) {
 
 
-    if(agreement.durationType=='relative'){
-      result.push(renderSection(index, 'Duration', true, `[RECIPIENT] will be able to access the data provided for the next ${agreement.durationPeriod}.`))
-    } else{
-      // result.push(renderSection(index, 'Duration From', true, agreement.durationFrom.toString()))
-      // result.push(renderSection(index, 'Duration Until', true, agreement.durationUntil.toString()))
-      result.push(renderSection(index, 'Duration', true, `[RECIPIENT] will be able to access the data provided until ${agreement.durationUntil.toString()}.`))
 
+      index = index + 1;
+
+      result.push(renderSection(index, 'Purpose', true, agreement.purpose))
+
+      index = index + 1;
+
+
+      result.push(renderSection(index, 'Data assets', true, `The data assets provided will be in ${agreement.dataAssets} format.`))
+
+      index = index + 1;
+
+      result.push(renderSection(index, 'Rights and responsibilities', true, agreement.rightsAndResponsibilities))
+
+      index = index + 1;
+
+      result.push(renderSection(index, 'Permissions', true, `[RECIPIENT] will be able to perform the following operations on the data provided: ${agreement.permissions}.`))
+
+
+      index = index + 1;
+
+      // result.push(renderSection(index, 'Duration Type', true, agreement.durationType))
+
+
+      if (agreement.durationType === 'relative') {
+        result.push(renderSection(index, 'Duration', true, `[RECIPIENT] will be able to access the data provided for the next ${agreement.durationPeriod}.`))
+      } else {
+        // result.push(renderSection(index, 'Duration From', true, agreement.durationFrom.toString()))
+        // result.push(renderSection(index, 'Duration Until', true, agreement.durationUntil.toString()))
+        result.push(renderSection(index, 'Duration', true, `[RECIPIENT] will be able to access the data provided until ${agreement.durationUntil.toString()}.`))
+
+      }
+
+
+      index = index + 1;
+
+      result.push(renderSection(index, 'Frequency of updates', true, `[PROVIDER] will perform updates in a ${agreement.frequencyOfUpdates} interval.`))
+
+      index = index + 1;
+
+      result.push(renderSection(index, 'Data retention period', true, `At the termination of this agreement [RECIPIENT] is able to retain data up to ${agreement.dataRetentionPeriod}.`))
+
+      index = index + 1;
+
+      result.push(renderSection(index, 'Termination notice period', true, `Both parties are able to terminate this agreement provided a ${agreement.terminationNoticePeriod} notice period.`))
+
+      index = index + 1;
+
+      result.push(renderSection(index, 'Jurisdiction', true, `The jurisdiction that applies to this agreement is: ${agreement.jurisdiction.split(',').map((item) => getCountryNameByIsoCode(item)).join(',')}.`))
+
+
+      return <>{result}</>
+    } else {
+      return <></>
     }
-  
-   
-     index = index + 1;
-
-    result.push(renderSection(index, 'Frequency of updates', true, `[PROVIDER] will perform updates in a ${agreement.frequencyOfUpdates} interval.`))
-
-     index = index + 1;
-
-    result.push(renderSection(index, 'Data retention period', true, `At the termination of this agreement [RECIPIENT] is able to retain data up to ${agreement.dataRetentionPeriod}.`))
-
-      index = index + 1;
-
-    result.push(renderSection(index, 'Termination notice period', true, `Both parties are able to terminate this agreement provided a ${agreement.terminationNoticePeriod} notice period.`))
-
-      index = index + 1;
-
-    result.push(renderSection(index, 'Jurisdiction', true, `The jurisdiction that applies to this agreement is: ${agreement.jurisdiction.split(',').map((item)=>getCountryNameByIsoCode(item)).join(',')}.`))
- 
-
-    return <>{result}</>
-  } else{
-    return <></>
-  }
   }
 
   useEffect(() => {
- 
+
     // registerFont()
   }, [agreement])
 
 
   return (
-    
+
     <MyDocument>
       {(agreement) ? (
-      <MyPage style={styles.body}>
-        <MyText style={styles.header} fixed>
-          {`~ ${agreement.title} ~`}
-        </MyText>
-        <MyText style={styles.title}>{agreement.title}</MyText>
-        <MyText style={styles.author}>{dataspaceName}</MyText>
+        <MyPage style={styles.body}>
+          <MyText style={styles.header} fixed>
+            {`~ ${agreement.title} ~`}
+          </MyText>
+          <MyText style={styles.title}>{agreement.title}</MyText>
+          <MyText style={styles.author}>{dataspaceName}</MyText>
 
 
-        <MyText style={styles.text}>
-          This Data Sharing Agreement (this “Agreement”) is made on [AGREEMENT_DATE] (the
-          “Effective Date”) between [PROVIDER_FULL_NAME], with its principal place of business at [PROVIDER_ADDRESS],
-          hereinafter referred to as “PROVIDER” and [RECIPIENT_FULL_NAME], with its
-          principal place of business at [RECIPIENT_ADDRESS], hereinafter referred to as “RECIPIENT”
-          (referred to collectively hereinafter as the “Parties” and individually as “Party”).
-        </MyText>
+          <MyText style={styles.text}>
+            This Data Sharing Agreement (this “Agreement”) is made on [AGREEMENT_DATE] (the
+            “Effective Date”) between [PROVIDER_FULL_NAME], with its principal place of business at [PROVIDER_ADDRESS],
+            hereinafter referred to as “PROVIDER” and [RECIPIENT_FULL_NAME], with its
+            principal place of business at [RECIPIENT_ADDRESS], hereinafter referred to as “RECIPIENT”
+            (referred to collectively hereinafter as the “Parties” and individually as “Party”).
+          </MyText>
 
-        {renderSections()}
+          {renderSections()}
 
 
-        <MyText style={styles.subtitle} break>
-          Agreed &amp; Accepted:
-        </MyText>
-        <MyText style={styles.text}>
+          <MyText style={styles.subtitle} break>
+            Agreed &amp; Accepted:
+          </MyText>
+          <MyText style={styles.text}>
 
-        </MyText>
-        <MyText style={styles.pageNumber} render={({ pageNumber, totalPages }:{pageNumber:any; totalPages:any;}) => (
-          `${pageNumber} / ${totalPages}`
-        )} fixed />
-      </MyPage>
-       ) : <></>}
+          </MyText>
+          <MyText style={styles.pageNumber} render={({ pageNumber, totalPages }: { pageNumber: any; totalPages: any; }) => (
+            `${pageNumber} / ${totalPages}`
+          )} fixed />
+        </MyPage>
+      ) : <></>}
     </MyDocument>
-   
+
   )
 }
 

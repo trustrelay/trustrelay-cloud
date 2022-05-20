@@ -142,24 +142,11 @@ const TemplateAgreementWizardPage = () => {
     const [terminationNoticePeriod, setTerminationNoticePeriod] = useState('');
 
     //step 6
-    const [accessControl, setAccessControl] = useState('whitelist')
+    // const [accessControl, setAccessControl] = useState('whitelist')
 
     const [jurisdiction, setJurisdiction] = useState('CHE');
 
-
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 250,
-            },
-        },
-    };
-
-
-
+ 
 
     const renderWizard = (index: number) => {
         switch (index) {
@@ -257,7 +244,7 @@ const TemplateAgreementWizardPage = () => {
 
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState != null && dataspaceState != "") {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "") {
             return (
                 <Grid container item xs={12} sm={12} md={12} lg={12} xl={12} direction="row" rowGap={1}>
                     {renderWizard(wizard.activeStepIndex)}
@@ -269,19 +256,16 @@ const TemplateAgreementWizardPage = () => {
         }
     }
 
-    const refreshData = () => {
-
-    }
-
+  
 
     useEffect(() => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
                 if (typeof window !== 'undefined') {
-                    if (localStorage.getItem('selectedDataspace') == null) {
-                        if (dataspace.dataspaceState == '') {
+                    if (localStorage.getItem('selectedDataspace') === null) {
+                        if (dataspace.dataspaceState === '') {
                             trustRelayService.getAccount(jwt).then((res) => {
                                 dataspace.setDataspaceState(res.defaultDataspace)
 

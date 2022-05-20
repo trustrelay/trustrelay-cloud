@@ -152,7 +152,7 @@ const TemplateAgreementPdf = ({
 
       result.push(renderSection(index, 'Duration Type', true, agreement.durationType))
 
-      if (agreement.durationType == 'relative') {
+      if (agreement.durationType === 'relative') {
         result.push(renderSection(index, 'Duration Period', true, agreement.durationPeriod))
       } else {
         result.push(renderSection(index, 'Duration From', true, agreement.durationFrom.toString()))

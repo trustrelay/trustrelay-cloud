@@ -1,35 +1,8 @@
-import { Grid, Theme } from '@mui/material';
+import { Grid } from '@mui/material';
 import {  ServiceConnection } from "../../api/models/models";  
 import HttpsIcon from '@mui/icons-material/Https'; 
 import ServiceConnectionSummaryItem from "./service-connection-summary-item";
-import { makeStyles  } from '@mui/styles';
-
-const useStyles = makeStyles((theme:Theme) => ({
-    graphContainer: {
-        width: "100%",
-        height: "100%",
-        padding: "24px 0px 0px 3px"
-    },
-
-    smFont: {
-        fontSize: "4vw",
-
-    },
-    mdFont: {
-        fontSize: "1.4vw",
-
-    },
-    lgFont: {
-        fontSize: "0.8vw",
-
-    },
-    caption: {
-        color: "#AAAAAA",
-        fontSize: "12px"
-    }
-}));
-
-
+ 
 const ServiceConnectionList = ({
     dataspace,
     serviceConnections

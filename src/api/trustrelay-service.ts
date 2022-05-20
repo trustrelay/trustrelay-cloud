@@ -1,30 +1,27 @@
-import { StringMap } from 'i18next';
-import { collector, Producer, Transport } from '../apm';
-import ErrorCollector from '../apm/collector/ErrorCollector';
 import BaseService from './base-service';
 import {
-  ApiLog,
+ 
   GetCheckoutSessionResponse,
-  LineChartEntry, PieChartEntry,
-  AppNotification, UserSubscription,
-  EventAggregation, SasInfo, GetSasInfoResponse,
+ 
+  AppNotification, 
+   GetSasInfoResponse,
   TrustRelayAccount, GetAccountResponse,
   Membership, Agent,
   Common,
   Dispute, DisputeMessage,
   Task, Acl,
-  Column,
+ 
   DataspaceInfo,
   SignedAgreement,
   TemplateAgreement,
   ServiceConnection,
-  DataQuery,
+
   QueryResponse,
-  DataRow,
+ 
   CreateTemplateAgreementPayload,
   TemplateAgreementSummary,
   SignedAgreementSummary,
-  Scan,
+
   DailyCount,
   DataProvenanceSet,
   Subscription,
@@ -38,14 +35,14 @@ import {
   Usage,
   AuditLogsRequest,
   AuditLogsResponse,
-  GeoScore,
+  
   GeoScores,
   DataspaceSummary,
   InvitationStatus,
   Organization,
   CommonAgreementSummary
 } from './models/models';
-import { isEmptyObject } from './utils';
+
 
 class TrustRelayService extends BaseService {
 
@@ -59,7 +56,7 @@ class TrustRelayService extends BaseService {
         throw new Error('API returned succesful but payload is unexpected.');
       }
     }).catch((reason: any) => {
-      throw new Error('Failed request to get account')
+      throw new Error(`Failed request to get account. ${reason}`)
     })
 
 

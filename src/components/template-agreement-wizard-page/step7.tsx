@@ -1,6 +1,6 @@
 import { Button, Grid, Step, StepLabel, Stepper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { useTranslation } from "react-i18next";
-import {formatDateTime} from '../../api/utils'
+import { formatDateTime } from '../../api/utils'
 
 const CreateTemplateAgreementStep7 = ({
     previous,
@@ -110,15 +110,15 @@ const CreateTemplateAgreementStep7 = ({
                             <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.durationType')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{durationType}</Typography></TableCell>
-                            </TableRow>        
+                            </TableRow>
 
-                            {(durationType=='fixed') ?      <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
+                            {(durationType === 'fixed') ? <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.durationUntil')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{formatDateTime(durationUntil.toString())}</Typography></TableCell>
-                            </TableRow>   :  <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
+                            </TableRow> : <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.durationPeriod')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{durationPeriod}</Typography></TableCell>
-                            </TableRow> }
+                            </TableRow>}
 
                             <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.frequencyOfUpdates')}</Typography></TableCell>
@@ -132,7 +132,7 @@ const CreateTemplateAgreementStep7 = ({
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.terminationNoticePeriod')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{terminationNoticePeriod}</Typography></TableCell>
                             </TableRow>
-                      
+
                             <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
                                 <TableCell variant="head"><Typography variant="body1">{t('labels.jurisdiction')}</Typography></TableCell>
                                 <TableCell variant="head"><Typography variant="body1">{jurisdiction}</Typography></TableCell>

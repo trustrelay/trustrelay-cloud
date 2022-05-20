@@ -37,7 +37,7 @@ const AuditLogsPage = () => {
  
 
     const toast = useToast();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const css = useStyles();
 
     const { instance, accounts, inProgress } = useMsal();
@@ -68,7 +68,7 @@ const AuditLogsPage = () => {
     }
 
     const renderContent = () => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "") {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
@@ -97,7 +97,7 @@ const AuditLogsPage = () => {
     useEffect(() => {
 
 
-        if (jwt != "") {
+        if (jwt !== "") {
 
             var auditLogsReq: AuditLogsRequest = { continuationNextPartitionKey: "", continuationNextRowKey: "" }
 
@@ -123,7 +123,7 @@ const AuditLogsPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
                 trustRelayService.getAccount(jwt).then((res) => {
 

@@ -1,6 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Divider, TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, TextField, Theme } from '@mui/material';
+import { Grid, Typography, Button, Divider, TableContainer, Table,  TableRow, TableCell, Paper, TableBody, TextField, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import { useContext, useEffect, useState } from 'react';
 import { AppPushNotificationContext, DataspaceContext } from '../app-contexts';
@@ -13,7 +13,7 @@ import "prismjs/components/prism-sql";
 import 'prismjs/components/prism-css';
 import 'prismjs/themes/prism-funky.css';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams,  useNavigate } from 'react-router-dom';
 import { DataspaceSummary, InvitationStatus } from '../api/models/models'; 
 import validator from 'validator'
 import { makeStyles  } from '@mui/styles';
@@ -191,7 +191,7 @@ const JoinPage = () => {
  
 
 
-    if (jwt != "" && !loadedInvitationStatus) {
+    if (jwt !== "" && !loadedInvitationStatus) {
       trustRelayService.getInvitationStatus(jwt, dataspaceid!, code!).then((res) => {
         setLoadedInvitationStatus(true);
         setInvitationStatus(res);
@@ -212,7 +212,7 @@ const JoinPage = () => {
  
 
 
-    if (loadedInvitationStatus && !loadedDataspaceSummary && jwt != "") {
+    if (loadedInvitationStatus && !loadedDataspaceSummary && jwt !== "") {
       trustRelayService.getDataspaceSummary(jwt, dataspaceid!).then((res) => {
         setLoadedDataspaceSummary(true);
         setDataspaceSummary(res);
@@ -233,7 +233,7 @@ const JoinPage = () => {
 
     if (isAuthenticated) {
 
-      if (jwt != "") {
+      if (jwt !== "") {
 
         if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
           setSelectedDataspace(dataspaceCtx.dataspaceState)

@@ -65,12 +65,13 @@ const RunModelDrawer = ({
 
   const [fileUploaded, setFileUploaded] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars 
   const [customFileSize, setCustomFileSize] = useState(0);
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars 
   const [datasetPath, setDatasetPath] = useState('');
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars 
   const [datasetName, setDatasetName] = useState('');
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars 
   const [datasetDescription, setDatasetDescription] = useState('');
 
   const [uploading, setUploading] = useState(false);
@@ -101,11 +102,7 @@ const RunModelDrawer = ({
     handleClose()
   }
 
-  const handleServiceConnectionChange = (e: any) => {
-    setServiceConnection(e.target.value);
-  }
-
-
+ 
   const handleCancel = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     handleClose();

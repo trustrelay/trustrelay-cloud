@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Typography, useMediaQuery, Theme } from '@mui/material';
+import { Button, Chip, Grid, List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Paper, Typography, Theme } from '@mui/material';
 import { formatDate,   generateRandomColor } from "../../api/utils";
 import CustomAvatar from "../customAvatar";
 import {  SignedAgreementSummary } from "../../api/models/models"; 
@@ -29,9 +29,7 @@ const SignedAgreementSummaryItem = ({
     avatarIcon: React.ReactNode, 
 }) => {
     const { t } = useTranslation();
-    const css = useStyles();
-    const smDown = !useMediaQuery('(min-width:600px)');
-    const lgUp = useMediaQuery('(min-width:1000px)');
+    const css = useStyles(); 
 
     const [loadedColor, setLoadedColor] = useState(false);
     const [color, setColor] = useState('');

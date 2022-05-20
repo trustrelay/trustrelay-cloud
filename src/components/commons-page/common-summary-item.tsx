@@ -59,7 +59,7 @@ const CommonSummaryItem = ({
             setLoadedColor(true);
         }
 
-    }, [])
+    }, [loadedColor])
 
     return (
         <Paper >

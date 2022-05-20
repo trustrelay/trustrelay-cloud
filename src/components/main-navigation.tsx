@@ -162,7 +162,7 @@ const MainNavigation = ({
 
     setAnchorSettingsElement(null);
 
-    if (dataspaceCtx != null) {
+    if (dataspaceCtx !== null) {
       localStorage.setItem('selectedDataspace', dataspaceId)
       navigate(`/dataspaces/${dataspaceId}/dashboard`)
       dataspaceCtx.setDataspaceState(dataspaceId);
@@ -200,10 +200,10 @@ const MainNavigation = ({
   useEffect(() => {
     
 
-    if (isAuthenticated && account != null && !finishedLoading) {
+    if (isAuthenticated && account !== null && !finishedLoading) {
      
 
-      if (jwt == "") {
+      if (jwt === "") {
         instance.acquireTokenSilent({
           scopes: protectedResources.api.scopes,
           account: account
@@ -242,7 +242,7 @@ const MainNavigation = ({
 
 
 
-        if (!listening && account != null) {
+        if (!listening && account !== null) {
         
           connection.on(account.localAccountId, hubNotificationHandler); //user channel
           connection.start().then(function () {
@@ -255,7 +255,7 @@ const MainNavigation = ({
         }
 
 
-        if (memberships.membershipsState.length <= 0 && !membershipsLoaded && jwt != "") {
+        if (memberships.membershipsState.length <= 0 && !membershipsLoaded && jwt !== "") {
           trustRelayService.getMemberships(jwt).then((res) => {
             memberships.setMembershipsState(res);
             setMembershipsLoaded(true);
@@ -287,7 +287,7 @@ const MainNavigation = ({
   };
 
   const isDataspaceSelected = () => {
-    return selectedDataspace && selectedDataspace.length >0 || dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState != '';
+    return selectedDataspace && selectedDataspace.length >0 || dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState !== '';
   }
 
   const getDataspaceTooltip = () => {

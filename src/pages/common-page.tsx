@@ -195,7 +195,7 @@ const CommonPage = () => {
     }
 
     const renderContent = () => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "" && selectedCommon.id.length > 0  ) {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "" && selectedCommon.id.length > 0  ) {
             return (
 
                 
@@ -209,14 +209,14 @@ const CommonPage = () => {
                             onChange={handleTabChange}
                             aria-label="common tabs">
 
-{(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ? <Tab label={t('labels.activityChart')} {...a11yProps(0)} /> : <></>}
- {(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ? <Tab label={t('labels.signedAgreements')} {...a11yProps(1)} /> : <></>}
+{(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ? <Tab label={t('labels.activityChart')} {...a11yProps(0)} /> : <></>}
+ {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ? <Tab label={t('labels.signedAgreements')} {...a11yProps(1)} /> : <></>}
 
 
                         </Tabs>
                     </AppBar>
 
-                    {(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ?    <TabPanel id="activity" value={value} index={0}>
+                    {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ?    <TabPanel id="activity" value={value} index={0}>
                         <Grid item container direction="column" rowGap={1}>
 
                             <Grid item>&nbsp;</Grid>
@@ -230,7 +230,7 @@ const CommonPage = () => {
                     </TabPanel> : <></>}
 
 
-                    {(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ?   <TabPanel id="agreements" value={value} index={1}>
+                    {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ?   <TabPanel id="agreements" value={value} index={1}>
                         <Grid item container spacing={2} rowGap={1}>
                             <Grid item container>
                                 &nbsp;
@@ -428,7 +428,7 @@ const CommonPage = () => {
     useEffect(() => {
   
 
-        if (selectedDataspace != "" && !commonLoaded && jwt != "") {
+        if (selectedDataspace !== "" && !commonLoaded && jwt !== "") {
 
 
             trustRelayService.getCommon(jwt, dataspaceid!, commonid!).then((res) => {
@@ -455,7 +455,7 @@ const CommonPage = () => {
     useEffect(() => {
  
 
-        if (commonLoaded && !loadedCommonAgreements && jwt != "") {
+        if (commonLoaded && !loadedCommonAgreements && jwt !== "") {
 
 
             trustRelayService.getSignedAgreementsByCommon(jwt, selectedDataspace, commonid!).then((res) => {
@@ -477,7 +477,7 @@ const CommonPage = () => {
 
     useEffect(() => {
 
-        if (commonLoaded && !loadedServiceConnections && jwt != "") {
+        if (commonLoaded && !loadedServiceConnections && jwt !== "") {
 
             trustRelayService.getAvailableServiceConnections(jwt, dataspaceid!).then((res) => {
                 setServiceConnections(res)
@@ -492,7 +492,7 @@ const CommonPage = () => {
 
     useEffect(() => {
 
-        if (loadedServiceConnections && !loadedAgent && jwt != "") {
+        if (loadedServiceConnections && !loadedAgent && jwt !== "") {
 
             trustRelayService.getAgent(jwt, dataspaceid!).then((res) => {
                 setMyAgent(res)
@@ -509,7 +509,7 @@ const CommonPage = () => {
     useEffect(() => {
        
 
-        if (loadedAgent && !loadedQueriesPerDay && jwt != "") {
+        if (loadedAgent && !loadedQueriesPerDay && jwt !== "") {
 
             trustRelayService.getQueriesPerDay(jwt, dataspaceid!, commonid!).then((res) => {
                 setQueriesPerDay(res);
@@ -534,7 +534,7 @@ const CommonPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
 
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
@@ -625,7 +625,7 @@ const CommonPage = () => {
 
 
 
-                        {(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ? <Button variant="text"
+                        {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ? <Button variant="text"
                             color="primary"
                             startIcon={<CloudDoneIcon fontSize="small" style={{ color: "#0090BF" }} />}
                             onClick={() => navigate(`/dataspaces/${dataspaceCtx.dataspaceState}/settings/service-connections/${selectedCommon.serviceConnectionId}`)}
@@ -634,7 +634,7 @@ const CommonPage = () => {
                         </Button> : <></>}
 
 
-                        {(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ? <Button variant="text"
+                        {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ? <Button variant="text"
                             color="primary"
                             startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
                             onClick={toggleEditCommonDrawer}
@@ -643,7 +643,7 @@ const CommonPage = () => {
                         </Button> : <></>}
 
 
-                        {(account && account.localAccountId && selectedCommon.createdBy == account.localAccountId) ? <Button variant="text"
+                        {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ? <Button variant="text"
                             color="primary"
                             startIcon={<DeleteIcon fontSize="small" style={{ color: "#0090BF" }} />}
                             onClick={toggleDeleteCommonDrawer}
@@ -692,7 +692,7 @@ const CommonPage = () => {
                             {t('labels.terms')}
                         </Button> : <></>}
 
-                        {(account && account.localAccountId && selectedCommon.createdBy != account.localAccountId) ? <Button variant="text"
+                        {(account && account.localAccountId && selectedCommon.createdBy !== account.localAccountId) ? <Button variant="text"
                             color="primary"
                             startIcon={<CancelIcon fontSize="small" style={{ color: "#0090BF" }} />}
                             onClick={toggleTerminateAgreementDrawer}

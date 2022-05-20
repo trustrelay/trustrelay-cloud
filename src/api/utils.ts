@@ -60,5 +60,5 @@ export const generateRandomColor = () =>
 }
 
 export const getCountryNameByIsoCode = (iso:string) => {
-   return _.find(Countries,(x)=>x.code==iso.toUpperCase())?.name
+   return _.find(Countries,(x)=>x.code===iso.toUpperCase())?.name
 }

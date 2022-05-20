@@ -106,7 +106,7 @@ const DataspacePage = () => {
     }
 
     const handleUpdateInvitationSettings = (isEnabled: boolean) => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState !== "") {
             trustRelayService.setInvitationSettings(jwt, dataspaceCtx.dataspaceState, isEnabled).then(() => {
                 // selectedDataspace.isInvitationEnabled = isEnabled
                 // setSelectedDataspace(selectedDataspace)
@@ -120,7 +120,7 @@ const DataspacePage = () => {
     }
 
     const handleInviteMember = (email: string) => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState !== "") {
             trustRelayService.inviteMember(jwt, dataspaceCtx.dataspaceState, email).then(() => {
 
             }).catch((err: Error) => {
@@ -133,7 +133,7 @@ const DataspacePage = () => {
     }
 
     const handleDisableMembership = (agent: string) => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState !== "") {
             trustRelayService.disableMembership(jwt, dataspaceCtx.dataspaceState, agent).then(() => {
 
             }).catch((err: Error) => {
@@ -146,7 +146,7 @@ const DataspacePage = () => {
     }
 
     const handleEditDataspace = (dataspaceName: string) => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState !== "") {
             trustRelayService.editDataspace(jwt, dataspaceCtx.dataspaceState, dataspaceName).then(() => {
 
             }).catch((err: Error) => {
@@ -159,7 +159,7 @@ const DataspacePage = () => {
     }
 
     const handleDeleteDataspace = () => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState && dataspaceCtx.dataspaceState !== "") {
             trustRelayService.deleteDataspace(jwt, dataspaceCtx.dataspaceState).then(() => {
 
             }).catch((err: Error) => {
@@ -308,7 +308,7 @@ const DataspacePage = () => {
 
     function renderContent() {
 
-        if (dataspaceCtx && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "") {
             return <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
                 <AppBar position="static">
@@ -392,7 +392,7 @@ const DataspacePage = () => {
        
 
 
-        if (!dataspaceLoaded && jwt != "") {
+        if (!dataspaceLoaded && jwt !== "") {
 
             trustRelayService.getDataspace(jwt, dataspaceid!).then((res) => {
                 setSelectedDataspace(res);
@@ -412,7 +412,7 @@ const DataspacePage = () => {
        
 
 
-        if (selectedDataspace && !agentsLoaded && jwt != "") {
+        if (selectedDataspace && !agentsLoaded && jwt !== "") {
 
             trustRelayService.getAgents(jwt, dataspaceid!).then((res) => {
                 setAgents(res);
@@ -431,7 +431,7 @@ const DataspacePage = () => {
     useEffect(() => {
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
                     setSelectedDataspaceState(dataspaceCtx.dataspaceState)
                     setAgents(emptyAgentsList);

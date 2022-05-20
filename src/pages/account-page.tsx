@@ -1,6 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, Divider, AppBar, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Theme } from '@mui/material';
+import { Grid, Typography, Button, Breadcrumbs, Divider, AppBar, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { DataspaceContext } from '../app-contexts';
@@ -60,8 +60,7 @@ const AccountPage = () => {
 
     const [value, setValue] = React.useState(0);
     const emptyAccount: TrustRelayAccount = { id: "", timestamp: "", theme: "", email: "", defaultDataspace: "", organization: "", organizationName:"" };
-    const [selectedAccount, setSelectedAccount] = useState(emptyAccount);
-    const [accountLoaded, setAccountLoaded] = useState(false);
+    const [selectedAccount, setSelectedAccount] = useState(emptyAccount); 
     const account = useAccount(accounts[0] || {});
 
 
@@ -142,7 +141,7 @@ const AccountPage = () => {
 
         if (account && selectedDataspace && subscriptions && subscriptions.length > 0) {
 
-            const currentDataspace = dataspaces.filter(x => x.id == selectedDataspace)[0]
+            const currentDataspace = dataspaces.filter(x => x.id === selectedDataspace)[0]
 
             if (currentDataspace) {
                 const currentSubscription = subscriptions.filter(x => x.id === currentDataspace.subscription)[0]
@@ -229,7 +228,7 @@ const AccountPage = () => {
     }
 
     const renderContent = () => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "") {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
@@ -304,7 +303,7 @@ const AccountPage = () => {
    
 
 
-        if (jwt != "") {
+        if (jwt !== "") {
             trustRelayService.getAllSubscriptions(jwt).then((res) => {
                 setLoadedSubscriptions(true);
                 setSubscriptions(res);
@@ -323,7 +322,7 @@ const AccountPage = () => {
      
 
 
-        if (loadedSubscriptions && !loadedDataspaces && jwt != "") {
+        if (loadedSubscriptions && !loadedDataspaces && jwt !== "") {
             trustRelayService.getAllDataspaces(jwt).then((res) => {
                 setLoadedDataspaces(true)
                 setDataspaces(res)
@@ -346,7 +345,7 @@ const AccountPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
                 trustRelayService.getAccount(jwt).then((res) => {
 
@@ -354,7 +353,7 @@ const AccountPage = () => {
                     dataspaceCtx.setDataspaceState(ds)
                     setSelectedDataspace(ds);
                     setSelectedAccount(res);
-                    setAccountLoaded(true);
+                  
                     setDataspaces([])
                     setLoadedDataspaces(false);
                     setSubscriptions(emptySubscriptions);

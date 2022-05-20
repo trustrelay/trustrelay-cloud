@@ -8,7 +8,7 @@ import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useNavigate, useParams, Link } from "react-router-dom"; 
+import { useParams, Link } from "react-router-dom"; 
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import { formatDateTime } from "../api/utils";
@@ -83,18 +83,7 @@ const ServiceConnectionPage = () => {
     const [selectedServiceConnection, setSelectedServiceConnection] = useState(emptyServiceConnection);
     const [serviceConnectionLoaded, setServiceConnectionLoaded] = useState(false);
 
-    const [value, setValue] = React.useState(0);
-
-
-
-    const emptyPingList: Array<Ping> = [];
-    const [pings, setPings] = useState(emptyPingList);
-    const [loadedPings, setLoadedPings] = useState(false);
-
-    const emptyDailyPingCountList: Array<DailyCount> = [];
-    const [pingsPerDay, setPingsPerDay] = useState(emptyDailyPingCountList);
-    const [loadedPingsPerDay, setLoadedPingsPerDay] = useState(false);
-
+  
  
  
 
@@ -141,7 +130,7 @@ const ServiceConnectionPage = () => {
 
 
     const renderContent = () => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "" && selectedServiceConnection.id.length > 0) {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "" && selectedServiceConnection.id.length > 0) {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
@@ -275,17 +264,13 @@ const ServiceConnectionPage = () => {
     const refreshData = () => {
         setServiceConnectionLoaded(false);
         setSelectedServiceConnection(emptyServiceConnection);
-        setPingsPerDay(emptyDailyPingCountList);
-        setLoadedPingsPerDay(false);
-        setPings(emptyPingList);
-        setLoadedPings(false);
 
     }
 
     useEffect(() => {
       
 
-        if (selectedDataspace != "" && !serviceConnectionLoaded && jwt != "") {
+        if (selectedDataspace !== "" && !serviceConnectionLoaded && jwt !== "") {
 
 
             trustRelayService.getServiceConnection(jwt, dataspaceid!, serviceconnectionid!).then((res) => {
@@ -316,17 +301,13 @@ const ServiceConnectionPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
 
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
                     setSelectedDataspace(dataspaceCtx.dataspaceState)
                     setServiceConnectionLoaded(false);
                     setSelectedServiceConnection(emptyServiceConnection);
-                    setPingsPerDay(emptyDailyPingCountList);
-                    setLoadedPingsPerDay(false);
-                    setPings(emptyPingList);
-                    setLoadedPings(false);
 
                 }
                 else {

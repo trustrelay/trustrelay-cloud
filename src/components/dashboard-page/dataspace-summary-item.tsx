@@ -42,8 +42,8 @@ const DataspaceSummaryItem = ({
     const navigate = useNavigate();
 
     const goToAction = () => {
-        if (href != null) {
-            navigate(href);
+        if (href !== null) {
+            navigate(href!);
         }
     }
 

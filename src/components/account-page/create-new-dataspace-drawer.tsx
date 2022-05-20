@@ -1,6 +1,5 @@
 import React, {  useState } from 'react';
-import { Typography, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, Drawer, Toolbar } from '@mui/material'; 
-import { useNavigate } from "react-router-dom";
+import { Typography, Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, Drawer, Toolbar } from '@mui/material';  
 import { useTranslation } from 'react-i18next';
 import { Subscription } from '../../api/models/models';
 import { makeStyles } from '@mui/styles';
@@ -41,8 +40,7 @@ const CreateNewDataspaceDrawer = ({
   onAction: (subscription:string, dataspaceName: string) => void;
 }) => {
 
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { t } = useTranslation(); 
 
 
   const [dataspaceName, setDataspaceName] = useState('');

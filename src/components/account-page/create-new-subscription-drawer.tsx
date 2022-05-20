@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Typography,  Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, Drawer, Toolbar } from '@mui/material'; 
-import { useNavigate } from "react-router-dom";
+import { Typography,  Button, InputLabel, Select, MenuItem, OutlinedInput, TextField, Drawer, Toolbar } from '@mui/material';  
 import { useTranslation } from 'react-i18next';
 import { Subscription } from '../../api/models/models';
 
@@ -40,9 +39,7 @@ const CreateNewSubscriptionDrawer = ({
   onAction: (subscriptionName:string, subscriptionType: string) => void;
 }) => {
 
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-
+  const { t } = useTranslation(); 
 
   const [subscriptionName, setSubscriptionName] = useState('');
 

@@ -186,13 +186,13 @@ const CreateTemplateAgreementStep5 = ({
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         
                             <TextField
-                                disabled={durationType == 'fixed'}
+                                disabled={durationType === 'fixed'}
                                 value={durationPeriodValue}
                                 style={{width:"80px"}}
                                 onChange={handleDurationPeriodValueChange}
                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />&nbsp;
                             <Select
-                                disabled={durationType == 'fixed'}
+                                disabled={durationType === 'fixed'}
                                 id="duration-period-unit-select"
                                 value={durationPeriodUnit}
                                 input={<OutlinedInput label="Format" />}
@@ -212,14 +212,14 @@ const CreateTemplateAgreementStep5 = ({
                             <Grid item xs={6} sm={6} md={6} lg={6} xl={6} spacing={4}>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DatePicker value={durationFrom} 
-                                       disabled={durationType != 'fixed'}
+                                       disabled={durationType !== 'fixed'}
                                     onChange={handleDurationFromChange} label="From"
                                     renderInput={props => <TextField label="Date" helperText="" />}
                                     />
                                 </LocalizationProvider>&nbsp;&nbsp;
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DatePicker value={durationUntil} 
-                                       disabled={durationType != 'fixed'}
+                                       disabled={durationType !== 'fixed'}
                                     onChange={handleDurationUntilChange} label="Until"
                                     renderInput={props => <TextField label="Date" helperText="" />} />
                                 </LocalizationProvider>

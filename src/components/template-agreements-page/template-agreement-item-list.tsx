@@ -1,4 +1,3 @@
-import  { useEffect } from "react";
 import { Grid  } from '@mui/material';
 import {  TemplateAgreementSummary } from "../../api/models/models"; 
 import BallotIcon from '@mui/icons-material/Ballot';
@@ -10,14 +9,7 @@ const TemplateAgreementList = ({
 }: { 
     templateAgreements: Array<TemplateAgreementSummary> 
 }) => {
-
-    useEffect(() => {
-      
-
-
-    }, [templateAgreements])
-
-
+ 
 
     const renderTemplateAgreement = (templateAgreement: TemplateAgreementSummary) => {
 

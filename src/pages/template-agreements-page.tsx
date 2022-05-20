@@ -55,7 +55,7 @@ const TemplateAgreementsPage = () => {
     }
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState != null && dataspaceState != "") {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "") {
             return (
 
                 <Grid container item xs={12} sm={12} md={12} lg={11} xl={11}>
@@ -72,7 +72,7 @@ const TemplateAgreementsPage = () => {
     useEffect(() => {
          
 
-        if (selectedDataspace != "" && !templateAgreementsLoaded && jwt != "") {
+        if (selectedDataspace !== "" && !templateAgreementsLoaded && jwt !== "") {
 
 
 
@@ -99,7 +99,7 @@ const TemplateAgreementsPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
 
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {

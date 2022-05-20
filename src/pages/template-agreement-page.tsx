@@ -1,6 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Chip, Breadcrumbs,  Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Divider, Theme } from '@mui/material';
+import { Grid, Typography, Button,  Breadcrumbs,  Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import  { useContext, useEffect, useState } from 'react';
 import { Agent, TemplateAgreement, } from '../api/models/models';
@@ -184,7 +184,7 @@ const TemplateAgreementPage = () => {
     }
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState != null && dataspaceState != "") {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "") {
             return (<Grid item container>
 
 
@@ -218,7 +218,7 @@ const TemplateAgreementPage = () => {
 
     useEffect(() => {
 
-        if (selectedDataspace != "" && !loadedAgent && jwt != "") {
+        if (selectedDataspace !== "" && !loadedAgent && jwt !== "") {
           
             trustRelayService.getAgent(jwt, dataspaceid!).then((res) => {
                 setMyAgent(res)
@@ -236,7 +236,7 @@ const TemplateAgreementPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
                
 

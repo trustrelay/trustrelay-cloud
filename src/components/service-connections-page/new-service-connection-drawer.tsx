@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Typography, TextField, Button, InputLabel,  AppBar, Tabs, Tab, ToggleButtonGroup, ToggleButton, Tooltip, Input, Drawer, Toolbar, Theme } from '@mui/material'; 
-import { DataspaceContext } from '../../app-contexts';
 import { useTranslation } from 'react-i18next'; 
 import TabPanel from '../tab-panel'; 
 import { makeStyles  } from '@mui/styles';
@@ -211,15 +210,15 @@ const NewServiceConnectionDrawer = ({
               scrollButtons={true}
               onChange={handleTabChange}
               aria-label="simple tabs example">
-              <Tab icon={<img className={css.tabImage} src="https://cdn.trustrelay.io/media/sql.svg" />}   {...a11yProps(0)} />
-              <Tab icon={<img className={css.tabImage} src="https://cdn.trustrelay.io/media/documentdb.svg"/>}   {...a11yProps(1)} />
+              <Tab icon={<img className={css.tabImage} alt="sql logo" src="https://cdn.trustrelay.io/media/sql.svg" />}   {...a11yProps(0)} />
+              <Tab icon={<img className={css.tabImage} alt="documentdb logo" src="https://cdn.trustrelay.io/media/documentdb.svg"/>}   {...a11yProps(1)} />
 
-              <Tab icon={<img className={css.tabImage} src="https://cdn.trustrelay.io/media/Microsoft_Azure.svg" />} {...a11yProps(2)} />
+              <Tab icon={<img className={css.tabImage} alt="azure logo" src="https://cdn.trustrelay.io/media/Microsoft_Azure.svg" />} {...a11yProps(2)} />
 
-              <Tab icon={<img className={css.tabImage} src="https://cdn.trustrelay.io/media/GCP.svg" />}   {...a11yProps(3)} />
-              <Tab icon={<img className={css.tabImage} src="https://cdn.trustrelay.io/media/AWS.svg" />}   {...a11yProps(4)} />
+              <Tab icon={<img className={css.tabImage} alt="gcp logo" src="https://cdn.trustrelay.io/media/GCP.svg" />}   {...a11yProps(3)} />
+              <Tab icon={<img className={css.tabImage} alt="aws logo" src="https://cdn.trustrelay.io/media/AWS.svg" />}   {...a11yProps(4)} />
 
-              <Tab icon={<img className={css.tabImage} src="https://cdn.trustrelay.io/media/all_resources.svg" />}   {...a11yProps(5)} />
+              <Tab icon={<img className={css.tabImage} alt="all resources" src="https://cdn.trustrelay.io/media/all_resources.svg" />}   {...a11yProps(5)} />
 
 
             </Tabs>
@@ -231,17 +230,17 @@ const NewServiceConnectionDrawer = ({
 
               <ToggleButton value="sqlserver" aria-label="sql server">
                 <Tooltip title={`${t('labels.sqlserver')}`}>
-                  <img src="https://cdn.trustrelay.io/media/sqlserver.svg" className={css.toggleButtonImg} />
+                  <img alt="sql server logo" src="https://cdn.trustrelay.io/media/sqlserver.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="postgres" aria-label="postgres">
                 <Tooltip title={`${t('labels.postgres')}`}>
-                  <img src="https://cdn.trustrelay.io/media/postgresql.svg" className={css.toggleButtonImg} />
+                  <img alt="postgres logo" src="https://cdn.trustrelay.io/media/postgresql.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="mysql" aria-label="mysql">
                 <Tooltip title={`${t('labels.mysql')}`}>
-                  <img src="https://cdn.trustrelay.io/media/mysql.svg" className={css.toggleButtonImg} />
+                  <img alt="mysql logo" src="https://cdn.trustrelay.io/media/mysql.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
             </ToggleButtonGroup>
@@ -253,7 +252,7 @@ const NewServiceConnectionDrawer = ({
 
               <ToggleButton value="mongodb" aria-label="mongodb">
                 <Tooltip title={`${t('labels.mongodb')}`}>
-                  <img src="https://cdn.trustrelay.io/media/mongodb.svg" className={css.toggleButtonImg} />
+                  <img alt="mongodb logo" src="https://cdn.trustrelay.io/media/mongodb.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
 
@@ -266,19 +265,19 @@ const NewServiceConnectionDrawer = ({
 
               <ToggleButton value="az-stg" aria-label="azure storage blob">
                 <Tooltip title={`${t('labels.azureStorage')}`}>
-                  <img src="https://cdn.trustrelay.io/media/storage_account.svg" className={css.toggleButtonImg} />
+                  <img alt="storage account logo" src="https://cdn.trustrelay.io/media/storage_account.svg" className={css.toggleButtonImg} />
                 </Tooltip>
 
               </ToggleButton>
               <ToggleButton value="az-cosmos" aria-label="az-cosmos">
                 <Tooltip title={`${t('labels.azureCosmosDb')}`}>
-                  <img src="https://cdn.trustrelay.io/media/cosmosdb.svg" className={css.toggleButtonImg} />
+                  <img alt="cosmosdb logo" src="https://cdn.trustrelay.io/media/cosmosdb.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
 
               <ToggleButton value="az-datalake" aria-label="azure data lake">
                 <Tooltip title={`${t('labels.azureDataLake')}`}>
-                  <img src="https://cdn.trustrelay.io/media/azuredatalake.svg" className={css.toggleButtonImg} />
+                  <img alt="azure data lake logo" src="https://cdn.trustrelay.io/media/azuredatalake.svg" className={css.toggleButtonImg} />
                 </Tooltip>
 
               </ToggleButton>
@@ -292,7 +291,7 @@ const NewServiceConnectionDrawer = ({
 
               <ToggleButton value="gcp-stg" aria-label="GCP storage">
                 <Tooltip title={`${t('labels.gcpStorage')}`}>
-                  <img src="https://cdn.trustrelay.io/media/gcp_storage.svg" className={css.toggleButtonImg} />
+                  <img alt="gcp storage logo" src="https://cdn.trustrelay.io/media/gcp_storage.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
             </ToggleButtonGroup>
@@ -306,7 +305,7 @@ const NewServiceConnectionDrawer = ({
 
               <ToggleButton value="aws-s3" aria-label="AWS S3">
                 <Tooltip title={`${t('labels.awsS3Bucket')}`}>
-                  <img src="https://cdn.trustrelay.io/media/aws_s3_logo.svg" className={css.toggleButtonImg} />
+                  <img alt="aws s3 logo" src="https://cdn.trustrelay.io/media/aws_s3_logo.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
             </ToggleButtonGroup>
@@ -317,18 +316,18 @@ const NewServiceConnectionDrawer = ({
 
               <ToggleButton value="http" aria-label="HTTP">
                 <Tooltip title={`${t('labels.http')}`}>
-                  <img src="https://cdn.trustrelay.io/media/web_resource.svg" className={css.toggleButtonImg} />
+                  <img alt="web source" src="https://cdn.trustrelay.io/media/web_resource.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
               <ToggleButton value="sap-hana" aria-label="sap-hana">
                 <Tooltip title={`${t('labels.sapHana')}`}>
-                  <img src="https://cdn.trustrelay.io/media/sap.svg" className={css.toggleButtonImg} />
+                  <img alt="sap logo" src="https://cdn.trustrelay.io/media/sap.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
               
               <ToggleButton value="snowflake" aria-label="snowflake">
                 <Tooltip title={`${t('labels.snowflake')}`}>
-                  <img src="https://cdn.trustrelay.io/media/Snowflake_Logo.svg" className={css.toggleButtonImg} />
+                  <img alt="snowflake logo" src="https://cdn.trustrelay.io/media/Snowflake_Logo.svg" className={css.toggleButtonImg} />
                 </Tooltip>
               </ToggleButton>
             </ToggleButtonGroup>

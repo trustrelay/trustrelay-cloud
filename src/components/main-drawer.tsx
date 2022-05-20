@@ -87,7 +87,7 @@ const MainDrawer = ({
                setCurrentDataspace(selectedDataspace)
             }
         }
-    },[dataspaceCtx.dataspaceState])
+    },[dataspaceCtx.dataspaceState, selectedDataspace])
 
     return (
         <Drawer className={css.root} variant="temporary" open={open} BackdropProps={{ invisible: true }} onClose={handleClose} >
@@ -109,7 +109,7 @@ const MainDrawer = ({
 
                 <List>
 
-                    {(currentDataspace != null && currentDataspace.length > 0)   ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/dashboard`)} >
+                    {(currentDataspace !== null && currentDataspace.length > 0)   ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/dashboard`)} >
                         <ListItemIcon><DashboardIcon /></ListItemIcon>
                         <ListItemText primary={t('labels.dashboard')} />
                     </ListItem> : <></>}
@@ -118,12 +118,12 @@ const MainDrawer = ({
                     <Divider />
 
 
-                    {(currentDataspace != null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/commons`)} >
+                    {(currentDataspace !== null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/commons`)} >
                         <ListItemIcon><ArchiveIcon /></ListItemIcon>
                         <ListItemText primary={t('labels.commons')} />
                     </ListItem> : <></>}
 
-                    {(currentDataspace != null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/insights`)} >
+                    {(currentDataspace !== null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/insights`)} >
                         <ListItemIcon> <EqualizerIcon /></ListItemIcon>
                         <ListItemText primary={t('labels.insights')} />
                     </ListItem> : <></>}
@@ -138,12 +138,12 @@ const MainDrawer = ({
                     <ListItemText primary={t('labels.templateAgreements')} />
                 </ListItem> : <></>}
 
-                {(currentDataspace != null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/settings/service-connections`)} >
+                {(currentDataspace !== null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/settings/service-connections`)} >
                     <ListItemIcon><CloudDoneIcon /></ListItemIcon>
                     <ListItemText primary={t('labels.serviceConnections')} />
                 </ListItem> : <></>}
 
-                {(currentDataspace != null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/audit-logs`)} >
+                {(currentDataspace !== null && currentDataspace.length > 0) ? <ListItem button component="button" onClick={() => navigate(`/dataspaces/${currentDataspace}/audit-logs`)} >
                     <ListItemIcon><ChromeReaderModeIcon /></ListItemIcon>
                     <ListItemText primary={t('labels.auditLogs')} />
                 </ListItem> : <></>}

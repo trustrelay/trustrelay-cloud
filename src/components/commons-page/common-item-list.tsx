@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { Grid } from '@mui/material';
-import { Common } from "../../api/models/models";
-import { useAccount, useMsal } from "@azure/msal-react";
+import { Common } from "../../api/models/models"; 
 
 import ArchiveIcon from '@mui/icons-material/Archive';
 import CommonSummaryItem from "./common-summary-item"; 
@@ -19,19 +17,7 @@ const CommonList = ({
     dataspace: string,
     jwt: string;
 }) => {
-
-    const { instance, accounts, inProgress } = useMsal();
-    
-
-    useEffect(() => {
-
-
-
-    }, [agent])
-
-
-
-
+ 
 
     const renderCommon = (common: Common) => {
 

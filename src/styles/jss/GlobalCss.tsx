@@ -1,4 +1,3 @@
-import React from "react";
 import { variableStyles } from "./_variables.js";
 import { positioningStyles } from "./utilities/_positionings.js";
 import { spacingStyles } from "./utilities/_spacing.js";

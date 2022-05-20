@@ -22,10 +22,10 @@ const RedirectPage = () => {
     }
  
 
-  }, [loaded, redirectUrl])
+  }, [loaded, redirectUrl, location.hash])
 
   return (
-    <p>{`redirecting to ${redirectUrl}...`}</p>
+    <div>{`redirecting to ${redirectUrl}...`}</div>
   );
 };
 

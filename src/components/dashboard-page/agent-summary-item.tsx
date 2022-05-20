@@ -40,7 +40,7 @@ const AgentSummaryItem = ({
             setColor(generateRandomColor());
             setLoadedColor(true);
         }
-    })
+    },[loadedColor])
 
     return (
         <Paper >

@@ -172,7 +172,7 @@ const OrganizationsPage = () => {
 
 
     const renderContent = () => {
-        if (dataspaceCtx && dataspaceCtx.dataspaceState != null && dataspaceCtx.dataspaceState != "") {
+        if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "") {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
@@ -220,7 +220,7 @@ const OrganizationsPage = () => {
   
 
 
-        if (jwt != "" && organizations.length == 0) {
+        if (jwt !== "" && organizations.length === 0) {
 
 
             trustRelayService.getOrganizations(jwt).then((res) => {
@@ -245,7 +245,7 @@ const OrganizationsPage = () => {
 
         if (isAuthenticated) {
 
-            if (jwt != "") {
+            if (jwt !== "") {
 
                 trustRelayService.getAccount(jwt).then((res) => {
 
