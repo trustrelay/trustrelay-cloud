@@ -5,6 +5,7 @@ export default createTheme(
         palette: {
             mode: "light",
             primary: {
+                light:"#f5f5f5",
                 main: "#0090BF",
                 contrastText: "#FFFFFF"
             },
@@ -15,17 +16,17 @@ export default createTheme(
             background: {
                 default: "#f5f5f5"
             },
-            action:{
-                    // "active": lightBlue[200],
-                    // "activeOpacity": 1,
-                    // "hover": lightBlue[100],
-                    // "hoverOpacity": 0.7,
-                    // "focus": lightBlue[600],
-                    // "focusOpacity": 1,
-                    // "selected": lightBlue[300],
-                    // "selectedOpacity": 1,
+            // action:{
+            //         "active": lightBlue[200],
+            //         "activeOpacity": 1,
+            //         "hover": lightBlue[100],
+            //         "hoverOpacity": 0.7,
+            //         "focus": lightBlue[600],
+            //         "focusOpacity": 1,
+            //         "selected": lightBlue[300],
+            //         "selectedOpacity": 1,
 
-            }
+            // }
         },
         typography: {
             fontFamily: 'raleway'
@@ -119,11 +120,7 @@ export default createTheme(
                 }
             },
             MuiButton: {
-               styleOverrides:{
-                   root:{
-                       backgroundColor:"#0090BF"
-                   }
-               },
+             
                 defaultProps: {
                     sx: {
                         textTransform: "none",
@@ -188,34 +185,22 @@ export default createTheme(
 
             MuiTypography: {
                 styleOverrides: {
-                    h1: {
-                        // "color": "#444444",
-                        // "fontStyle": "normal",
-                        // "fontWeight": "lighter",
+                    h1: { 
                         fontSize: "35px"
                     },
-                            h2: {
-                                // "color": "#444444",
-                                // "fontStyle": "normal",
-                                // "fontWeight": "lighter",
+                            h2: { 
                                 fontSize: "30px"
                             },
-                            h3: {
-                                // "color": "#444444",
-                                // "fontStyle": "normal",
-                                // "fontWeight": "normal",
+                            h3: { 
                                 fontSize: "25px"
                             },
-                            h4: {
-                                // "color": "#444444",
+                            h4: { 
                                 fontSize: "20px"
                             },
-                            h5: {
-                                // "color": "#444444",
+                            h5: { 
                                 fontSize: "18px"
                             },
-                            h6: {
-                                // "color": "#444444",
+                            h6: { 
                                 fontSize: "16px"
                             },
                     //         "subtitle1": {
@@ -226,16 +211,14 @@ export default createTheme(
                     //             "color": "#444444",
                     //             fontSize: "20px"
                     //         },
-                    body1: {
-                        // "color": "#444444",
+                    body1: { 
                         fontSize: "13px"
                     },
                     //         "body2": {
                     //             "color": "#444444",
                     //             fontSize: "14px"
                     //         },
-                    caption: {
-                        // "color": "#444444",
+                    caption: { 
                         fontSize: "10px"
                     },
                     //         "button": {

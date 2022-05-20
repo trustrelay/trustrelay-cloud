@@ -1,6 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Paper, Divider, Accordion, AccordionSummary, AccordionDetails, LinearProgress, Card, CardContent, ButtonGroup, Popper, Grow, ClickAwayListener, MenuList, MenuItem, CircularProgress, Theme } from '@mui/material';
+import { Grid, Typography, Button, Paper, Divider, Accordion, AccordionSummary, AccordionDetails, LinearProgress, Card, CardContent, ButtonGroup, Popper, Grow, ClickAwayListener, MenuList, MenuItem, CircularProgress, Theme, TextField } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppPushNotificationContext, DataspaceContext, ToastMessageType } from '../app-contexts';
@@ -348,18 +348,25 @@ const DashboardPage = () => {
                                     backgroundColor: "rgba(var(--body), 0.1)" 
                                 }}
                             /> */}
-                             <CodeEditor
+                             {/* <CodeEditor
       value={query}
       language="sql"
       placeholder="Please enter SQL code."
       onChange={handleQueryChange}
       padding={15}
       style={{
-        fontSize: 12,
-        backgroundColor: "#f5f5f5",
+        fontSize: 12, 
         fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
       }}
-    />
+    /> */}
+    <TextField  style={{
+                                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                                    fontSize: 12,
+                                    width: "100%",
+                                    height: "150px",
+                                    backgroundColor: "rgba(var(--body), 0.1)" 
+                                }}
+                                 onChange={handleQueryChange} value={query}/>
                         </Paper>
                     </Grid>
                     {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>Schema</Grid> */}

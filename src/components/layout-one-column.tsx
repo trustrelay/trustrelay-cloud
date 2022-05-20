@@ -1,12 +1,15 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { Toast } from './toast';
-import { Grid, Theme  } from '@mui/material';
+import { Grid, Theme, CssBaseline   } from '@mui/material';
 import MainNavigation from './main-navigation';
 import { ToastMessageInfo, ToastMessageType} from '../app-contexts';
 import MainDrawer from './main-drawer';  
 import { collector, Producer, Transport } from '../apm';
 import { useDarkMode } from '../hooks/dark-mode'; 
-import { makeStyles  } from '@mui/styles';
+import LightTheme from '../assets/themes/TrustRelay/light';
+import DarkTheme from '../assets/themes/TrustRelay/dark';
+import { makeStyles, ThemeProvider  } from '@mui/styles';
+
 
 const useStyles = makeStyles((theme:Theme) => ({
   pageContainer: {
@@ -74,10 +77,14 @@ const Layout1Column = ({
     setIsMainDrawerOpen(!isMainDrawerOpen);
   }
 
+  const [theme, toggleTheme] = useDarkMode();
+  const themeMode = theme === 'light' ? LightTheme : DarkTheme;
+
 
   return (
 
-    <>
+    <ThemeProvider theme={themeMode}>
+    <CssBaseline />
         <MainNavigation
           openToast={openToast}
           toggleMainDrawer={toggleMainDrawer} 
@@ -105,7 +112,7 @@ const Layout1Column = ({
           </Grid>
         </Grid>
     
-        </>
+        </ThemeProvider>
 
   );
 };

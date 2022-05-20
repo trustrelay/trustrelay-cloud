@@ -1,4 +1,4 @@
-import {  useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import {
   ToastContext,
   TOAST_CONTEXT_DEFAULT,
@@ -16,25 +16,29 @@ import {
   Routes,
   Route,
   BrowserRouter as Router
-} from 'react-router-dom'; 
-import PerfectScrollbar  from "react-perfect-scrollbar";
+} from 'react-router-dom';
+
 import { MsalProvider } from "@azure/msal-react";
 
-import './App.css';
 
+import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
-
 import Page from './components/page';
 
+
+import GlobalCss from "./styles/jss/GlobalCss";
+import './App.css';
+import styled from '@emotion/styled'
+import { withTheme, Global, css, jsx, ClassNames } from '@emotion/react'
 import LightTheme from './assets/themes/TrustRelay/light';
 import DarkTheme from './assets/themes/TrustRelay/dark';
+import PlaceholderTheme from './assets/themes/TrustRelay/placeholder';
 
 
-import { ThemeProvider  } from '@mui/styles';
-import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles'
 
 const DashboardPage = lazy(() => import('./pages/dashboard-page'));
- 
+
 const SignedOutPage = lazy(() => import('./pages/signed-out-page'));
 const CommonsPage = lazy(() => import('./pages/commons-page'));
 const CommonPage = lazy(() => import('./pages/common-page'));
@@ -54,9 +58,14 @@ const ServiceConnectionPage = lazy(() => import('./pages/service-connection-page
 const AuditLogsPage = lazy(() => import('./pages/audit-logs-page'));
 const RedirectPage = lazy(() => import('./pages/redirect-page'));
 const OrganizationsPage = lazy(() => import('./pages/organizations-page'));
-const SubscriptionPage = lazy(() => import('./pages/subscription-page')); 
-  
- const MyPerfectScrollbar : any = PerfectScrollbar
+const SubscriptionPage = lazy(() => import('./pages/subscription-page'));
+
+
+
+const MyPerfectScrollbar: any = PerfectScrollbar
+
+
+
 
 
 const App = (
@@ -78,32 +87,33 @@ const App = (
   const [membershipsState, setMembershipsState] = useState(MEMBERSHIPS_CONTEXT_DEFAULT.membershipsState);
   const membershipsProviderValue = { membershipsState, setMembershipsState };
 
- 
+
 
   return (
-    <ThemeProvider theme={LightTheme}>
-<CssBaseline />
-      <MsalProvider instance={msalInstance}>
-        <ToastContext.Provider value={toastProviderValue}>
-          <AppNotificationsContext.Provider value={trustRelayNotificationsProviderValue}>
-            <AppPushNotificationContext.Provider value={trustRelayPushNotificationProviderValue}>
-              <DataspaceContext.Provider value={dataspaceProviderValue}>
-                <MembershipsContext.Provider value={membershipsProviderValue}>
-                  
-                    {/* <MyPerfectScrollbar
+    <ThemeProvider theme={DarkTheme}>
+      <GlobalCss>
+    
+        <MsalProvider instance={msalInstance}>
+          <ToastContext.Provider value={toastProviderValue}>
+            <AppNotificationsContext.Provider value={trustRelayNotificationsProviderValue}>
+              <AppPushNotificationContext.Provider value={trustRelayPushNotificationProviderValue}>
+                <DataspaceContext.Provider value={dataspaceProviderValue}>
+                  <MembershipsContext.Provider value={membershipsProviderValue}>
+
+                    <MyPerfectScrollbar
                       className="h-full-screen scrollable-content"
                       options={{ suppressScrollX: true }}
-                    > */}
+                    >
                       <Router>
                         <Suspense fallback={<div>Loading...</div>}>
                           <Routes>
 
- 
 
 
-                          <Route
-                              index  
-                              element={  <Page title="TrustRelay | Account">
+
+                            <Route
+                              index
+                              element={<Page title="TrustRelay | Account">
                                 <AccountPage />
                               </Page>
                               }
@@ -112,89 +122,89 @@ const App = (
 
                             <Route
                               path="/redirect"
-                              
-                              element={    <Page  title="TrustRelay | Redirecting">
-                                  <RedirectPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Redirecting">
+                                <RedirectPage />
+                              </Page>}
                             />
 
-                           
-  
+
+
 
                             <Route
                               path="/account"
-                              
-                              element={ <Page   title="TrustRelay | Account">
-                                  <AccountPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Account">
+                                <AccountPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/organizations"
-                              
-                              element={  <Page  title="TrustRelay | Organizations">
-                                  <OrganizationsPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Organizations">
+                                <OrganizationsPage />
+                              </Page>}
                             />
 
 
                             <Route
                               path="/settings/subscriptions/:subscriptionid"
-                              
-                              element={   <Page  title="TrustRelay | Subscription">
-                                  <SubscriptionPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Subscription">
+                                <SubscriptionPage />
+                              </Page>}
                             />
 
 
 
                             <Route
                               path="/dataspaces/:dataspaceid"
-                              
-                              element={  <Page title="TrustRelay | Dataspace">
-                                  <DataspacePage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Dataspace">
+                                <DataspacePage />
+                              </Page>}
                             />
 
 
                             <Route
                               path="/dataspaces/:dataspaceid/dashboard"
-                              
-                              element={  <Page   title="TrustRelay | Dashboard">
-                                  <DashboardPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Dashboard">
+                                <DashboardPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/issues"
-                              
-                              element={   <Page title="TrustRelay | Issues">
-                                  <IssuesPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Issues">
+                                <IssuesPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/join/:code"
-                              
-                              element={  <Page  title="TrustRelay | Join">
-                                  <JoinPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Join">
+                                <JoinPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/audit-logs"
-                              
-                              element={  <Page title="TrustRelay | Audit Logs">
-                                  <AuditLogsPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Audit Logs">
+                                <AuditLogsPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/tasks"
-                              
-                              element={ <Page  title="TrustRelay | Tasks">
-                                  <UserTasksPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Tasks">
+                                <UserTasksPage />
+                              </Page>}
                             />
 
 
@@ -202,109 +212,109 @@ const App = (
 
                             <Route
                               path="/dataspaces/:dataspaceid/commons/:commonid"
-                              
-                              element={   <Page  title="TrustRelay | Common">
-                                  <CommonPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Common">
+                                <CommonPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/commons"
-                              
-                              element={   <Page  title="TrustRelay | Commons">
-                                  <CommonsPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Commons">
+                                <CommonsPage />
+                              </Page>}
                             />
 
 
                             <Route
                               path="/dataspaces/:dataspaceid/signed-agreements/:agreementid"
-                              
-                              element={  <Page  title="TrustRelay | Signed Agreement">
-                                  <SignedAgreementPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Signed Agreement">
+                                <SignedAgreementPage />
+                              </Page>}
                             />
 
 
                             <Route
                               path="/dataspaces/:dataspaceid/signed-agreements"
-                              
-                              element={   <Page  title="TrustRelay | Dataspace Agreements">
-                                  <SignedAgreementsPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Dataspace Agreements">
+                                <SignedAgreementsPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/template-agreements/:agreementid"
-                              
-                              element={   <Page  title="TrustRelay | Template Agreement">
-                                  <TemplateAgreementPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Template Agreement">
+                                <TemplateAgreementPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/template-agreements"
-                              
-                              element={  <Page  title="TrustRelay | Template Agreements">
-                                  <TemplateAgreementsPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Template Agreements">
+                                <TemplateAgreementsPage />
+                              </Page>}
                             />
 
                             <Route
                               path="/dataspaces/:dataspaceid/template-agreement-wizard"
-                              
-                              element={  <Page  title="TrustRelay | Create Template Agreement">
-                                  <TemplateAgreementWizardPage />
-                                </Page> }
+
+                              element={<Page title="TrustRelay | Create Template Agreement">
+                                <TemplateAgreementWizardPage />
+                              </Page>}
                             />
 
 
 
                             <Route
-                              
+
                               path="/dataspaces/:dataspaceid/settings/service-connections"
-                              element={  <Page  title="TrustRelay | Service Connections">
-                                  <ServiceConnectionsPage />
-                                </Page> }
+                              element={<Page title="TrustRelay | Service Connections">
+                                <ServiceConnectionsPage />
+                              </Page>}
                             />
 
 
                             <Route
-                              
+
                               path="/dataspaces/:dataspaceid/settings/service-connections/:serviceconnectionid"
-                              element={   <Page  title="TrustRelay | Service Connection">
-                                  <ServiceConnectionPage />
-                                </Page> }
+                              element={<Page title="TrustRelay | Service Connection">
+                                <ServiceConnectionPage />
+                              </Page>}
                             />
 
 
                             <Route
-                              
+
                               path="/dataspaces/:dataspaceid/insights"
-                              element={  <Page  title="TrustRelay | Insights">
-                                  <InsightsPage />
-                                </Page> }
-                            />
-
-                        
-                          
-
-                            <Route 
-                              path="/signed-out"
-                            
-                              element={  <Page  title="TrustRelay | Signed Out">
-                                  <SignedOutPage />
-                                </Page> }
+                              element={<Page title="TrustRelay | Insights">
+                                <InsightsPage />
+                              </Page>}
                             />
 
 
 
 
                             <Route
-                             path="*"
-                              element={   <Page  title="TrustRelay | 404 Not Found">
-                                  <NotFoundPage />
-                                </Page> }
+                              path="/signed-out"
+
+                              element={<Page title="TrustRelay | Signed Out">
+                                <SignedOutPage />
+                              </Page>}
+                            />
+
+
+
+
+                            <Route
+                              path="*"
+                              element={<Page title="TrustRelay | 404 Not Found">
+                                <NotFoundPage />
+                              </Page>}
                             />
 
 
@@ -312,14 +322,16 @@ const App = (
                           </Routes>
                         </Suspense>
                       </Router>
-                    {/* </MyPerfectScrollbar> */}
-                  
-                </MembershipsContext.Provider>
-              </DataspaceContext.Provider>
-            </AppPushNotificationContext.Provider>
-          </AppNotificationsContext.Provider>
-        </ToastContext.Provider>
-      </MsalProvider>
+                    </MyPerfectScrollbar>
+
+                  </MembershipsContext.Provider>
+                </DataspaceContext.Provider>
+              </AppPushNotificationContext.Provider>
+            </AppNotificationsContext.Provider>
+          </ToastContext.Provider>
+        </MsalProvider>
+       
+      </GlobalCss>
     </ThemeProvider>
 
   );
