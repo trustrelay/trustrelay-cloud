@@ -835,6 +835,15 @@ class TrustRelayService extends BaseService {
     });
   }
 
+  renewAccessKey = async (jwt: string, dataspaceId: string): Promise<string> =>
+  await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/renew-access-key`, jwt).then((res: any) => {
+    if (res && res.value) {
+      return res.value as string;
+    } else {
+      throw new Error('Failed request to renew access key');
+    }
+  });
+
   getDataspaceSubscription = async (jwt: string, dataspaceId: string): Promise<Subscription> =>
     await this.simpleGet(`/dataspaces/${dataspaceId}/subscription`, jwt).then((res: any) => {
       if (res && res.value) {

@@ -1,10 +1,10 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table, TableRow, TableCell, TableBody,  Divider, Accordion, AccordionSummary, AccordionDetails, AppBar, Tabs, Tab, IconButton, Theme } from '@mui/material';
+import { Grid, Typography, Button, Breadcrumbs, TableContainer, Table, TableRow, TableCell, TableBody, Divider, Accordion, AccordionSummary, AccordionDetails, AppBar, Tabs, Tab, IconButton, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { Dataspace, Agent } from '../api/models/models';
-import { DataspaceContext } from '../app-contexts';
+import { DataspaceContext, ToastMessageType } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
@@ -29,10 +29,11 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import DisableMembershipDrawer from '../components/dashboard-page/disable-membership-drawer';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import KeyIcon from '@mui/icons-material/Key';
 import CreateAnonymousInviteDrawer from '../components/dataspace-page/create-anonymous-invite-drawer';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
         color: theme.palette.primary.main
     }
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme:Theme) => ({
 
 const DataspacePage = () => {
 
- 
+
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -67,6 +68,8 @@ const DataspacePage = () => {
     const [agentsLoaded, setAgentsLoaded] = useState(false);
     const emptyAgentsList: Array<Agent> = [];
     const [agents, setAgents] = useState(emptyAgentsList);
+
+    const [secret, setSecret] = useState('');
 
     const handleTabChange = (event: any, newValue: number) => {
         setValue(newValue);
@@ -171,6 +174,14 @@ const DataspacePage = () => {
 
     }
 
+    const renewAccessKey = () => {
+        
+        trustRelayService.renewAccessKey(jwt, dataspaceCtx.dataspaceState!).then((res: string) => {
+            toast.openToast('Please copy this somewhere safe.',`You will not see this code again: ${res}`,ToastMessageType.Warning)
+            
+        })
+    }
+
     const refreshData = () => {
         setAgents(emptyAgentsList);
         setSelectedDataspace(emptyDataspace);
@@ -248,12 +259,12 @@ const DataspacePage = () => {
                                                     <TableCell align="left" sx={{ width: "150px" }}><Typography textAlign="left" variant="body1">{t('labels.accessKey')}</Typography></TableCell>
                                                     <TableCell align="left">
 
-                                                        <CopyToClipboard text={selectedDataspace.accessKey}>
+                                                        <CopyToClipboard text={(secret !== '') ? secret : selectedDataspace.accessKey}>
                                                             <Grid container flex="row">
                                                                 <Typography textAlign="left" variant="body1">{`${selectedDataspace.accessKey}`}</Typography>
-                                                                <IconButton size="small">
+                                                                {/* <IconButton size="small">
                                                                     <AutorenewIcon />
-                                                                </IconButton>
+                                                                </IconButton> */}
                                                             </Grid>
                                                         </CopyToClipboard>
 
@@ -389,7 +400,11 @@ const DataspacePage = () => {
     }
 
     useEffect(() => {
-       
+
+    }, [secret])
+
+    useEffect(() => {
+
 
 
         if (!dataspaceLoaded && jwt !== "") {
@@ -403,13 +418,13 @@ const DataspacePage = () => {
 
 
         } else {
-            
+
         }
 
     }, [selectedDataspaceState, selectedDataspace])
 
     useEffect(() => {
-       
+
 
 
         if (selectedDataspace && !agentsLoaded && jwt !== "") {
@@ -423,7 +438,7 @@ const DataspacePage = () => {
 
 
         } else {
-         
+
         }
 
     }, [selectedDataspace, agentsLoaded])
@@ -446,7 +461,7 @@ const DataspacePage = () => {
                         const ds = res.defaultDataspace
                         dataspaceCtx.setDataspaceState(ds)
                         setSelectedDataspaceState(ds)
-                    
+
                     }).catch((err: Error) => {
                         toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
 
@@ -460,11 +475,11 @@ const DataspacePage = () => {
                     scopes: protectedResources.api.scopes,
                     account: account!
                 }).then((returnedToken) => {
-                 
+
                     setJwt(returnedToken.idToken)
 
                 }).catch((error: any) => {
-                    
+
                     console.log(error)
 
                 })
@@ -473,13 +488,14 @@ const DataspacePage = () => {
         } else {
 
             if (!inProgress) {
-            
+
                 instance.loginRedirect(loginRequest)
             }
 
         }
     }, [jwt,
-        isAuthenticated])
+        isAuthenticated,
+        secret])
 
 
 
@@ -496,7 +512,7 @@ const DataspacePage = () => {
                 <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
                     <Grid item container>
                         <Breadcrumbs aria-label="breadcrumb">
-                        {/* <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
+                            {/* <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
                                 {t('labels.dashboard')}
                             </Link> */}
                             <Link className={css.breadcrumbLink} to={`/account`} >
@@ -562,6 +578,13 @@ const DataspacePage = () => {
                                 {t('labels.setAnonymousInvite')}
                             </Button> : <></>}
 
+                        <Button variant="text"
+                            color="primary"
+                            startIcon={<KeyIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                            onClick={renewAccessKey}
+                        >
+                            {t('labels.renewAccessKey')}
+                        </Button>
 
                         <Button variant="text"
                             color="primary"
@@ -593,7 +616,7 @@ const DataspacePage = () => {
                                 <Typography variant="body1">{t('messages.signedOut')}</Typography>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}`})} >Login first</Button>
+                                <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}` })} >Login first</Button>
                             </Grid>
                         </Grid>
                     </UnauthenticatedTemplate>

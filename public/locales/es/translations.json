@@ -286,6 +286,7 @@
     "expiredOrCancelled":"Caducado | Cancelado",
     "setAsMyOrganization":"Establecer como mi organización",
     "redirectingTo":"redirigiendo a",
-    "weCanEmailYouAboutYourFeedback":"Podemos enviarle un correo respecto a su retroalimentacion"
+    "weCanEmailYouAboutYourFeedback":"Podemos enviarle un correo respecto a su retroalimentacion",
+    "renewAccessKey":"Regenerar clave de acceso"
   }
 }

@@ -301,6 +301,7 @@
     "expiredOrCancelled":"Expired | Cancelled",
     "setAsMyOrganization":"Set as my organization",
     "redirectingTo":"redirecting to",
-    "weCanEmailYouAboutYourFeedback":"We can email you about your feedback"
+    "weCanEmailYouAboutYourFeedback":"We can email you about your feedback",
+    "renewAccessKey":"Renew access key"
   } 
 }
