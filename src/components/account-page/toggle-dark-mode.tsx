@@ -15,6 +15,7 @@ const ToggleDarkMode = (
   const [selected, setSelected] = useState<string>(theme);
 
   const handleChange = (event: React.MouseEvent<HTMLElement>, newSelection: string) => {
+    
     setSelected(newSelection);
     toggleTheme()
   };

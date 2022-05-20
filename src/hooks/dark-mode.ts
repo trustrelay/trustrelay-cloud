@@ -14,7 +14,7 @@ export const useDarkMode = () => {
         } else {
             setMode('light');
         }
-        //document.location.reload()
+        document.location.reload()
     };
 
     useEffect(() => {

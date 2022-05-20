@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme:Theme) => ({
     marginTop: '7em',
   },
   mainNavigation: {
-    zIndex: theme.zIndex.drawer + 1,
+    // zIndex: theme.zIndex.drawer + 1,
+    zIndex: 100
   },
   pageBody: {
     width: "100%",
@@ -77,14 +78,13 @@ const Layout1Column = ({
     setIsMainDrawerOpen(!isMainDrawerOpen);
   }
 
-  const [theme, toggleTheme] = useDarkMode();
-  const themeMode = theme === 'light' ? LightTheme : DarkTheme;
+
 
 
   return (
 
-    <ThemeProvider theme={themeMode}>
-    <CssBaseline />
+    // 
+   <>
         <MainNavigation
           openToast={openToast}
           toggleMainDrawer={toggleMainDrawer} 
@@ -111,8 +111,8 @@ const Layout1Column = ({
             </Grid>
           </Grid>
         </Grid>
-    
-        </ThemeProvider>
+        </>
+       // </ThemeProvider> 
 
   );
 };

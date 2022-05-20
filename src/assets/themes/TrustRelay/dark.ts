@@ -21,7 +21,7 @@ export default createTheme(
             fontFamily: 'raleway'
         },
         components: {
-            "MuiAppBar": {
+            MuiAppBar: {
                 defaultProps: {
                     elevation: 0,
                     sx: {
@@ -30,7 +30,7 @@ export default createTheme(
                     }
                 } 
             },
-            "MuiCard": { 
+            MuiCard: { 
                 defaultProps: {
                     sx: {
                         // backgroundColor: "#FFFFFF"
@@ -40,7 +40,7 @@ export default createTheme(
                     }
                 }
             },
-            "MuiPaper": {
+            MuiPaper: {
                 styleOverrides: {
                     root: { 
                          backgroundColor: "#282c34",
@@ -55,14 +55,14 @@ export default createTheme(
                     }
                 },
             },
-            "MuiGrid": {
+            MuiGrid: {
                 defaultProps: {
                     sx: {
                         backgroundColor: "transparent"
                     }
                 }
             },
-            "MuiLink": {
+            MuiLink: {
                 defaultProps: { 
                     underline: "none",
                     sx: {
@@ -70,7 +70,7 @@ export default createTheme(
 
                 }
             },
-            "MuiAvatar": {
+            MuiAvatar: {
 
                 defaultProps: {
                     sx: {
@@ -83,7 +83,7 @@ export default createTheme(
                     },
                 }
             },  
-            "MuiTabs": {
+            MuiTabs: {
                 styleOverrides: {
                     root: {
                         backgroundColor: "#21252b",
@@ -99,14 +99,14 @@ export default createTheme(
                     }
                 }
             }, 
-            "MuiSvgIcon":{
+            MuiSvgIcon:{
                 styleOverrides:{
                     root:{
                         color:"#aaaaaa"
                     }
                 }
             },
-            "MuiTab": {
+            MuiTab: {
                 defaultProps: {
                     sx: {
                         "textTransform": "none",
@@ -120,17 +120,17 @@ export default createTheme(
                         },
                     },
                     
-                    "textColorPrimary": {
+                    textColorPrimary: {
                         color: "#0090BF"
                     }
                 }
             },
-            "MuiButton": {
+            MuiButton: {
                 defaultProps: {
                     sx: {
-                        "textTransform": "none",
-                        "borderRadius": "5px",
-                        "boxShadow": "none",
+                        textTransform: "none",
+                        borderRadius: "5px",
+                        boxShadow: "none",
                         "&:hover:not(.Mui-disabled)": {
                             cursor: "pointer"
                         }
@@ -138,14 +138,14 @@ export default createTheme(
 
                 } 
             },
-            "MuiTable": {
+            MuiTable: {
                 defaultProps: {
                     sx: {
                         // "borderColor": "#ffffff"
                     }
                 }
             },
-            "MuiTableRow": {
+            MuiTableRow: {
                 defaultProps: {
                     sx: {
                         "&:hover": {
@@ -154,7 +154,7 @@ export default createTheme(
                     }
                 }
             },
-            "MuiTableBody": {
+            MuiTableBody: {
                 defaultProps: {
                     sx: {
                         "&:hover": {
@@ -163,45 +163,45 @@ export default createTheme(
                     }
                 }
             },
-            "MuiTableCell": {
+            MuiTableCell: {
                 defaultProps: {
                     sx: {
-                        "borderColor": "#ffffff",
+                        borderColor: "#ffffff",
                         "&:hover": {
                             // backgroundColor:"red"
                         }
                     }
                 }
             },
-            "MuiAccordion": {
+            MuiAccordion: {
                 styleOverrides: {
                     root: {
-                        "borderColor": "#ffffff"
+                        borderColor: "#ffffff"
                     }
                 }
             },
-            "MuiAccordionSummary": {
+            MuiAccordionSummary: {
                 styleOverrides: {
                     root: {
-                        "flexDirection": "row-reverse"
+                        flexDirection: "row-reverse"
                     }
                 }
             },
-            "MuiBreadcrumbs": {
+            MuiBreadcrumbs: {
                 defaultProps: {
                     color: "#0090BF"
                 },
                 styleOverrides: {
-                    "li": {
+                    li: {
                         color: "#0090BF"
                     },
                 }
             },
-            "MuiToggleButton":{
+            MuiToggleButton:{
                 defaultProps:{ 
                 }
             },
-            "MuiTypography": {
+            MuiTypography: {
                 defaultProps: {
                     sx: {
                         color: "#FFFFFF"

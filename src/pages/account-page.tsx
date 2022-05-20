@@ -26,14 +26,14 @@ import SettingsDrawer from '../components/account-page/settings-drawer';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CreateNewDataspaceDrawer from '../components/account-page/create-new-dataspace-drawer';
 import CreateNewSubscriptionDrawer from '../components/account-page/create-new-subscription-drawer';
-import { makeStyles  } from '@mui/styles';
+// import { makeStyles  } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({ 
-    breadcrumbLink: {
-        color: theme.palette.primary.main
-    }
+// const useStyles = makeStyles((theme:Theme) => ({ 
+//     breadcrumbLink: {
+//         color: theme.palette.primary.main
+//     }
 
-}));
+// }));
 
 
 export const formatDateTime = (value: string): string => {
@@ -48,7 +48,7 @@ const AccountPage = () => {
 
     const toast = useToast();
     const { t } = useTranslation();
-    const css = useStyles();
+    // const css = useStyles();
 
     const { instance, accounts, inProgress } = useMsal();
 

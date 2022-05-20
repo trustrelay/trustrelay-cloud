@@ -47,7 +47,7 @@ export default createTheme(
                 styleOverrides: {
                     root: {
                         backgroundColor: "#FFFFFF",
-                        "boxShadow": "none"
+                        boxShadow: "none"
                     }
                 },
                 defaultProps: {
@@ -76,9 +76,9 @@ export default createTheme(
             },
             MuiLink: {
                 defaultProps: {
-                    "underline": "none",
+                    underline: "none",
                     sx: {
-                        "color": "#444444"
+                        color: "#444444"
                     }
                 }
             },
@@ -97,10 +97,10 @@ export default createTheme(
                             "minWidth": "80px"
                         },
                     },
-                    "flexContainer": {
+                    flexContainer: {
                         backgroundColor: "inherit"
                     },
-                    "scroller": {
+                    scroller: {
                         backgroundColor: "inherit"
                     }
                 }
@@ -108,14 +108,14 @@ export default createTheme(
             MuiSvgIcon: {
                 styleOverrides: {
                     root: {
-                        "color": "#666666"
+                        color: "#666666"
                     }
                 }
             },
             MuiTab: {
                 defaultProps: {
                     sx: {
-                        "textTransform": "none",
+                        textTransform: "none",
                     }
                 }
             },
@@ -161,7 +161,7 @@ export default createTheme(
             MuiTableCell: {
                 defaultProps: {
                     sx: {
-                        "borderColor": "#ffffff",
+                        borderColor: "#ffffff",
                         "&:hover": {
                             // backgroundColor:"red"
                         }
@@ -171,14 +171,14 @@ export default createTheme(
             MuiAccordion: {
                 styleOverrides: {
                     root: {
-                        "borderColor": "#ffffff"
+                        borderColor: "#ffffff"
                     }
                 }
             },
             MuiAccordionSummary: {
                 styleOverrides: {
                     root: {
-                        "flexDirection": "row-reverse"
+                        flexDirection: "row-reverse"
                     }
                 }
             },
