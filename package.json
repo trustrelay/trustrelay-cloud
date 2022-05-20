@@ -116,10 +116,7 @@
   "buildDate": 1651861267322,
   "reactSnap": {
     "include": [
-      "/",
-      "/privacy-policy-and-terms-of-use",
-      "/cookie-policy",
-      "/learn-more"
+      "/" 
     ],
     "snapshotDelay": 1500
   }
