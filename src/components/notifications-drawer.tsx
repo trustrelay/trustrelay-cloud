@@ -34,7 +34,7 @@ import { makeStyles  } from '@mui/styles';
 
 const useStyles = makeStyles((theme:Theme) => ({
   root: {
-    width: '280px',
+    width: '200px',
     flexGrow: 1, 
   }, 
   header: {
@@ -42,7 +42,9 @@ const useStyles = makeStyles((theme:Theme) => ({
   },
   notification: {
     marginTop: '10px',
-    margin: '1em 1em 1em 1em',
+    margin: '0.5em 2em 1em 0.5em',
+    // backgroundColor:"pink", 
+    width:"100%",
     paddingLeft: 0,
     paddingRight: 0,
     cursor: "pointer"
@@ -207,13 +209,13 @@ const NotificationsDrawer = ({
               <p> {t('errorMessages.getNotifications')} </p>
             </Grid>
           ) : (
-            <Grid item>
+            <Grid item container>
               {notifications.length > 0 ? (
-                <Grid item>
-                  <List >
+                <Grid item container xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <List style={{width:"100%"}}>
                     {notifications.map((notification) => (
 
-                      <div className={css.notification} key={notification.id} id={notification.id} >
+                      <div  className={css.notification} key={notification.id} id={notification.id} >
                         <Divider variant="inset" component="li" />
                         <ListItem className={css.notificationItem}>
                           <ListItemAvatar className={css.itemAvatar}>
