@@ -116,7 +116,7 @@ const FeedbackDrawer = ({
                 color="primary"
               />
             }
-            label="We can email you about your feedback"
+            label={t('labels.weCanEmailYouAboutYourFeedback')}
           />
               </Grid>
             <Grid item>

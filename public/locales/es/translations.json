@@ -3,7 +3,14 @@
     "pageNotFound": "Lo sentimos, no pudimos encontrar la página. Haz clic en el botón de abajo para ser redirigido.",
     "noNewNotifications": "No tienes nuevas notificaciones.",
     "pleaseSelectDataspace": "Seleccione un espacio de datos antes",
-    "signedOut": "Se desconectó"
+    "signedOut": "Se desconectó",
+    "thankYouFeedback":"Gracias por tomarse un tiempo para darnos retroalimentacion.",
+    "areYouSatisfied":"Esta satisfecho/a con su experiencia?",
+    "tellUsAboutYourExperience":"Cuentenos sobre su experiencia",
+    "healthStatus":"Estado de salud",
+    "noHealthIssues":"Ningun problema detectado en TrustRelay.",
+    "toConfirmCancellation":"confirmar cancelacion.",
+    "toConfirmDeletion":"confirmar borrado."
   },
   "labels": {
     "homePage": "Página de inicio",
@@ -254,6 +261,31 @@
     "run":"Ejecutar",
     "convertLastRunToCommon":"Convertir última ejecución a común",
     "rows":"filas",
-    "columns":"columnas"
+    "columns":"columnas",
+    "feedback":"Retroalimentación",
+    "help":"Ayuda",
+    "sendFeedback":"Enviar a TrustRelay",
+    "statusAndSupport":"Estado + Soporte",
+    "supportResources":"Recursos de soporte",
+    "exploreDocumentation":"Descubra documentación",
+    "terminate":"Terminar",
+    "terminated":"Terminado",
+    "terminatedBy":"Terminado por",
+    "agreementIsTerminated":"Acuerdo terminado",
+    "terminateAgreement":"Terminar acuerdo",
+    "submit":"Enviar", 
+    "upgradeSubscription":"Cambiar tipo suscripción",
+    "cancelSubscription":"Cancelar suscripción",
+    "admin1Email":"Correo Admin #1",
+    "admin2Email":"Correo Admin #2",
+    "procurementEmail":"Correo Suministros",
+    "currentDataspace":"Espacio de datos actual",
+    "editSubscription":"Editar suscripcion",
+    "extendTrialSubscription":"Extender Suscripción",
+    "isEnabled":"Habilitado",
+    "expiredOrCancelled":"Caducado | Cancelado",
+    "setAsMyOrganization":"Establecer como mi organización",
+    "redirectingTo":"redirigiendo a",
+    "weCanEmailYouAboutYourFeedback":"Podemos enviarle un correo respecto a su retroalimentacion"
   }
 }

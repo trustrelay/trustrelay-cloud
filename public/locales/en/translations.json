@@ -299,7 +299,8 @@
     "extendTrialSubscription":"Extend Trial Subscription",
     "isEnabled":"Enabled",
     "expiredOrCancelled":"Expired | Cancelled",
-    "setAsMyOrganization":"Set as my organization"
-
+    "setAsMyOrganization":"Set as my organization",
+    "redirectingTo":"redirecting to",
+    "weCanEmailYouAboutYourFeedback":"We can email you about your feedback"
   } 
 }
