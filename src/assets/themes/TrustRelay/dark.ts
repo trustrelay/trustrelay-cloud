@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import type {} from '@mui/x-data-grid/themeAugmentation';
 
 export default createTheme(
     {
@@ -184,6 +185,34 @@ export default createTheme(
                 styleOverrides: {
                     root: {
                         flexDirection: "row-reverse"
+                    }
+                }
+            },
+            MuiDataGrid:{
+                styleOverrides:{
+                    root:{
+                        color:"#FFFFFF",
+                        '& .MuiDataGrid-cell': {
+                            // borderBottomColor: borderColor,
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'pre', // don't collapse double spaces
+                          },
+                        //   '& .MuiDataGrid-cell:focus-within, & .MuiDataGrid-colCell:focus-within,  & .MuiDataGrid-columnHeader:focus-within':
+                        //     {
+                        //       outline: 0,
+                        //     },
+                          '& .MuiDataGrid-columnsContainer': {
+                            // borderBottomColor: borderColor,
+                          },
+                          '& .MuiDataGrid-columnSeparator--resizable': {
+                            // color: borderColor,
+                          },
+                          '& .MuiDataGrid-row.focusedNotSelected': {
+                            // backgroundColor: focusColor,
+                          },
+                        //   borderColor,
+                          borderRadius: 0,
+                          borderWidth: '1px 0 0' 
                     }
                 }
             },

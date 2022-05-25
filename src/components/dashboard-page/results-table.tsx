@@ -1,33 +1,36 @@
-import { Accordion, AccordionDetails, AccordionSummary, AppBar,  Grid, IconButton, Tab, Tabs, Theme, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, AppBar, Grid, IconButton, Tab, Tabs, Theme, Typography } from '@mui/material';
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {  QueryHistoryEntry } from "../../api/models/models";
+import { QueryHistoryEntry } from "../../api/models/models";
 import TabPanel from "../tab-panel";
 import { DataGrid, GridColDef, GridRowData } from '@mui/x-data-grid';
 import { formatDateTime } from "../../api/utils";
 import Prism from 'prismjs'
-import "prismjs/components/prism-sql"; 
+import "prismjs/components/prism-sql";
 import 'prismjs/components/prism-css';
 import 'prismjs/themes/prism-funky.css';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        width: '100%' 
-      },
-      heading: {
+        width: '100%'
+    },
+    heading: {
         fontSize: theme.typography.pxToRem(15),
         flexBasis: '33.33%',
         flexShrink: 0,
-      },
-      secondaryHeading: {
+    },
+    secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
-      },
-      code:{
+    },
+    tableColor: {
+        // color: "#0090BF"
+    },
+    code: {
         fontSize: theme.typography.pxToRem(12),
         'overflow-x': 'auto',
         'white-space': 'pre-wrap',
@@ -35,8 +38,8 @@ const useStyles = makeStyles((theme:Theme) => ({
         // 'white-space': '-pre-wrap',
         // 'white-space': '-o-pre-wrap',
         'word-wrap': 'break-word',
-      },
-    }));
+    },
+}));
 
 function sortEntry() {
     return function (a: QueryHistoryEntry, b: QueryHistoryEntry) {
@@ -55,7 +58,7 @@ const ResultsTable = ({
     queryHistory
 }: {
     rows: Array<GridRowData>;
-    columns:Array<GridColDef>;
+    columns: Array<GridColDef>;
     queryHistory: Array<QueryHistoryEntry>;
 }) => {
 
@@ -72,7 +75,7 @@ const ResultsTable = ({
     const [expanded, setExpanded] = useState<string | false>(false);
 
     const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
+        setExpanded(isExpanded ? panel : false);
     };
 
 
@@ -85,7 +88,7 @@ const ResultsTable = ({
 
     useEffect(() => {
 
-        Prism.highlightAll(); 
+        Prism.highlightAll();
 
     })
 
@@ -98,7 +101,7 @@ const ResultsTable = ({
                     value={value}
                     onChange={handleTabChange}
                     aria-label="query tabs">
-                    <Tab label={t('labels.results')} {...a11yProps(0)} /> 
+                    <Tab label={t('labels.results')} {...a11yProps(0)} />
                     <Tab label={t('labels.queryHistory')} {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
@@ -113,46 +116,46 @@ const ResultsTable = ({
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
 
                         <div style={{ height: '500px', width: '100%' }}>
-                            <DataGrid rows={rows} columns={columns} />
+                            <DataGrid className={css.tableColor} rows={rows} columns={columns} />
                         </div>
                     </Grid>
                 </Grid>
             </TabPanel>
 
-          
+
 
             <TabPanel id="history" value={value} index={1}>
                 <Grid item container rowGap={1} >
                     <Grid item container>
                         &nbsp;
                     </Grid>
-                    <Grid container item direction="column" xl={12} lg={12} md={12} sm={12} xs={12}  columnGap={1}>
-                    <div className={css.root}>
-                        {(queryHistory && queryHistory.length > 0) ? queryHistory.sort(sortEntry()).map((item, index) =>
-                            
-                            <Accordion expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
-                              <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1bh-content"
-                                id="panel1bh-header"
-                              >
-                                <Typography className={css.heading}>{index+1}</Typography>
-                                <Typography className={css.secondaryHeading}>{formatDateTime(item.timestamp)}</Typography>
-                              </AccordionSummary>
-                              <AccordionDetails>
-                              <CopyToClipboard text={item.query}>
-                                             <IconButton size="small">
-                                                 <FileCopyIcon/>
-                                             </IconButton>
-                                         </CopyToClipboard>
-                                         <pre className={css.code}>{item.query}</pre>
-                              </AccordionDetails>
-                            </Accordion>
+                    <Grid container item direction="column" xl={12} lg={12} md={12} sm={12} xs={12} columnGap={1}>
+                        <div className={css.root}>
+                            {(queryHistory && queryHistory.length > 0) ? queryHistory.sort(sortEntry()).map((item, index) =>
 
-                        ) : <></>}
-                         </div>
+                                <Accordion key={`accordion_${index}`} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1bh-content"
+                                        id="panel1bh-header"
+                                    >
+                                        <Typography className={css.heading}>{index + 1}</Typography>
+                                        <Typography className={css.secondaryHeading}>{formatDateTime(item.timestamp)}</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <CopyToClipboard text={item.query}>
+                                            <IconButton size="small">
+                                                <FileCopyIcon />
+                                            </IconButton>
+                                        </CopyToClipboard>
+                                        <pre className={css.code}>{item.query}</pre>
+                                    </AccordionDetails>
+                                </Accordion>
+
+                            ) : <></>}
+                        </div>
                     </Grid>
-                   
+
                 </Grid>
             </TabPanel>
 
