@@ -24,7 +24,7 @@ import CloudOffIcon from '@mui/icons-material/CloudOff';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import QueryStats from '../components/dashboard-page/query-stats';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GridColDef, GridRowData } from '@mui/x-data-grid';
+import { GridColDef, GridRowsProp  } from '@mui/x-data-grid-premium';
 import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
 import ExportToCommonDrawer from '../components/dashboard-page/export-to-common-drawer';
 import { makeStyles  } from '@mui/styles';
@@ -55,10 +55,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         "&:hover:not(.Mui-disabled)": {
             cursor: "pointer"
         }
-    },
-    number: {
-        fontWeight: "bolder",
-    }
+    } 
 })
 );
 
@@ -122,18 +119,12 @@ const DashboardPage = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const emptyRows: Array<GridRowData> = [];
+    const emptyRows: GridRowsProp = [];
     const emptyColumns: Array<GridColDef> = [];
 
     const [rows, setRows] = useState(emptyRows)
 
     const [columns, setColumns] = useState(emptyColumns);
-
-    //  const queryPreview = "SELECT * FROM `common1`.`products.json` LIMIT 10\n--SELECT * FROM `common2`.`customers.xlsx` LIMIT 10\n--SELECT * FROM common_stadtluzern_gcs.`fire.csv` LIMIT 10\n--SELECT * FROM common_swisscom_mysql.`classicmodels`.`customers` LIMIT 10\n--SELECT * FROM common_vbl_sqlserver.`dbo`.`Client`\n--SELECT * FROM `common_swisscom_opendata`.`http` WHERE `dataset`='standorte-mobilfunkmasten-lte'\n--SELECT * FROM `common_covid19`.`http`.`20220112-m4gbccen/sources/COVID19VaccPersons_v2.csv` LIMIT 10\n--SELECT * FROM `common_swisscom_hana`.`DBADMIN`.PRODUCTS"
-
-    // const queryPreview = "SELECT * FROM `azure_common_logs`.`/*.json`\n--SELECT ProductId, ProductName, Price, Stock FROM `aws_common`.`products.json` LIMIT 10\n--SELECT customerNumber, customerName, contactLastName, contactFirstName, phone, city, state, country FROM `azure_common_docs`.`customers.xlsx` LIMIT 10\n--SELECT * FROM `sap_common.DBADMIN`.`PRODUCTS`"
-
-    //  const queryPreview = "SELECT ProductId, ProductName, Price, Stock FROM `aws_common`.`products.json` LIMIT 10\n--SELECT customerNumber, customerName, contactLastName, contactFirstName, phone, city, state, country FROM `azure_common_docs`.`customers.xlsx` LIMIT 10\n--SELECT * FROM `sap_common.DBADMIN`.`PRODUCTS`"
 
     const [query, setQuery] = useState('');
 
@@ -144,8 +135,6 @@ const DashboardPage = () => {
     const handleQueryChange = (code: string) => {
         setQuery(code)
     }
-
-
 
     const refreshData = () => {
         setStats(emptyDashboardStats);
@@ -193,13 +182,7 @@ const DashboardPage = () => {
     }
 
     const handleSearch = (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault();
-
-        // alert(`index: ${selectedRunIndex}`)
-        // let previousHistory = queryHistory;
-        // let now = new Date()
-        // previousnavigate({ id:'', timestamp: now.toString(), query: query } as QueryHistoryEntry)
-        // setQueryHistory(previousHistory)
+        event.preventDefault(); 
 
         if (selectedRunIndex === 0) {
             setLoading(true);
@@ -215,12 +198,12 @@ const DashboardPage = () => {
                     setColumns(formattedColumns)
                 }
                 if (res.rows && res.rows.length > 0) {
-                    let formattedRows: Array<GridRowData> = []
+                    let formattedRows: any = []
                     let counter = 0
 
                     res.rows.forEach((row) => {
                         counter++
-                        let rowData: GridRowData = {}
+                        let rowData: any = {}
                         Object.entries(row).map(([key, value]) => {
                             rowData["id"] = counter
                             rowData[key] = value
@@ -277,7 +260,7 @@ const DashboardPage = () => {
                                                 <ArchiveIcon fontSize='large' />
                                             </Grid>
                                             <Grid item alignContent="center" xs={10} sm={10} md={10} lg={10} xl={10}>
-                                                {(stats.commons < 0) ? <CircularProgress color="secondary" /> : <Typography className={css.number} color="primary" textAlign="center" variant="h2">{stats.commons}</Typography>}
+                                                {(stats.commons < 0) ? <CircularProgress color="secondary" /> : <Typography color="primary" textAlign="center" variant="h2" style={{fontWeight:"bolder", fontSize:"60px"}} >{stats.commons}</Typography>}
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                 <Typography variant="body1">{t('labels.commonsEnabled')}</Typography>
@@ -296,7 +279,7 @@ const DashboardPage = () => {
                                                 <SettingsInputAntennaIcon fontSize='large' />
                                             </Grid>
                                             <Grid item alignContent="center" xs={10} sm={10} md={10} lg={10} xl={10}>
-                                                {(stats.members < 0) ? <CircularProgress color="secondary" /> : <Typography className={css.number} color="primary" textAlign="center" variant="h2">{stats.members}</Typography>}
+                                                {(stats.members < 0) ? <CircularProgress color="secondary" /> : <Typography  color="primary" textAlign="center" variant="h2" style={{fontWeight:"bolder", fontSize:"60px"}}>{stats.members}</Typography>}
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                 <Typography variant="body1">{t('labels.membersInvited')}</Typography>
@@ -315,7 +298,7 @@ const DashboardPage = () => {
                                                 <CloudOffIcon color="primary" fontSize='large' />
                                             </Grid>
                                             <Grid item alignContent="center" xs={10} sm={10} md={10} lg={10} xl={10}>
-                                                {(stats.failingConnections < 0) ? <CircularProgress color="secondary" /> : <Typography className={css.number} color="primary" textAlign="center" variant="h2">{stats.failingConnections}</Typography>}
+                                                {(stats.failingConnections < 0) ? <CircularProgress color="secondary" /> : <Typography color="primary" textAlign="center" variant="h2" style={{fontWeight:"bolder", fontSize:"60px"}}>{stats.failingConnections}</Typography>}
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                 <Typography variant="body1">{t('labels.connectionsFailed')}</Typography>
@@ -351,28 +334,10 @@ const DashboardPage = () => {
                                     backgroundColor: "rgba(var(--body), 0.1)" 
                                 }}
                             />
-                             {/* <CodeEditor
-      value={query}
-      language="sql"
-      placeholder="Please enter SQL code."
-      onChange={handleQueryChange}
-      padding={15}
-      style={{
-        fontSize: 12, 
-        fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
-      }}
-    /> */}
-    {/* <TextField  style={{
-                                    fontFamily: '"Fira code", "Fira Mono", monospace',
-                                    fontSize: 12,
-                                    width: "100%",
-                                    height: "150px",
-                                    backgroundColor: "rgba(var(--body), 0.1)" 
-                                }}
-                                 onChange={handleQueryChange} value={query}/> */}
+                            
                         </Paper>
                     </Grid>
-                    {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>Schema</Grid> */}
+                    
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <div className={css.loading}>

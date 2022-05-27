@@ -27,14 +27,16 @@ import Page from './components/page';
 
 
 import GlobalCss from "./styles/jss/GlobalCss";
-import './App.css'; 
+import './App.css';
 import LightTheme from './assets/themes/TrustRelay/light';
-import DarkTheme from './assets/themes/TrustRelay/dark'; 
+import DarkTheme from './assets/themes/TrustRelay/dark';
 
 
 import { ThemeProvider } from '@mui/material/styles'
-import { CssBaseline } from '@mui/material';
+import { Box, CssBaseline, LinearProgress } from '@mui/material';
 import { useDarkMode } from './hooks/dark-mode';
+
+import { LicenseInfo } from '@mui/x-license-pro';
 
 const DashboardPage = lazy(() => import('./pages/dashboard-page'));
 
@@ -87,12 +89,13 @@ const App = (
   const themeMode = theme === 'light' ? LightTheme : DarkTheme;
 
   useEffect(() => {
+    LicenseInfo.setLicenseKey('6c55dc46dfadd834c230493066ec3090Tz00NDU4MSxFPTE2ODUyNTMzMDYyMzEsUz1wcmVtaXVtLExNPXN1YnNjcmlwdGlvbixLVj0y');
   }, [theme])
 
   return <ThemeProvider theme={themeMode}>
- <CssBaseline />
+    <CssBaseline />
     <GlobalCss>
-     
+
       <MsalProvider instance={msalInstance}>
         <ToastContext.Provider value={toastProviderValue}>
           <AppNotificationsContext.Provider value={trustRelayNotificationsProviderValue}>
@@ -105,12 +108,11 @@ const App = (
                     options={{ suppressScrollX: true }}
                   >
                     <Router>
-                      <Suspense fallback={<div>Loading...</div>}>
+                      <Suspense fallback={<Box sx={{ width: '100%' }}>
+                        <LinearProgress  />
+                      </Box>}>
                         <Routes>
-
-
-
-
+ 
                           <Route
                             index
                             element={<Page title="TrustRelay | Account">

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { QueryHistoryEntry } from "../../api/models/models";
 import TabPanel from "../tab-panel";
-import { DataGrid, GridColDef, GridRowData } from '@mui/x-data-grid';
+import { DataGridPremium, GridColDef, GridRowsProp, GridToolbar } from '@mui/x-data-grid-premium'; 
 import { formatDateTime } from "../../api/utils";
 import Prism from 'prismjs'
 import "prismjs/components/prism-sql";
@@ -57,7 +57,7 @@ const ResultsTable = ({
     columns,
     queryHistory
 }: {
-    rows: Array<GridRowData>;
+    rows: any;
     columns: Array<GridColDef>;
     queryHistory: Array<QueryHistoryEntry>;
 }) => {
@@ -116,7 +116,7 @@ const ResultsTable = ({
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
 
                         <div style={{ height: '500px', width: '100%' }}>
-                            <DataGrid className={css.tableColor} rows={rows} columns={columns} />
+                            <DataGridPremium className={css.tableColor} rows={rows} columns={columns} components={{ Toolbar: GridToolbar }}  />
                         </div>
                     </Grid>
                 </Grid>
