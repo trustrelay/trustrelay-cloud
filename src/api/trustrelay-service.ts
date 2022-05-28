@@ -470,19 +470,7 @@ class TrustRelayService extends BaseService {
     });
   }
 
-  sendRequestToGetResource = async (resource: string, email: string): Promise<void> => {
-    let data = {
-      resource,
-      email 
-    }
-    await this.postWithResponse<string>(`/get-resource`, '', data).then((res: any) => {
-      if (res && res.value) {
-        return
-      } else {
-        throw new Error('Failed request to send request to get resource');
-      }
-    });
-  }
+
 
   
 
@@ -524,20 +512,7 @@ class TrustRelayService extends BaseService {
     });
   }
 
-  subscribeToEarlyAccess = async (email: string, reason: string): Promise<void> => {
-    let data = {
-      email,
-      reason
-    }
-    await this.postWithResponse<string>(`/early-access/signup`, '', data).then((res: any) => {
-      if (res && res.value) {
-        return
-      } else {
-        throw new Error('Failed request to get subscribe to early access');
-      }
-    });
 
-  }
 
   submitLearnMoreIdea = async (input: string): Promise<void> => {
     let data = {

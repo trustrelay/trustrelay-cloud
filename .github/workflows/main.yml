@@ -49,7 +49,7 @@ jobs:
           inlineScript: |
               az storage blob delete-batch \
               --source '$web' \
-              --account-name trustrelaycloud \
+              --account-name trustrelaycloudsandbox \
               --pattern '*.js' \
               --auth-mode key
 
@@ -61,7 +61,7 @@ jobs:
               --verbose \
               --destination '$web' \
               --source './build' \
-              --account-name trustrelaycloud \
+              --account-name trustrelaycloudsandbox \
               --overwrite
 
       # Azure logout
