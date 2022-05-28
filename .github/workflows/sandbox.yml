@@ -5,9 +5,9 @@ name: Deploy to Azure Blob Storage
 
 on:
   push:
-    branches: [ main ]
+    branches: [ sandbox ]
   pull_request:
-    branches: [ main ]
+    branches: [ sandbox ]
 
   workflow_dispatch:
 
@@ -49,7 +49,7 @@ jobs:
           inlineScript: |
               az storage blob delete-batch \
               --source '$web' \
-              --account-name trustrelaycloud \
+              --account-name trustrelaycloudsandbox \
               --pattern '*.js' \
               --auth-mode key
 
@@ -61,7 +61,7 @@ jobs:
               --verbose \
               --destination '$web' \
               --source './build' \
-              --account-name trustrelaycloud \
+              --account-name trustrelaycloudsandbox \
               --overwrite
 
       # Azure logout
