@@ -145,7 +145,7 @@ export const loginRequest = {
     api: {
         endpoint: "https://api.trustrelay.io/dashboard",
         //scopes: ["https://trustrelay.onmicrosoft.com/b63ab24a-9d3f-435c-a307-ba494565585b/Api.Access", "b63ab24a-9d3f-435c-a307-ba494565585b"], 
-        scopes: ['b63ab24a-9d3f-435c-a307-ba494565585b']
+        scopes: []
 
     },
 }
