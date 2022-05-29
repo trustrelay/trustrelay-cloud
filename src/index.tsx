@@ -5,9 +5,9 @@ import App from './App';
 import './i18n'; 
 // import reportWebVitals from './reportWebVitals';  
 import { PublicClientApplication } from "@azure/msal-browser";
-import { msalConfig } from "./authConfig";
+import { getMsalConfig } from "./authConfig";
 
-const msalInstance = new PublicClientApplication(msalConfig);
+const msalInstance = new PublicClientApplication(getMsalConfig());
 
 const rootElement = document.getElementById("root");
 

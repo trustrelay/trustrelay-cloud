@@ -116,7 +116,7 @@
     "@types/validator": "^13.7.1",
     "compress-create-react-app": "^1.2.1"
   },
-  "buildDate": 1651861267322,
+  "buildDate": 1653816776772,
   "reactSnap": {
     "include": [
       "/"

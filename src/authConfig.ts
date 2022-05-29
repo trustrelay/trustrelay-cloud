@@ -1,4 +1,5 @@
-import { LogLevel } from "@azure/msal-browser";
+import { Configuration, LogLevel } from "@azure/msal-browser";
+
 
 /**
  * Enter here the user flows and custom policies for your B2C application
@@ -28,6 +29,49 @@ export const b2cPolicies = {
     authorityDomain: "trustrelay.b2clogin.com"
 }
 
+export const getMsalConfig = () => {
+var azureClientId = process.env.REACT_APP_AZURE_CLIENT_ID;
+
+
+    return {
+        auth: {
+            clientId: azureClientId, // This is the ONLY mandatory field that you need to supply.
+            authority: b2cPolicies.authorities.signUpSignIn.authority, // Use a sign-up/sign-in user-flow as a default authority
+            knownAuthorities: [b2cPolicies.authorityDomain], // Mark your B2C tenant's domain as trusted. 
+            redirectUri: `/redirect`, // Points to window.location.origin. You must register this URI on Azure Portal/App Registration.
+            postLogoutRedirectUri: "/", // Indicates the page to navigate after logout.
+            navigateToLoginRequestUrl: true, // If "true", will navigate back to the original request location before processing the auth code response.
+        },
+        cache: {
+            cacheLocation: "localStorage", // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
+            storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
+        },
+        system: {	
+            loggerOptions: {	
+                loggerCallback: (level:any, message:any, containsPii:any) => {	
+                    if (containsPii) {		
+                        return;		
+                    }		
+                    switch (level) {		
+                        case LogLevel.Error:		
+                            console.error(message);		
+                            return;		
+                        case LogLevel.Info:		
+                           // console.info(message);		
+                            return;		
+                        case LogLevel.Verbose:		
+                           // console.debug(message);		
+                            return;		
+                        case LogLevel.Warning:		
+                            console.warn(message);		
+                            return;		
+                    }	
+                }	
+            }	
+        }
+    } as Configuration
+}
+
 /**
  * Configuration object to be passed to MSAL instance on creation. 
  * For a full list of MSAL.js configuration parameters, visit:
@@ -35,7 +79,7 @@ export const b2cPolicies = {
  */
 export const msalConfig = {
     auth: {
-        clientId: process.env.REACT_APP_AZURE_CLIENT_ID, // This is the ONLY mandatory field that you need to supply.
+        clientId: "TODO", // This is the ONLY mandatory field that you need to supply.
         authority: b2cPolicies.authorities.signUpSignIn.authority, // Use a sign-up/sign-in user-flow as a default authority
         knownAuthorities: [b2cPolicies.authorityDomain], // Mark your B2C tenant's domain as trusted. 
         redirectUri: `/redirect`, // Points to window.location.origin. You must register this URI on Azure Portal/App Registration.
