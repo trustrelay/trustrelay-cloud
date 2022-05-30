@@ -170,6 +170,9 @@ const AuditLogsPage = () => {
     ])
 
     return (
+        <>
+
+        <AuthenticatedTemplate>
         <LayoutPage
             toast={toast}
             openToast={toast.openToast}
@@ -194,10 +197,7 @@ const AuditLogsPage = () => {
                         </Grid>
                     </Grid>
                     <Divider />
-                    
-                    <AuthenticatedTemplate>
-
-
+                     
                         <Grid item container xl={11} lg={11} md={11} sm={11} xs={11}  >
                             <DataspaceContext.Consumer>
                                 {({ dataspaceState }) => (
@@ -210,19 +210,8 @@ const AuditLogsPage = () => {
                         <Grid item>
                             &nbsp;
                         </Grid>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-
-                        <Grid container direction="column">
-                            <Grid item>
-                                <Typography variant="body1">{t('messages.signedOut')}</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/audit-logs` })} >Login first</Button>
-                            </Grid>
-                        </Grid>
-
-                    </UnauthenticatedTemplate>
+                
+                    
                     <Grid item>
                         &nbsp;
                     </Grid>
@@ -230,7 +219,21 @@ const AuditLogsPage = () => {
 
             </LayoutCentered>
         </LayoutPage>
+   </AuthenticatedTemplate>
 
+   <UnauthenticatedTemplate>
+
+       <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+           <Typography variant="h1">{t('messages.signedOut')}</Typography>
+           <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+           <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/account` })} >Login first</Button>
+
+       </Grid>
+
+   </UnauthenticatedTemplate>
+</>
 
     );
 };

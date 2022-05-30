@@ -596,6 +596,9 @@ const DashboardPage = () => {
 
 
     return (
+        <>
+
+        <AuthenticatedTemplate>
         <LayoutPage
             toast={toast}
             openToast={toast.openToast}
@@ -622,7 +625,7 @@ const DashboardPage = () => {
                             </Grid>
                         </Grid>
                         <Divider />
-                        <AuthenticatedTemplate>
+                      
                             <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
 
@@ -648,18 +651,7 @@ const DashboardPage = () => {
                                 </Grid>
                             </Grid>
 
-                        </AuthenticatedTemplate>
-                        <UnauthenticatedTemplate>
-                            <Grid container direction="column">
-                                <Grid item>
-                                    <Typography variant="body1">{t('messages.signedOut')}</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: "/dashboard" })} >Login first</Button>
-                                </Grid>
-                            </Grid>
-
-                        </UnauthenticatedTemplate>
+                      
                         <Grid item>
                             &nbsp;
                         </Grid>
@@ -668,7 +660,21 @@ const DashboardPage = () => {
             }
 
         </LayoutPage>
+        </AuthenticatedTemplate>
 
+<UnauthenticatedTemplate>
+
+    <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+        <Typography variant="h1">{t('messages.signedOut')}</Typography>
+        <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+        <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dashboard` })} >Login first</Button>
+
+    </Grid>
+
+</UnauthenticatedTemplate>
+</>
 
     );
 };

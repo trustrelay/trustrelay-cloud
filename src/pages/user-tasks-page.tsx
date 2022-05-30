@@ -139,6 +139,9 @@ const UserTasksPage = () => {
         isAuthenticated])
 
     return (
+        <>
+
+        <AuthenticatedTemplate>
         <LayoutPage
             toast={toast}
             openToast={toast.openToast}
@@ -188,25 +191,15 @@ const UserTasksPage = () => {
                             {t('labels.refresh')}
                         </Button>
                     </Grid>
-                    <AuthenticatedTemplate>
+                
                         <DataspaceContext.Consumer>
                             {({ dataspaceState }) => (
                                 renderContent()
                             )}
 
                         </DataspaceContext.Consumer>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-                      
-                    <Grid container direction="column">
-                            <Grid item>
-                            <Typography variant="body1">{t('messages.signedOut')}</Typography>
-                            </Grid>
-                            <Grid item>
-                            <Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}/user-tasks`})} >Login first</Button>
-                            </Grid>
-                        </Grid>
-                       </UnauthenticatedTemplate>
+                    
+                   
                     <Grid item>
                         &nbsp;
                     </Grid>
@@ -214,7 +207,21 @@ const UserTasksPage = () => {
 
             </LayoutCentered>
         </LayoutPage>
+        </AuthenticatedTemplate>
 
+<UnauthenticatedTemplate>
+
+    <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+        <Typography variant="h1">{t('messages.signedOut')}</Typography>
+        <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+        <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/user-tasks` })} >Login first</Button>
+
+    </Grid>
+
+</UnauthenticatedTemplate>
+</>
 
     );
 };

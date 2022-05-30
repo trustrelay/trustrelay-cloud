@@ -1,24 +1,24 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button,  Divider, Breadcrumbs,  Theme } from '@mui/material';
+import { Grid, Typography, Button, Divider, Breadcrumbs, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import  { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Issue } from '../api/models/models';
-import {  DataspaceContext } from '../app-contexts';
+import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
 import AddIcon from '@mui/icons-material/Add';
-import { Link,  useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import IssueList from '../components/issues-page/issue-list';
 
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
         color: theme.palette.primary.main
     }
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme:Theme) => ({
 
 const IssuesPage = () => {
 
-    
+
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -69,28 +69,28 @@ const IssuesPage = () => {
     }
 
     useEffect(() => {
-      
+
 
         if (selectedDataspace !== "" && !issuesLoaded && jwt !== "") {
 
-            trustRelayService.getIssues(jwt, dataspaceid!).then((res)=>{
+            trustRelayService.getIssues(jwt, dataspaceid!).then((res) => {
                 setIssues(res)
                 setIssuesLoaded(true)
-                
+
             }).catch((err: Error) => {
                 toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
             });
 
         }
         else {
-             
+
         }
 
 
     }, [selectedDataspace, issuesLoaded])
 
     useEffect(() => {
-        
+
 
         if (isAuthenticated) {
 
@@ -107,7 +107,7 @@ const IssuesPage = () => {
                         const ds = res.defaultDataspace
                         dataspaceCtx.setDataspaceState(ds)
                         setSelectedDataspace(ds)
-                      
+
                     }).catch((err: Error) => {
                         toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
                     });
@@ -122,11 +122,11 @@ const IssuesPage = () => {
                     scopes: protectedResources.api.scopes,
                     account: account!
                 }).then((returnedToken) => {
-               
+
                     setJwt(returnedToken.idToken)
 
                 }).catch((error: any) => {
-                   
+
                     console.log(error)
 
                 })
@@ -135,7 +135,7 @@ const IssuesPage = () => {
         } else {
 
             if (!inProgress) {
-              
+
                 instance.loginRedirect(loginRequest)
             }
 
@@ -144,81 +144,88 @@ const IssuesPage = () => {
         isAuthenticated])
 
     return (
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-        >
+        <>
 
-            <LayoutCentered fullHeight>
-                <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                >
 
-                    <Grid item container>
-                        <Breadcrumbs aria-label="breadcrumb">
-                        <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
-                                {t('labels.dashboard')}
-                            </Link>
-                            <Typography variant="body1" color="textPrimary"> &gt;</Typography>
-                        </Breadcrumbs>
+                    <LayoutCentered fullHeight>
+                        <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
 
-                    </Grid>
-                    <Grid item container direction="row">
+                            <Grid item container>
+                                <Breadcrumbs aria-label="breadcrumb">
+                                    <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
+                                        {t('labels.dashboard')}
+                                    </Link>
+                                    <Typography variant="body1" color="textPrimary"> &gt;</Typography>
+                                </Breadcrumbs>
 
-                        <QuestionAnswerIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
-                        <Grid item>
-                            <Typography variant="h5" color="textPrimary">{t('labels.issues')}</Typography>
-                        </Grid>
-                    </Grid>
-                    <Divider />
+                            </Grid>
+                            <Grid item container direction="row">
 
-
-
-
-                    <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+                                <QuestionAnswerIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
+                                <Grid item>
+                                    <Typography variant="h5" color="textPrimary">{t('labels.issues')}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Divider />
 
 
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
 
-                        >
-                            {t('labels.newIssue')}
-                        </Button>
 
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => refreshData()}
-                        >
-                            {t('labels.refresh')}
-                        </Button>
-                    </Grid>
-                    <AuthenticatedTemplate>
-                        <DataspaceContext.Consumer>
-                            {({ dataspaceState }) => (
-                                renderContent(dataspaceState)
-                            )}
+                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
-                        </DataspaceContext.Consumer>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-                    <Grid container direction="column">
-                            <Grid item>
-                            <Typography variant="body1">{t('messages.signedOut')}</Typography>
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+
+                                >
+                                    {t('labels.newIssue')}
+                                </Button>
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={() => refreshData()}
+                                >
+                                    {t('labels.refresh')}
+                                </Button>
+                            </Grid>
+                            <Grid item container >
+                                <DataspaceContext.Consumer>
+                                    {({ dataspaceState }) => (
+                                        renderContent(dataspaceState)
+                                    )}
+
+                                </DataspaceContext.Consumer>
                             </Grid>
                             <Grid item>
-                            <Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}/issues`})} >Login first</Button>
+                                &nbsp;
                             </Grid>
                         </Grid>
-                        </UnauthenticatedTemplate>
-                    <Grid item>
-                        &nbsp;
-                    </Grid>
+
+                    </LayoutCentered>
+                </LayoutPage>
+            </AuthenticatedTemplate>
+
+            <UnauthenticatedTemplate>
+
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/issues` })} >Login first</Button>
+
                 </Grid>
 
-            </LayoutCentered>
-        </LayoutPage>
-
+            </UnauthenticatedTemplate>
+        </>
 
     );
 };

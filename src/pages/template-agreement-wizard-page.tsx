@@ -31,11 +31,7 @@ const useStyles = makeStyles((theme:Theme) => ({
 );
 
 const TemplateAgreementWizardPage = () => {
-
-
-
-    
-
+ 
     const toast = useToast();
     const { t } = useTranslation();
     const css = useStyles();
@@ -311,6 +307,9 @@ const TemplateAgreementWizardPage = () => {
     ])
 
     return (
+        <>
+
+        <AuthenticatedTemplate>
         <LayoutPage
             toast={toast}
             openToast={toast.openToast}
@@ -338,30 +337,15 @@ const TemplateAgreementWizardPage = () => {
                         </Grid>
                     </Grid>
                     <Divider />
-                    <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
-
-
-                        {/* <Button variant="text"
-                            color="primary"
-                            startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => refreshData()}
-                        >
-                            {t('labels.refresh')}
-                        </Button> */}
-
-                    </Grid>
-
-                    <AuthenticatedTemplate>
+                    <Grid item container>
+ 
                         <DataspaceContext.Consumer>
                             {({ dataspaceState }) => (
                                 renderContent(dataspaceState)
                             )}
 
                         </DataspaceContext.Consumer>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-                        <Typography variant="body1">{t('messages.signedOut')}</Typography><Button variant="contained" onClick={() => instance.loginRedirect(loginRequest)} >Login first</Button>
-                    </UnauthenticatedTemplate>
+                        </Grid>
                     <Grid item>
                         &nbsp;
                     </Grid>
@@ -369,7 +353,21 @@ const TemplateAgreementWizardPage = () => {
 
             </LayoutCentered>
         </LayoutPage>
+        </AuthenticatedTemplate>
 
+<UnauthenticatedTemplate>
+
+    <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+        <Typography variant="h1">{t('messages.signedOut')}</Typography>
+        <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+        <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/template-agreements` })} >Login first</Button>
+
+    </Grid>
+
+</UnauthenticatedTemplate>
+</>
 
     );
 };

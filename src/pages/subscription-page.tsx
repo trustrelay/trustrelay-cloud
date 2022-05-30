@@ -366,6 +366,9 @@ const SubscriptionPage = () => {
     }, [jwt,
         isAuthenticated]) 
     return (
+        <>
+
+        <AuthenticatedTemplate>
         <LayoutPage
             toast={toast}
             openToast={toast.openToast}
@@ -440,7 +443,7 @@ const SubscriptionPage = () => {
 
                     </Grid>
                     {(selectedSubscription) ? generateGeneralInfoTable(selectedSubscription) : <Grid item>&nbsp;</Grid>}
-                    <AuthenticatedTemplate>
+                 
 
 
                         <Grid item container >
@@ -453,18 +456,7 @@ const SubscriptionPage = () => {
                         <Grid item>
                             &nbsp;
                         </Grid>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-
-                        <Grid container direction="column">
-                            <Grid item>
-                                <Typography variant="body1">{t('messages.signedOut')}</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/settings/subscriptions/${subscriptionid}` })} >Login first</Button>
-                            </Grid>
-                        </Grid>
-                    </UnauthenticatedTemplate>
+                 
                     <Grid item>
                         &nbsp;
                     </Grid>
@@ -472,7 +464,21 @@ const SubscriptionPage = () => {
 
             </LayoutCentered>
         </LayoutPage>
+        </AuthenticatedTemplate>
 
+<UnauthenticatedTemplate>
+
+    <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+        <Typography variant="h1">{t('messages.signedOut')}</Typography>
+        <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+        <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/settings/subscriptions/${subscriptionid}` })} >Login first</Button>
+
+    </Grid>
+
+</UnauthenticatedTemplate>
+</>
 
     );
 };

@@ -149,6 +149,9 @@ const TemplateAgreementsPage = () => {
         isAuthenticated])
 
     return (
+        <>
+
+        <AuthenticatedTemplate>
         <LayoutPage
             toast={toast}
             openToast={toast.openToast}
@@ -207,7 +210,7 @@ const TemplateAgreementsPage = () => {
                         </DataspaceContext.Consumer>
                     </AuthenticatedTemplate>
                     <UnauthenticatedTemplate>
-                        <Typography variant="body1">{t('messages.signedOut')}</Typography><Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}/template-agreements`})} >Login first</Button>
+                        <Typography variant="h1">{t('messages.signedOut')}</Typography><Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}/template-agreements`})} >Login first</Button>
                     </UnauthenticatedTemplate>
                     <Grid item>
                         &nbsp;
@@ -216,7 +219,21 @@ const TemplateAgreementsPage = () => {
 
             </LayoutCentered>
         </LayoutPage>
+  </AuthenticatedTemplate>
 
+  <UnauthenticatedTemplate>
+  
+      <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+  
+          <Typography variant="h1">{t('messages.signedOut')}</Typography>
+          <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+  
+          <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/template-agreements` })} >Login first</Button>
+  
+      </Grid>
+  
+  </UnauthenticatedTemplate>
+  </>
 
     );
 };

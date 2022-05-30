@@ -1,8 +1,8 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Divider, Breadcrumbs, Theme} from '@mui/material';
+import { Grid, Typography, Button, Divider, Breadcrumbs, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import  { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Common, TemplateAgreementSummary, ServiceConnection, Subscription, Agent } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
@@ -18,9 +18,9 @@ import NewCommonDrawer from '../components/commons-page/new-common-drawer';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import JoinCommonDrawer from '../components/commons-page/join-common-drawer';
 import LinkIcon from '@mui/icons-material/Link';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
         color: theme.palette.primary.main
     }
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme:Theme) => ({
 
 const CommonsPage = () => {
 
-  
+
 
     const toast = useToast();
     const css = useStyles();
@@ -55,15 +55,15 @@ const CommonsPage = () => {
 
     const emptySubscription: Subscription = {
         id: "",
-        name:"",
+        name: "",
         admin1: "", admin1Email: "",
         admin2: "", admin2Email: "",
         procurement: "", procurementEmail: "",
         maxDataspaces: 0, maxCommons: 0, maxMembers: 0,
         currentDataspaces: 0, currentCommons: 0, currentMembers: 0,
-        subscriptionType:"",
-        expires:"",
-        isEnabled:false,
+        subscriptionType: "",
+        expires: "",
+        isEnabled: false,
         timestamp: ""
     }
     const [selectedSubscription, setSelectedSubscription] = useState(emptySubscription);
@@ -74,7 +74,7 @@ const CommonsPage = () => {
     const emptyAgreementTemplateList: Array<TemplateAgreementSummary> = [];
     const [templateAgreements, setTemplateAgreements] = useState(emptyAgreementTemplateList);
 
-    const emptyAgent : Agent = {   id: '',  dataspace: '',   dataspaceName: '',  subscription: '',  name: '',  user: '',  location: '', organization: '',   organizationName: '', organizationDomain: '',  timestamp: '' } 
+    const emptyAgent: Agent = { id: '', dataspace: '', dataspaceName: '', subscription: '', name: '', user: '', location: '', organization: '', organizationName: '', organizationDomain: '', timestamp: '' }
     const [myAgent, setMyAgent] = useState(emptyAgent);
 
     const [loadedAgreementTemplates, setLoadedAgreementTemplates] = useState(false);
@@ -95,7 +95,7 @@ const CommonsPage = () => {
 
     const createNewCommon = (commonName: string, serviceConnection: string, templateAgreement: string) => {
         trustRelayService.createNewCommon(jwt, dataspaceid!, commonName, serviceConnection, templateAgreement).then(() => {
-          
+
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
         });
@@ -103,7 +103,7 @@ const CommonsPage = () => {
 
     const handleJoinCommon = (commonId: string) => {
         trustRelayService.joinCommon(jwt, dataspaceid!, commonId).then(() => {
-           
+
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
         });
@@ -136,7 +136,7 @@ const CommonsPage = () => {
 
 
     const renderContent = (dataspaceState: string | null) => {
-        if (dataspaceState && dataspaceState !== null && dataspaceState !== "" && account && account.localAccountId && account.localAccountId.length>0) {
+        if (dataspaceState && dataspaceState !== null && dataspaceState !== "" && account && account.localAccountId && account.localAccountId.length > 0) {
             return (
 
                 <Grid container item xs={12} sm={12} md={12} lg={12} xl={12} direction="row" rowGap={1}>
@@ -177,7 +177,7 @@ const CommonsPage = () => {
         if (selectedDataspace !== "" && !loadedCommons && jwt !== "") {
 
 
-             
+
 
             trustRelayService.getCommons(jwt, selectedDataspace).then((res) => {
                 setCommons(res);
@@ -247,8 +247,8 @@ const CommonsPage = () => {
     }, [loadedSubscription, loadedAgent])
 
     useEffect(() => {
-         
- 
+
+
         if (isAuthenticated) {
 
             if (jwt !== "") {
@@ -269,7 +269,7 @@ const CommonsPage = () => {
                         const ds = res.defaultDataspace
                         dataspaceCtx.setDataspaceState(ds)
                         setSelectedDataspace(ds)
-                       
+
                     }).catch((err: Error) => {
                         toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
                     });
@@ -282,11 +282,11 @@ const CommonsPage = () => {
                     scopes: protectedResources.api.scopes,
                     account: account!
                 }).then((returnedToken) => {
-                    
+
                     setJwt(returnedToken.idToken)
 
                 }).catch((error: any) => {
-                    
+
                     console.log(error)
 
                 })
@@ -295,7 +295,7 @@ const CommonsPage = () => {
         } else {
 
             if (!inProgress) {
-                
+
                 instance.loginRedirect(loginRequest)
             }
 
@@ -309,100 +309,101 @@ const CommonsPage = () => {
 
 
     return (
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-        >
+        <>
 
-            <LayoutCentered fullHeight>
-                <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                >
 
-
-                    <Grid item container>
-                        <Breadcrumbs className={css.breadcrumbLink} aria-label="breadcrumb">
-                        <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
-                                {t('labels.dashboard')}
-                            </Link>
-                            <Typography variant="body1" color="textPrimary"> &gt;</Typography>
-                        </Breadcrumbs>
-
-                    </Grid>
-                    <Grid item container direction="row">
-
-                        <ArchiveIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
-                        <Grid item>
-                            <Typography variant="h5" color="textPrimary">{t('labels.commons')}</Typography>
-                        </Grid>
-                    </Grid>
-                    <Divider />
+                    <LayoutCentered fullHeight>
+                        <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
 
 
-                    <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+                            <Grid item container>
+                                <Breadcrumbs className={css.breadcrumbLink} aria-label="breadcrumb">
+                                    <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
+                                        {t('labels.dashboard')}
+                                    </Link>
+                                    <Typography variant="body1" color="textPrimary"> &gt;</Typography>
+                                </Breadcrumbs>
 
-                        {(displayCreateCommon()) ?
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={toggleNewCommonDrawer}
-                            >
-                                {t('labels.newCommon')}
-                            </Button>
-                            : <></>}
-                            
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<LinkIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleJoinCommonDrawer}
-                        >
-                            {t('labels.requestAccessToCommon')}
-                        </Button>
-
-                        {/* <Button variant="text"
-                            color="primary"
-                            startIcon={<LinkIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleNewOpenDataCommonDrawer}
-                        >
-                            {t('labels.newOpenDataCommon')}
-                        </Button> */}
-
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => refreshData()}
-                        >
-                            {t('labels.refresh')}
-                        </Button>
-
-
-
-                    </Grid>
-                    <AuthenticatedTemplate>
-                        <DataspaceContext.Consumer>
-                            {({ dataspaceState }) => (
-                                renderContent(dataspaceState)
-                            )}
-
-                        </DataspaceContext.Consumer>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-                    <Grid container direction="column">
-                            <Grid item>
-                            <Typography variant="body1">{t('messages.signedOut')}</Typography>
                             </Grid>
+                            <Grid item container direction="row">
+
+                                <ArchiveIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
+                                <Grid item>
+                                    <Typography variant="h5" color="textPrimary">{t('labels.commons')}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+
+
+                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+
+                                {(displayCreateCommon()) ?
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleNewCommonDrawer}
+                                    >
+                                        {t('labels.newCommon')}
+                                    </Button>
+                                    : <></>}
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<LinkIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleJoinCommonDrawer}
+                                >
+                                    {t('labels.requestAccessToCommon')}
+                                </Button>
+
+                           
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={() => refreshData()}
+                                >
+                                    {t('labels.refresh')}
+                                </Button>
+
+
+
+                            </Grid>
+
+                            <DataspaceContext.Consumer>
+                                {({ dataspaceState }) => (
+                                    renderContent(dataspaceState)
+                                )}
+
+                            </DataspaceContext.Consumer>
+
+
                             <Grid item>
-                            <Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}/commons`})} >Login first</Button>
+                                &nbsp;
                             </Grid>
                         </Grid>
-                        </UnauthenticatedTemplate>
-                    <Grid item>
-                        &nbsp;
-                    </Grid>
+
+                    </LayoutCentered>
+                </LayoutPage>
+            </AuthenticatedTemplate>
+
+            <UnauthenticatedTemplate>
+
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/commons` })} >Login first</Button>
+
                 </Grid>
 
-            </LayoutCentered>
-        </LayoutPage>
-
+            </UnauthenticatedTemplate>
+        </>
 
     );
 };

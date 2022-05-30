@@ -173,6 +173,9 @@ const ServiceConnectionsPage = () => {
     }, [jwt, isAuthenticated])
 
     return (
+        <>
+
+        <AuthenticatedTemplate>
         <LayoutPage
             toast={toast}
             openToast={toast.openToast}
@@ -222,7 +225,7 @@ const ServiceConnectionsPage = () => {
                             {t('labels.refresh')}
                         </Button>
                     </Grid>
-                    <AuthenticatedTemplate>
+                   
                         <DataspaceContext.Consumer>
                             {({ dataspaceState }) => (
 
@@ -231,17 +234,8 @@ const ServiceConnectionsPage = () => {
                             )}
 
                         </DataspaceContext.Consumer>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-                    <Grid container direction="column">
-                            <Grid item>
-                            <Typography variant="body1">{t('messages.signedOut')}</Typography>
-                            </Grid>
-                            <Grid item>
-                            <Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}/service-connections`})} >Login first</Button>
-                            </Grid>
-                        </Grid>
-                          </UnauthenticatedTemplate>
+              
+                     
                     <Grid item>
                         &nbsp;
                     </Grid>
@@ -249,7 +243,21 @@ const ServiceConnectionsPage = () => {
 
             </LayoutCentered>
         </LayoutPage>
+ </AuthenticatedTemplate>
 
+ <UnauthenticatedTemplate>
+
+     <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+         <Typography variant="h1">{t('messages.signedOut')}</Typography>
+         <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+         <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/service-connections` })} >Login first</Button>
+
+     </Grid>
+
+ </UnauthenticatedTemplate>
+</>
 
     );
 };

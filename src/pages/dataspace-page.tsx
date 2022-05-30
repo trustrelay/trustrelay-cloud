@@ -175,10 +175,10 @@ const DataspacePage = () => {
     }
 
     const renewAccessKey = () => {
-        
+
         trustRelayService.renewAccessKey(jwt, dataspaceCtx.dataspaceState!).then((res: string) => {
-            toast.openToast('Please copy this somewhere safe.',`You will not see this code again: ${res}`,ToastMessageType.Warning)
-            
+            toast.openToast('Please copy this somewhere safe.', `You will not see this code again: ${res}`, ToastMessageType.Warning)
+
         })
     }
 
@@ -502,132 +502,138 @@ const DataspacePage = () => {
 
 
     return (
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-        >
+        <>
 
-            <LayoutCentered fullHeight>
-                <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
-                    <Grid item container>
-                        <Breadcrumbs aria-label="breadcrumb">
-                            {/* <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                >
+
+                    <LayoutCentered fullHeight>
+                        <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+                            <Grid item container>
+                                <Breadcrumbs aria-label="breadcrumb">
+                                    {/* <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
                                 {t('labels.dashboard')}
                             </Link> */}
-                            <Link className={css.breadcrumbLink} to={`/account`} >
-                                {t('labels.account')}
-                            </Link>
-                            <Typography variant="body1" color="textPrimary">{t('labels.dataspaces')}</Typography>
-                            <Typography variant="body1" color="textPrimary">{dataspaceid}</Typography>
-                            <Typography variant="body1" color="textPrimary"> &gt;</Typography>
-                        </Breadcrumbs>
-                    </Grid>
-                    <Grid item container direction="row">
-                        <GroupWorkIcon fontSize="medium" color="primary" style={{ marginTop: "6px" }} />
-                        <Grid item>
-                            <Typography variant="h5" color="textPrimary">{selectedDataspace.name}</Typography>
-                            <Typography variant="body2" color="textPrimary">{t('labels.dataspace')}</Typography>
-                        </Grid>
-                    </Grid>
-                    <Divider />
-                    <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
-
-
-
-                        {(account && account.localAccountId) ? <Button variant="text"
-                            color="primary"
-                            startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleEditDataspaceDrawer}
-                        >
-                            {t('labels.edit')}
-                        </Button> : <></>}
-
-                        {(account && account.localAccountId) ? <Button variant="text"
-                            color="primary"
-                            startIcon={<DeleteIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleDeleteDataspaceDrawer}
-                        >
-                            {t('labels.delete')}
-                        </Button> : <></>}
-
-                        {(displayInviteMember()) ?
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<PersonAddIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={toggleInviteMemberDrawer}
-                            >
-                                {t('labels.inviteMember')}
-                            </Button> : <></>}
-
-                        {(displayInviteMember()) ?
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<PersonAddDisabledIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={toggleDisableMembershipDrawer}
-                            >
-                                {t('labels.uninviteMember')}
-                            </Button> : <></>}
-
-                        {(displayInviteMember()) ?
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<GroupAddIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={toggleCreateAnonymousInviteDrawer}
-                            >
-                                {t('labels.setAnonymousInvite')}
-                            </Button> : <></>}
-
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<KeyIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={renewAccessKey}
-                        >
-                            {t('labels.renewAccessKey')}
-                        </Button>
-
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={refreshData}
-                        >
-                            {t('labels.refresh')}
-                        </Button>
-
-                    </Grid>
-                    {(selectedDataspace) ? generateGeneralInfoTable(selectedDataspace) : <Grid item>&nbsp;</Grid>}
-                    <AuthenticatedTemplate>
-                        <Grid item container alignItems="left" alignContent="left" direction="column" >
-
-                            <Grid item container >
-                                <DataspaceContext.Consumer>
-                                    {({ dataspaceState }) => (
-                                        renderContent()
-                                    )}
-                                </DataspaceContext.Consumer>
+                                    <Link className={css.breadcrumbLink} to={`/account`} >
+                                        {t('labels.account')}
+                                    </Link>
+                                    <Typography variant="body1" color="textPrimary">{t('labels.dataspaces')}</Typography>
+                                    <Typography variant="body1" color="textPrimary">{dataspaceid}</Typography>
+                                    <Typography variant="body1" color="textPrimary"> &gt;</Typography>
+                                </Breadcrumbs>
                             </Grid>
-                        </Grid>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
+                            <Grid item container direction="row">
+                                <GroupWorkIcon fontSize="medium" color="primary" style={{ marginTop: "6px" }} />
+                                <Grid item>
+                                    <Typography variant="h5" color="textPrimary">{selectedDataspace.name}</Typography>
+                                    <Typography variant="body2" color="textPrimary">{t('labels.dataspace')}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
 
-                        <Grid container direction="column">
+
+                                {(account && account.localAccountId) ? <Button variant="text"
+                                    color="primary"
+                                    startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleEditDataspaceDrawer}
+                                >
+                                    {t('labels.edit')}
+                                </Button> : <></>}
+
+                                {(account && account.localAccountId) ? <Button variant="text"
+                                    color="primary"
+                                    startIcon={<DeleteIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleDeleteDataspaceDrawer}
+                                >
+                                    {t('labels.delete')}
+                                </Button> : <></>}
+
+                                {(displayInviteMember()) ?
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<PersonAddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleInviteMemberDrawer}
+                                    >
+                                        {t('labels.inviteMember')}
+                                    </Button> : <></>}
+
+                                {(displayInviteMember()) ?
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<PersonAddDisabledIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleDisableMembershipDrawer}
+                                    >
+                                        {t('labels.uninviteMember')}
+                                    </Button> : <></>}
+
+                                {(displayInviteMember()) ?
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<GroupAddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleCreateAnonymousInviteDrawer}
+                                    >
+                                        {t('labels.setAnonymousInvite')}
+                                    </Button> : <></>}
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<KeyIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={renewAccessKey}
+                                >
+                                    {t('labels.renewAccessKey')}
+                                </Button>
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={refreshData}
+                                >
+                                    {t('labels.refresh')}
+                                </Button>
+
+                            </Grid>
+                            {(selectedDataspace) ? generateGeneralInfoTable(selectedDataspace) : <Grid item>&nbsp;</Grid>}
+                         
+                                <Grid item container alignItems="left" alignContent="left" direction="column" >
+
+                                    <Grid item container >
+                                        <DataspaceContext.Consumer>
+                                            {({ dataspaceState }) => (
+                                                renderContent()
+                                            )}
+                                        </DataspaceContext.Consumer>
+                                    </Grid>
+                                </Grid>
+                      
+                            
                             <Grid item>
-                                <Typography variant="body1">{t('messages.signedOut')}</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}` })} >Login first</Button>
+                                &nbsp;
                             </Grid>
                         </Grid>
-                    </UnauthenticatedTemplate>
-                    <Grid item>
-                        &nbsp;
-                    </Grid>
+
+                    </LayoutCentered>
+                </LayoutPage>
+            </AuthenticatedTemplate>
+
+            <UnauthenticatedTemplate>
+
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}` })} >Login first</Button>
+
                 </Grid>
 
-            </LayoutCentered>
-        </LayoutPage>
-
+            </UnauthenticatedTemplate>
+        </>
 
     );
 };

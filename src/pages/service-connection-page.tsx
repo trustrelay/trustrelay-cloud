@@ -1,14 +1,14 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table, TableRow, TableCell, TableBody,  Divider, Accordion, AccordionSummary, AccordionDetails,   Theme  } from '@mui/material';
+import { Grid, Typography, Button, Breadcrumbs, TableContainer, Table, TableRow, TableCell, TableBody, Divider, Accordion, AccordionSummary, AccordionDetails, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import {  DailyCount, Ping, ServiceConnection } from '../api/models/models';
+import { DailyCount, Ping, ServiceConnection } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useParams, Link } from "react-router-dom"; 
+import { useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import { formatDateTime } from "../api/utils";
@@ -19,9 +19,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import EditServiceConnectionDrawer from '../components/service-connections-page/edit-service-connection-drawer';
 import DeleteServiceConnectionDrawer from '../components/service-connection-page/delete-service-connection-drawer';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
         color: theme.palette.primary.main
     }
@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme:Theme) => ({
 
 const ServiceConnectionPage = () => {
 
- 
+
 
     const toast = useToast();
-    const { t } = useTranslation(); 
+    const { t } = useTranslation();
     const css = useStyles();
- 
+
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {});
 
@@ -78,18 +78,18 @@ const ServiceConnectionPage = () => {
         dataspace: "",
         up: false,
         lastChecked: "",
-        isLocked:false
+        isLocked: false
     };
     const [selectedServiceConnection, setSelectedServiceConnection] = useState(emptyServiceConnection);
     const [serviceConnectionLoaded, setServiceConnectionLoaded] = useState(false);
 
-  
- 
- 
+
+
+
 
     const editServiceConnection = (
         serviceConnectionId: string,
-        serviceConnectionName: string, 
+        serviceConnectionName: string,
         storageLocation: string,
         hostOrService: string,
         hostPort: string,
@@ -101,7 +101,7 @@ const ServiceConnectionPage = () => {
             jwt,
             dataspaceid!,
             serviceConnectionId,
-            serviceConnectionName, 
+            serviceConnectionName,
             storageLocation,
             hostOrService,
             hostPort,
@@ -109,7 +109,7 @@ const ServiceConnectionPage = () => {
             accountOrUserOrId,
             secret
         ).then(() => {
-   
+
         }).catch((err: Error) => {
             toast.openToast('error', err.message, getToastMessageTypeByName('error'))
         })
@@ -119,12 +119,12 @@ const ServiceConnectionPage = () => {
         trustRelayService.deleteServiceConnection(
             jwt,
             dataspaceid!,
-            serviceconnectionid! 
-            ).then(() => {
-          
-            }).catch((err: Error) => {
-                toast.openToast('error', err.message, getToastMessageTypeByName('error'))
-            })
+            serviceconnectionid!
+        ).then(() => {
+
+        }).catch((err: Error) => {
+            toast.openToast('error', err.message, getToastMessageTypeByName('error'))
+        })
     }
 
 
@@ -134,7 +134,7 @@ const ServiceConnectionPage = () => {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
-                    
+
 
                     <EditServiceConnectionDrawer
                         serviceConnection={selectedServiceConnection}
@@ -268,7 +268,7 @@ const ServiceConnectionPage = () => {
     }
 
     useEffect(() => {
-      
+
 
         if (selectedDataspace !== "" && !serviceConnectionLoaded && jwt !== "") {
 
@@ -284,7 +284,7 @@ const ServiceConnectionPage = () => {
 
         }
         else {
-          
+
         }
 
 
@@ -297,7 +297,7 @@ const ServiceConnectionPage = () => {
 
 
     useEffect(() => {
-        
+
 
         if (isAuthenticated) {
 
@@ -315,7 +315,7 @@ const ServiceConnectionPage = () => {
                         const ds = res.defaultDataspace
                         dataspaceCtx.setDataspaceState(ds)
                         setSelectedDataspace(ds)
-                   
+
                     }).catch((err: Error) => {
                         toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
                     });
@@ -328,11 +328,11 @@ const ServiceConnectionPage = () => {
                     scopes: protectedResources.api.scopes,
                     account: account!
                 }).then((returnedToken) => {
-                  
+
                     setJwt(returnedToken.idToken)
 
                 }).catch((error: any) => {
-                  
+
                     console.log(error)
 
                 })
@@ -341,7 +341,7 @@ const ServiceConnectionPage = () => {
         } else {
 
             if (!inProgress) {
-             
+
                 instance.loginRedirect(loginRequest)
             }
 
@@ -351,98 +351,104 @@ const ServiceConnectionPage = () => {
     // latestPushNotification
     // appNotifications.swisscomNotificationsState,
     return (
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-        >
+        <>
 
-            <LayoutCentered fullHeight>
-                <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
-                    <Grid item container>
-                        <Breadcrumbs aria-label="breadcrumb">
-                        <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
-                                {t('labels.dashboard')}
-                            </Link>
-                            <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceCtx.dataspaceState}/settings/service-connections`} >
-                                {t('labels.serviceConnections')}
-                            </Link>
-                            <Typography variant="body1" color="textPrimary"> &gt;</Typography>
-                        </Breadcrumbs>
-                    </Grid>
-                    <Grid item container direction="row">
-                        <CloudDoneIcon fontSize="medium" color="primary" style={{ marginTop: "6px", marginRight: "2px" }} />
-                        <Grid item>
-                            <Typography variant="h5" color="textPrimary">{selectedServiceConnection.name}</Typography>
-                        </Grid>
-                    </Grid>
-                    <Divider />
-                    <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                >
 
-
-
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleEditServiceConnectionDrawer}
-                        >
-                            {t('labels.edit')}
-                        </Button>
-
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<DeleteIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleDeleteServiceConnectionDrawer}
-                            disabled={selectedServiceConnection.isLocked} 
-                        >
-                            {t('labels.delete')}
-                        </Button>
-
-
-
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => refreshData()}
-                        >
-                            {t('labels.refresh')}
-                        </Button>
-
-                    </Grid>
-                    {(selectedServiceConnection) ? generateGeneralInfoTable(selectedServiceConnection) : <Grid item>&nbsp;</Grid>}
-                    <AuthenticatedTemplate>
-
-
-                        <Grid item container >
-                            <DataspaceContext.Consumer>
-                                {({ dataspaceState }) => (
-                                    renderContent()
-                                )}
-                            </DataspaceContext.Consumer>
-                        </Grid>
-                        <Grid item>
-                            &nbsp;
-                        </Grid>
-                    </AuthenticatedTemplate>
-                    <UnauthenticatedTemplate>
-
-                        <Grid container direction="column">
-                            <Grid item>
-                                <Typography variant="body1">{t('messages.signedOut')}</Typography>
+                    <LayoutCentered fullHeight>
+                        <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+                            <Grid item container>
+                                <Breadcrumbs aria-label="breadcrumb">
+                                    <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
+                                        {t('labels.dashboard')}
+                                    </Link>
+                                    <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceCtx.dataspaceState}/settings/service-connections`} >
+                                        {t('labels.serviceConnections')}
+                                    </Link>
+                                    <Typography variant="body1" color="textPrimary"> &gt;</Typography>
+                                </Breadcrumbs>
                             </Grid>
+                            <Grid item container direction="row">
+                                <CloudDoneIcon fontSize="medium" color="primary" style={{ marginTop: "6px", marginRight: "2px" }} />
+                                <Grid item>
+                                    <Typography variant="h5" color="textPrimary">{selectedServiceConnection.name}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+
+
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleEditServiceConnectionDrawer}
+                                >
+                                    {t('labels.edit')}
+                                </Button>
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<DeleteIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleDeleteServiceConnectionDrawer}
+                                    disabled={selectedServiceConnection.isLocked}
+                                >
+                                    {t('labels.delete')}
+                                </Button>
+
+
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={() => refreshData()}
+                                >
+                                    {t('labels.refresh')}
+                                </Button>
+
+                            </Grid>
+                            {(selectedServiceConnection) ? generateGeneralInfoTable(selectedServiceConnection) : <Grid item>&nbsp;</Grid>}
+                            
+
+
+                                <Grid item container >
+                                    <DataspaceContext.Consumer>
+                                        {({ dataspaceState }) => (
+                                            renderContent()
+                                        )}
+                                    </DataspaceContext.Consumer>
+                                </Grid>
+                                <Grid item>
+                                    &nbsp;
+                                </Grid>
+                           
                             <Grid item>
-                                <Button variant="contained" onClick={() => instance.loginRedirect({scopes:[], state:`/dataspaces/${dataspaceid}/service-connections/${serviceconnectionid}`})} >Login first</Button>
+                                &nbsp;
                             </Grid>
                         </Grid>
-                    </UnauthenticatedTemplate>
-                    <Grid item>
-                        &nbsp;
-                    </Grid>
+
+                    </LayoutCentered>
+                </LayoutPage>
+            </AuthenticatedTemplate>
+
+            <UnauthenticatedTemplate>
+
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/service-connections/${serviceconnectionid}` })} >Login first</Button>
+
                 </Grid>
 
-            </LayoutCentered>
-        </LayoutPage>
-
+            </UnauthenticatedTemplate>
+        </>
 
     );
 };

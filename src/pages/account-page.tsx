@@ -1,6 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, Divider, AppBar, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import { Grid, Typography, Button, Breadcrumbs, Divider, AppBar, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, TableContainer, Table, TableBody, TableRow, TableCell, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
 import { DataspaceContext } from '../app-contexts';
@@ -27,29 +27,21 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import CreateNewDataspaceDrawer from '../components/account-page/create-new-dataspace-drawer';
 import CreateNewSubscriptionDrawer from '../components/account-page/create-new-subscription-drawer';
 import { Helmet } from 'react-helmet';
-// import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-// const useStyles = makeStyles((theme:Theme) => ({ 
-//     breadcrumbLink: {
-//         color: theme.palette.primary.main
-//     }
+const useStyles = makeStyles((theme: Theme) => ({
 
-// }));
 
+}));
 
 export const formatDateTime = (value: string): string => {
     return `${moment(value).format('MMM Do, hh:mm:ss A')}`;
-    // return value;
-
 };
 
 const AccountPage = () => {
 
-
-
     const toast = useToast();
     const { t } = useTranslation();
-    // const css = useStyles();
 
     const { instance, accounts, inProgress } = useMsal();
 
@@ -300,8 +292,6 @@ const AccountPage = () => {
                         handleClose={toggleSettingsDrawer}
                     />
 
-
-
                     {(selectedAccount && selectedAccount.organization.length > 0) ? <CreateNewDataspaceDrawer
                         subscriptions={subscriptions}
                         open={isCreateNewDataspaceDrawerOpen}
@@ -421,119 +411,124 @@ const AccountPage = () => {
     ])
 
     return (
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-        >
-            <LayoutCentered fullHeight>
-                <>
-                  
+        <>
 
-                    <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
-                        <Grid item container>
-                            <Breadcrumbs aria-label="breadcrumb">
-
-                                <Typography variant="body1" color="textPrimary">{t('labels.account')}</Typography>
-                                <Typography variant="body1" color="textPrimary"> &gt;</Typography>
-                            </Breadcrumbs>
-                        </Grid>
-                        <Grid item container direction="row">
-                            <AccountBoxIcon fontSize="medium" color="primary" style={{ marginTop: "6px" }} />
-                            <Grid item>
-                                <Typography variant="h5" color="textPrimary">{selectedAccount.email}</Typography>
-                                <Typography variant="body2" color="textPrimary">{t('labels.account')}</Typography>
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                >
+                    <LayoutCentered fullHeight>
+                        <>
 
 
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={toggleCreateNewSubscriptionDrawer}
-                            >
-                                {t('labels.addSubscription')}
-                            </Button>
+                            <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+                                <Grid item container>
+                                    <Breadcrumbs aria-label="breadcrumb">
 
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={toggleCreateNewDataspaceDrawer}
-                            >
-                                {t('labels.addDataspace')}
-                            </Button>
-
-
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<BusinessIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={() => navigate(`/organizations`)}
-                            >
-                                {t('labels.organizations')}
-                            </Button>
-
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<SettingsIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={toggleSettingsDrawer}
-                            >
-                                {t('labels.settings')}
-                            </Button>
-
-                            <Button variant="text"
-                                color="primary"
-                                startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                onClick={() => refreshData()}
-                            >
-                                {t('labels.refresh')}
-                            </Button>
-
-
-                        </Grid>
-                        {(selectedAccount) ? generateGeneralInfoTable(selectedAccount) : <Grid item>&nbsp;</Grid>}
-                        <AuthenticatedTemplate>
-
-                        {renderHelmet()}
-
-                            <Grid item container xl={11} lg={11} md={11} sm={11} xs={11}  >
-                                <DataspaceContext.Consumer>
-                                    {({ dataspaceState }) => (
-                                        renderContent()
-                                    )}
-
-                                </DataspaceContext.Consumer>
-                            </Grid>
-
-                            <Grid item>
-                                &nbsp;
-                            </Grid>
-                        </AuthenticatedTemplate>
-                        <UnauthenticatedTemplate>
-
-                            <Grid container direction="column">
-                                <Grid item>
-                                    <Typography variant="body1">{t('messages.signedOut')}</Typography>
+                                        <Typography variant="body1" color="textPrimary">{t('labels.account')}</Typography>
+                                        <Typography variant="body1" color="textPrimary"> &gt;</Typography>
+                                    </Breadcrumbs>
                                 </Grid>
+                                <Grid item container direction="row">
+                                    <AccountBoxIcon fontSize="medium" color="primary" style={{ marginTop: "6px" }} />
+                                    <Grid item>
+                                        <Typography variant="h5" color="textPrimary">{selectedAccount.email}</Typography>
+                                        <Typography variant="body2" color="textPrimary">{t('labels.account')}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Divider />
+                                <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+
+
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleCreateNewSubscriptionDrawer}
+                                    >
+                                        {t('labels.addSubscription')}
+                                    </Button>
+
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleCreateNewDataspaceDrawer}
+                                    >
+                                        {t('labels.addDataspace')}
+                                    </Button>
+
+
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<BusinessIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={() => navigate(`/organizations`)}
+                                    >
+                                        {t('labels.organizations')}
+                                    </Button>
+
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<SettingsIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleSettingsDrawer}
+                                    >
+                                        {t('labels.settings')}
+                                    </Button>
+
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={() => refreshData()}
+                                    >
+                                        {t('labels.refresh')}
+                                    </Button>
+
+
+                                </Grid>
+                                {(selectedAccount) ? generateGeneralInfoTable(selectedAccount) : <Grid item>&nbsp;</Grid>}
+
+                                <>
+                                    {renderHelmet()}
+
+                                    <Grid item container xl={11} lg={11} md={11} sm={11} xs={11}  >
+                                        <DataspaceContext.Consumer>
+                                            {({ dataspaceState }) => (
+                                                renderContent()
+                                            )}
+
+                                        </DataspaceContext.Consumer>
+                                    </Grid>
+
+                                    <Grid item>
+                                        &nbsp;
+                                    </Grid>
+                                </>
+
                                 <Grid item>
-                                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/account` })} >Login first</Button>
+                                    &nbsp;
                                 </Grid>
                             </Grid>
-
-                        </UnauthenticatedTemplate>
-                        <Grid item>
-                            &nbsp;
-                        </Grid>
-                    </Grid>
-                </>
+                        </>
 
 
 
-            </LayoutCentered>
-        </LayoutPage>
+                    </LayoutCentered>
+                </LayoutPage>
+            </AuthenticatedTemplate>
 
+            <UnauthenticatedTemplate>
 
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/account` })} >Login first</Button>
+
+                </Grid>
+
+            </UnauthenticatedTemplate>
+        </>
     );
 };
 
