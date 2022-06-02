@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: "0"
   },
   drawerContainer: {
-    width: "290px",
+    width: "350px",
     padding: "0em 0em 0em 0.5em",
     backgroundColor: "transparent"
   },

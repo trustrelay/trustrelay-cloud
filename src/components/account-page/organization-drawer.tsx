@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme:Theme) => ({
     marginBottom: "0"
   },
   drawerContainer: {
-    width: "290px",
+    width: "350px",
     padding: "0em 0em 0em 0.5em",
     backgroundColor: "transparent"
   },
@@ -181,7 +181,7 @@ const OrganizationDrawer = ({
       <div className={css.drawerContainer}>
 
         <AppBar position="static">
-          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tabs value={value} onChange={handleChange} aria-label="organization tabs">
             <Tab icon={<BusinessIcon />}   {...a11yProps(0)} />
             <Tab icon={<EmojiEventsIcon />}   {...a11yProps(1)} />
 
