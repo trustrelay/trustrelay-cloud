@@ -1,5 +1,14 @@
 #  TrustRelay Dashboard
 
+
+## How to run for UI development only with API running on cloud sandbox
+
+`npm run localsandbox`
+
+## How to run for all local development
+
+`npm run start`
+
 ## Hookrouter situation
 
 `npm install git+ssh://git@github.com/alvaradojl/hookrouter.git` failed
