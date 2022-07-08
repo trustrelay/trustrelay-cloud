@@ -56,6 +56,8 @@
     "account":"Account",
     "export":"Export",
     "runModel":"Run model",
+    "checkSchema": "Check schema",
+    "checkSla": "Check SLA",
     "copy":"Copy",
     "createSynthenticCopy":"Create synthentic copy",
     "createCommonCopy":"Create common copy",
