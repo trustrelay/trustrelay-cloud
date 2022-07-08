@@ -48,6 +48,8 @@
     "account": "Cuenta",
     "export": "Exportar",
     "runModel": "Ejecutar modelo",
+    "checkSchema": "Revisar esquema",
+    "checkSla": "Revisar SLA",
     "copy": "Copiar",
     "createSynthenticCopy": "Crear copia sintética",
     "createCommonCopy": "Crear copia común",

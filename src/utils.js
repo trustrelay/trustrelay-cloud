@@ -95,4 +95,24 @@ export function debounce(func, wait, immediate) {
       .map((entry) => entry[0])
       .join(" ");
   }
+
+  export const isVisible = (account, common, menuItem) => {
+    if (!account || !common) return false;
+  
+    let { localAccountId } = account;
+    const { createdBy } = common;
+  
+    if (
+      menuItem === "browseData" ||
+      menuItem === "checkServiceConnection" ||
+      menuItem === "runModel" ||
+      menuItem === "refresh" ||
+      menuItem === "checkSchema" ||
+      menuItem === "checkSla"
+    ) {
+      return localAccountId === createdBy;
+    }
+  
+    return false;
+  };
   

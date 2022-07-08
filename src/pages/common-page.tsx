@@ -1,5 +1,6 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
+import { isVisible } from "../utils"
 import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table,  TableRow, TableCell, TableBody,  AppBar, Tabs, Tab, Divider, Accordion, AccordionSummary, AccordionDetails,  Chip, Tooltip,  CircularProgress, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
@@ -24,10 +25,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import QueuePlayNextIcon from '@mui/icons-material/QueuePlayNext';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import SchemaIcon from '@mui/icons-material/Schema';
 import BlurOnIcon from '@mui/icons-material/BlurOn';
 import CreateSynthenticCopyDrawer from '../components/common-page/create-synthetic-copy-drawer';
 import CreateCommonCopyDrawer from '../components/common-page/create-common-copy-drawer';
 import RunModelDrawer from '../components/common-page/run-model-drawer';
+import CheckSchemaDrawer from '../components/common-page/check-schema-drawer';
+import CheckSlaDrawer from '../components/common-page/check-sla-drawer';
 import EditCommonDrawer from '../components/common-page/edit-common-drawer';
 import ExportCommonDrawer from '../components/common-page/export-common-drawer';
 import DeleteCommonDrawer from '../components/common-page/delete-common-drawer';
@@ -122,6 +127,8 @@ const CommonPage = () => {
     const [isCreateSynthenticCopyDrawerOpen, setIsCreateSynthenticCopyDrawerOpen] = useState(false);
     const [isCreateCommonCopyDrawerOpen, setIsCreateCommonCopyDrawerOpen] = useState(false);
     const [isRunModelDrawerOpen, setIsRunModelDrawerOpen] = useState(false);
+    const [isCheckSchemaDrawerOpen, setIsCheckSchemaDrawerOpen] = useState(false);
+    const [isCheckSlaDrawerOpen, setIsCheckSlaDrawerOpen] = useState(false);
     const [isTerminateAgreementDrawerOpen, setIsTerminateAgreementDrawerOpen] = useState(false);
 
 
@@ -154,6 +161,14 @@ const CommonPage = () => {
 
     const toggleRunModelDrawer = () => {
         setIsRunModelDrawerOpen(!isRunModelDrawerOpen);
+    }
+
+    const toggleCheckSchemaDrawer = () => {
+      setIsCheckSchemaDrawerOpen(!isCheckSchemaDrawerOpen);
+    }
+
+    const toggleCheckSlaDrawer = () => {
+      setIsCheckSlaDrawerOpen(!isCheckSlaDrawerOpen);
     }
 
     const handleTabChange = (event: any, newValue: number) => {
@@ -265,6 +280,20 @@ const CommonPage = () => {
                     <RunModelDrawer
                         open={isRunModelDrawerOpen}
                         handleClose={toggleRunModelDrawer}
+                        serviceConnections={serviceConnections}
+                        onAction={() => console.log('not supported')}
+                    />
+
+                    <CheckSchemaDrawer
+                        open={isCheckSchemaDrawerOpen}
+                        handleClose={toggleCheckSchemaDrawer}
+                        serviceConnections={serviceConnections}
+                        onAction={() => console.log('not supported')}
+                    />
+
+                    <CheckSlaDrawer
+                        open={isCheckSlaDrawerOpen}
+                        handleClose={toggleCheckSlaDrawer}
                         serviceConnections={serviceConnections}
                         onAction={() => console.log('not supported')}
                     />
@@ -618,23 +647,23 @@ const CommonPage = () => {
                     <Divider />
                     <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
-                        <Button variant="text"
+                        {isVisible(account, selectedCommon, "browseData") && <Button variant="text"
                             color="primary"
                             startIcon={<TableChartIcon fontSize="small" style={{ color: "#0090BF" }} />}
                             onClick={() => navigate(`/dashboard`)}
                         >
                             {t('labels.browseData')}
-                        </Button>
+                        </Button>}
 
 
 
-                        {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ? <Button variant="text"
+                        {isVisible(account, selectedCommon, "checkServiceConnection") && <Button variant="text"
                             color="primary"
                             startIcon={<CloudDoneIcon fontSize="small" style={{ color: "#0090BF" }} />}
                             onClick={() => navigate(`/dataspaces/${dataspaceCtx.dataspaceState}/settings/service-connections/${selectedCommon.serviceConnectionId}`)}
                         >
                             {t('labels.checkServiceConnection')}
-                        </Button> : <></>}
+                        </Button>}
 
 
                         {(account && account.localAccountId && selectedCommon.createdBy === account.localAccountId) ? <Button variant="text"
@@ -662,14 +691,24 @@ const CommonPage = () => {
                             {t('labels.export')}
                         </Button> : <></>}
 
-
-                        {(selectedCommon.allowScript) ? <Button variant="text"
-                            color="primary"
-                            startIcon={<QueuePlayNextIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleRunModelDrawer}
+                       {selectedCommon.allowScript &&
+                          isVisible(account, selectedCommon, "runModel") && 
+                          <Button variant="text"
+                          color="primary"
+                          startIcon={<QueuePlayNextIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                          onClick={toggleRunModelDrawer}
                         >
-                            {t('labels.runModel')}
-                        </Button> : <></>}
+                          {t('labels.runModel')}
+                        </Button>}
+
+                        {isVisible(account, selectedCommon, "checkSchema") && 
+                          <Button variant="text"
+                          color="primary"
+                          startIcon={<SchemaIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                          onClick={toggleCheckSchemaDrawer}
+                        >
+                          {t('labels.checkSchema')}
+                        </Button>}
 
                         {(selectedCommon.allowCopy) ? <Button variant="text"
                             color="primary"
@@ -703,14 +742,22 @@ const CommonPage = () => {
                             {t('labels.terminateAgreement')}
                         </Button> : <></>}
 
+                        {isVisible(account, selectedCommon, "checkSla") && 
+                          <Button variant="text"
+                          color="primary"
+                          startIcon={<HandshakeIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                          onClick={toggleCheckSlaDrawer}
+                        >
+                          {t('labels.checkSla')}
+                        </Button>}
 
-                        <Button variant="text"
+                        {isVisible(account, selectedCommon, "refresh") && <Button variant="text"
                             color="primary"
                             startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
                             onClick={() => refreshData()}
-                        >
+                         >
                             {t('labels.refresh')}
-                        </Button>
+                        </Button>}
 
                     </Grid>
                     {(selectedCommon) ? generateGeneralInfoTable(selectedCommon) : <Grid item>&nbsp;</Grid>}
