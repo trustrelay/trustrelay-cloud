@@ -472,6 +472,15 @@ class TrustRelayService extends BaseService {
 
 
 
+
+  ackSession = async (jwt: string, session: string): Promise<void> =>
+    await this.postWithResponse<string>(`/cli-sessions/ack?id=${session}`, jwt).then((res: any) => {
+      if (res && res.value) {
+        return
+      } else {
+        throw new Error('Failed request to acknowledge session');
+      }
+    });
   
 
   ackNotification = async (jwt: string, notification: string): Promise<void> =>
