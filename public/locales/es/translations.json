@@ -10,7 +10,9 @@
     "healthStatus":"Estado de salud",
     "noHealthIssues":"Ningun problema detectado en TrustRelay.",
     "toConfirmCancellation":"confirmar cancelacion.",
-    "toConfirmDeletion":"confirmar borrado."
+    "toConfirmDeletion":"confirmar borrado.",
+    "clisignedin":"Conexión exitosa. Esta ventana puede ser cerrada.",
+    "errorAcknowledging":"Un error ha ocurrido durante la confirmación. Por favor intente de nuevo."
   },
   "labels": {
     "homePage": "Página de inicio",

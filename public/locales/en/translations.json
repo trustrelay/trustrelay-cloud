@@ -10,7 +10,9 @@
     "healthStatus":"Health status",
     "noHealthIssues":"No TrustRelay issues detected.",
     "toConfirmCancellation":"to confirm cancellation.",
-    "toConfirmDeletion":"to confirm deletion."
+    "toConfirmDeletion":"to confirm deletion.",
+    "clisignedin":"You're signed in. You can close this window.",
+    "errorAcknowledging":"An error ocurred while acknowledging your session. Please try again."
   },  
   "labels":{
     "homePage":"Home page",

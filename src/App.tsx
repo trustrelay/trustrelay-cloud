@@ -37,6 +37,7 @@ import { Box, CssBaseline, LinearProgress } from '@mui/material';
 import { useDarkMode } from './hooks/dark-mode';
 
 import { LicenseInfo } from '@mui/x-license-pro';
+import CliSignedPage from './pages/cli-signed-page';
 
 const DashboardPage = lazy(() => import('./pages/dashboard-page'));
 
@@ -109,10 +110,11 @@ const App = (
                   >
                     <Router>
                       <Suspense fallback={<Box sx={{ width: '100%' }}>
-                        <LinearProgress  />
+                        <LinearProgress />
                       </Box>}>
                         <Routes>
- 
+
+
                           <Route
                             index
                             element={<Page title="TrustRelay | Account">
@@ -120,6 +122,15 @@ const App = (
                             </Page>
                             }
                           />
+
+                          <Route
+                            path="/cli-signed-in"
+                            element={<Page title="TrustRelay | CLI Signed in">
+                              <CliSignedPage />
+                            </Page>
+                            }
+                          />
+
 
 
                           <Route
