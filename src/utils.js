@@ -95,4 +95,3 @@ export function debounce(func, wait, immediate) {
       .map((entry) => entry[0])
       .join(" ");
   }
-  
