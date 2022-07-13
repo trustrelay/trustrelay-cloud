@@ -71,39 +71,6 @@ const CommonPage = () => {
     const emptyAgent: Agent = { id: '', dataspace: '', dataspaceName: '', subscription: '', name: '', user: '', location: '', organization: '', organizationName: '', organizationDomain: '', timestamp: '' }
     const [myAgent, setMyAgent] = useState(emptyAgent);
 
-
-
-    const emptyCommon: Common = {
-        name: "",
-        accessValidFrom: "",
-        accessValidUntil: "",
-        allowRead: false,
-        allowWrite: false,
-        allowCopy: false,
-        allowScript: false,
-        allowExport: false,
-        id: "",
-        serviceConnectionId: "",
-        serviceConnectionName: "",
-        storageLocation: "",
-        timestamp: "",
-        userAgent: "",
-        adminAgent: "",
-        dataExpert: "",
-        dataOwner: "",
-        dataspace: "",
-        agreementTemplate: "",
-        signedAgreement: "",
-        createdBy: "",
-        hasAccepted: false,
-        tags: [],
-        organization: "",
-        organizationDomain: "",
-        sourceType: "",
-        sourceQuery: "",
-        agreementIsTerminated: false,
-        agreementTimestamp: ""
-    };
     const [selectedCommon, setSelectedCommon] = useState(emptyCommon);
     const [commonLoaded, setCommonLoaded] = useState(false);
 
@@ -690,7 +657,11 @@ const CommonPage = () => {
                         {(selectedCommon.organization !== myAgent.organization) ? <Button variant="text"
                             color="primary"
                             startIcon={<BallotIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => navigate(`/dataspaces/${dataspaceCtx.dataspaceState}/signed-agreements/${selectedCommon.signedAgreement}`)}
+                                    onClick={() => navigate(`/dataspaces/${dataspaceCtx.dataspaceState}/signed-agreements/${selectedCommon.signedAgreement}`, {
+                                        state: {
+                                            common: selectedCommon
+                                        }
+                                    })}
                         >
                             {t('labels.terms')}
                         </Button> : <></>}
@@ -752,6 +723,38 @@ const CommonPage = () => {
 </>
 
     );
+};
+
+export const emptyCommon: Common = {
+    name: "",
+    accessValidFrom: "",
+    accessValidUntil: "",
+    allowRead: false,
+    allowWrite: false,
+    allowCopy: false,
+    allowScript: false,
+    allowExport: false,
+    id: "",
+    serviceConnectionId: "",
+    serviceConnectionName: "",
+    storageLocation: "",
+    timestamp: "",
+    userAgent: "",
+    adminAgent: "",
+    dataExpert: "",
+    dataOwner: "",
+    dataspace: "",
+    agreementTemplate: "",
+    signedAgreement: "",
+    createdBy: "",
+    hasAccepted: false,
+    tags: [],
+    organization: "",
+    organizationDomain: "",
+    sourceType: "",
+    sourceQuery: "",
+    agreementIsTerminated: false,
+    agreementTimestamp: ""
 };
 
 export default CommonPage;

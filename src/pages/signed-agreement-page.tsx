@@ -1,21 +1,31 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
+import { emptyCommon } from './common-page';
 import { Grid, Typography, Button, Paper, Breadcrumbs, AppBar, Tabs, Tab, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import { SignedAgreement, TemplateAgreement, } from '../api/models/models';
+import { Common, SignedAgreement, TemplateAgreement, } from '../api/models/models';
 import { AppNotificationsContext, AppPushNotificationContext,  DataspaceContext } from '../app-contexts';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
 import { getToastMessageTypeByName } from '../components/toast';
 import {  PDFViewer } from '@react-pdf/renderer'; 
-import { useParams, Link } from 'react-router-dom'; 
+import { useParams, Link, useLocation, Location } from 'react-router-dom';
 import TabPanel from '../components/tab-panel';
 import { formatDateTime } from '../api/utils';
+import TerminateAgreementDrawer from '../components/common-page/terminate-agreement-drawer';
 import SignedAgreementPdf from '../components/signed-agreement-page/signed-agreement-pdf';
 import { useTranslation } from 'react-i18next';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import CancelIcon from '@mui/icons-material/Cancel';
+
+
 import { makeStyles  } from '@mui/styles';
+
+interface LocationState {
+    common: Common;
+}
 
 const useStyles = makeStyles((theme:Theme) => ({
     breadcrumbLink: {
@@ -28,8 +38,6 @@ const useStyles = makeStyles((theme:Theme) => ({
 const MyPDFViewer : any = PDFViewer;
 
 const SignedAgreementPage = () => {
-
-
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -45,11 +53,26 @@ const SignedAgreementPage = () => {
     const [jwt, setJwt] = useState(''); 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars 
     const [selectedDataspace, setSelectedDataspace] = useState('');
+    const [selectedCommon, setSelectedCommon] = useState(emptyCommon);
 
+    let location: Location = useLocation();
+
+    useEffect(() => {
+        let { common } = location.state as LocationState;
+        setSelectedCommon(common)
+    }, [location])
 
     const dataspace = useContext(DataspaceContext); 
 
     const dataspaceCtx = useContext(DataspaceContext);
+
+    const handleTerminateAgreement = (agreement: string) => {
+        trustRelayService.terminateAgreement(jwt, dataspaceid!, agreement).then((res) => {
+
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }
 
     const emptySignedAgreement: SignedAgreement = {
         id: "",
@@ -69,6 +92,8 @@ const SignedAgreementPage = () => {
 
     const [signedAgreement, setSignedAgreement] = useState(emptySignedAgreement);
     const [signedAgreementLoaded, setSignedAgreementLoaded] = useState(false); 
+    const [isTerminateAgreementDrawerOpen, setIsTerminateAgreementDrawerOpen] = useState(false);
+
 
     const { dataspaceid, agreementid } = useParams<{ dataspaceid: string, agreementid: string }>();
 
@@ -111,6 +136,9 @@ const SignedAgreementPage = () => {
         };
     }
 
+    const toggleTerminateAgreementDrawer = () => {
+        setIsTerminateAgreementDrawerOpen(!isTerminateAgreementDrawerOpen);
+    }
    
     const generateTableAgreement = (agreement:SignedAgreement) => {
 
@@ -210,7 +238,12 @@ const SignedAgreementPage = () => {
                             </Grid>
                         </Grid>
                     </TabPanel>
-
+                    <TerminateAgreementDrawer
+                        common={selectedCommon}
+                        open={isTerminateAgreementDrawerOpen}
+                        handleClose={toggleTerminateAgreementDrawer}
+                        onAction={handleTerminateAgreement}
+                    />
                 </Grid>
 
 
@@ -345,6 +378,20 @@ const SignedAgreementPage = () => {
                                     <Typography variant="body1" color="textPrimary"> &gt;</Typography>
                                 </Breadcrumbs> 
                             </Grid>
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<CancelIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={toggleTerminateAgreementDrawer}
+                                    >
+                                        {t('labels.terminateAgreement')}
+                                    </Button>
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={() => window.location.reload()}
+                                    >
+                                        {t('labels.refresh')}
+                                    </Button>
                             <Grid container item alignItems="left" alignContent="left" textAlign="left">
                             <h2>{signedAgreement.title}</h2>
                             </Grid>
