@@ -91,7 +91,7 @@ const DisableMembershipDrawer = ({
           </Button>
           <Button onClick={handleContinue} disabled={disableContinueButton()} color="primary">
 
-            {t('labels.inviteMember')}
+            {t('labels.uninviteMember')}
 
           </Button>
         </form>
