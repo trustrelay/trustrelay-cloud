@@ -1,14 +1,14 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, TableContainer,  Table,  TableRow, TableCell, TableBody,  Divider, Accordion, AccordionSummary, AccordionDetails,  Theme} from '@mui/material';
+import { Grid, Typography, Button, Breadcrumbs, TableContainer, Table, TableRow, TableCell, TableBody, Divider, Accordion, AccordionSummary, AccordionDetails, Theme, AppBar, Tabs, Tab } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import  { useContext, useEffect, useState } from 'react';
-import {   Subscription } from '../api/models/models';
+import { useContext, useEffect, useState } from 'react';
+import { Invoice, Subscription } from '../api/models/models';
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import {  useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import { formatDate, formatDateTime } from "../api/utils";
@@ -23,9 +23,11 @@ import CancelSubscriptionDrawer from '../components/subscription-page/cancel-sub
 import EditSubscriptionDrawer from '../components/subscription-page/edit-subscription-drawer';
 import Forward30Icon from '@mui/icons-material/Forward30';
 import ExtendTrialSubscriptionDrawer from '../components/subscription-page/extend-trial-subscription-drawer';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
+import TabPanel from '../components/tab-panel';
+import InvoiceList from '../components/subscription-page/invoice-item-list';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
         color: theme.palette.primary.main
     }
@@ -35,10 +37,10 @@ const useStyles = makeStyles((theme:Theme) => ({
 
 const SubscriptionPage = () => {
 
- 
+
 
     const toast = useToast();
-    const { t } = useTranslation(); 
+    const { t } = useTranslation();
     const css = useStyles();
 
 
@@ -94,13 +96,29 @@ const SubscriptionPage = () => {
         currentCommons: 0,
         subscriptionType: "",
         expires: "",
-        isEnabled:false,
+        isEnabled: false,
         timestamp: ""
     };
     const [selectedSubscription, setSelectedSubscription] = useState(emptySubscription);
     const [subscriptionLoaded, setSubscriptionLoaded] = useState(false);
+    const [value, setValue] = useState(0);
 
-     
+    const emptyInvoices: Array<Invoice> = [];
+    const [invoices, setInvoices] = useState(emptyInvoices);
+    const [loadedInvoices, setLoadedInvoices] = useState(false);
+
+    const handleTabChange = (event: any, newValue: number) => {
+        setValue(newValue);
+    };
+
+    function a11yProps(index: number) {
+        return {
+            id: `simple-tab-${index}`,
+            'aria-controls': `simple-tabpanel-${index}`,
+        };
+    }
+
+
     const handleUpgradeSubscription = (
         subscriptionId: string,
         subscriptionType: string
@@ -110,7 +128,7 @@ const SubscriptionPage = () => {
             subscriptionId,
             subscriptionType
         ).then(() => {
-            
+
         }).catch((err: Error) => {
             toast.openToast('error', err.message, getToastMessageTypeByName('error'))
         })
@@ -121,7 +139,7 @@ const SubscriptionPage = () => {
             jwt,
             subscriptionid!
         ).then(() => {
-           
+
         }).catch((err: Error) => {
             toast.openToast('error', err.message, getToastMessageTypeByName('error'))
         })
@@ -135,7 +153,7 @@ const SubscriptionPage = () => {
             subscriptionName,
             procurementEmail
         ).then(() => {
-           
+
         }).catch((err: Error) => {
             toast.openToast('error', err.message, getToastMessageTypeByName('error'))
         })
@@ -146,7 +164,7 @@ const SubscriptionPage = () => {
             jwt,
             subscriptionid!
         ).then(() => {
-            
+
         }).catch((err: Error) => {
             toast.openToast('error', err.message, getToastMessageTypeByName('error'))
         })
@@ -157,6 +175,28 @@ const SubscriptionPage = () => {
         if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "" && selectedSubscription.id.length > 0) {
             return (
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+
+                    <AppBar position="static">
+                        <Tabs value={value} onChange={handleTabChange} aria-label="subscription tabs">
+
+                            <Tab label={t('labels.invoices')} {...a11yProps(0)} />
+
+
+
+                        </Tabs>
+                    </AppBar>
+
+                    <TabPanel id="invoices" value={value} index={0}>
+                        <Grid item container spacing={2} rowGap={1}>
+                            <Grid item >
+                                &nbsp;
+                            </Grid>
+                            <Grid item container direction="row">
+                            <InvoiceList invoices={invoices} />
+                            </Grid>
+                        </Grid>
+                    </TabPanel>
 
 
 
@@ -281,11 +321,11 @@ const SubscriptionPage = () => {
 
     const refreshData = () => {
         setSubscriptionLoaded(false);
-        setSelectedSubscription(emptySubscription); 
+        setSelectedSubscription(emptySubscription);
     }
 
     useEffect(() => {
-       
+
 
         if (selectedDataspace !== "" && !subscriptionLoaded && jwt !== "") {
 
@@ -301,7 +341,7 @@ const SubscriptionPage = () => {
 
         }
         else {
-            
+
         }
 
 
@@ -314,7 +354,7 @@ const SubscriptionPage = () => {
 
 
     useEffect(() => {
-       
+
 
         if (isAuthenticated) {
 
@@ -324,7 +364,7 @@ const SubscriptionPage = () => {
                 if (dataspaceCtx && dataspaceCtx.dataspaceState !== null) {
                     setSelectedDataspace(dataspaceCtx.dataspaceState)
                     setSubscriptionLoaded(false);
-                    setSelectedSubscription(emptySubscription); 
+                    setSelectedSubscription(emptySubscription);
 
                 }
                 else {
@@ -332,7 +372,7 @@ const SubscriptionPage = () => {
                         const ds = res.defaultDataspace
                         dataspaceCtx.setDataspaceState(ds)
                         setSelectedDataspace(ds)
-                      
+
                     }).catch((err: Error) => {
                         toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
                     });
@@ -345,11 +385,11 @@ const SubscriptionPage = () => {
                     scopes: protectedResources.api.scopes,
                     account: account!
                 }).then((returnedToken) => {
-                     
+
                     setJwt(returnedToken.idToken)
 
                 }).catch((error: any) => {
-             
+
                     console.log(error)
 
                 })
@@ -358,127 +398,127 @@ const SubscriptionPage = () => {
         } else {
 
             if (!inProgress) {
-                
+
                 instance.loginRedirect(loginRequest)
             }
 
         }
     }, [jwt,
-        isAuthenticated]) 
+        isAuthenticated])
     return (
         <>
 
-        <AuthenticatedTemplate>
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-        >
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                >
 
-            <LayoutCentered fullHeight>
-                <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
-                    <Grid item container>
-                        <Breadcrumbs aria-label="breadcrumb"> 
-                            <Link className={css.breadcrumbLink} to={`/account`} >
-                                {t('labels.account')}
-                            </Link>
-                            <Typography variant="body1" color="textPrimary">{t('labels.subscriptions')}</Typography>
-                            <Typography variant="body1" color="textPrimary">{subscriptionid}</Typography>
-                            <Typography variant="body1" color="textPrimary"> &gt;</Typography>
-                        </Breadcrumbs>
-                    </Grid>
-                    <Grid item container direction="row">
-                        <ClassIcon fontSize="medium" color="primary" style={{ marginTop: "6px", marginRight: "2px" }} />
-                        <Grid item>
-                            <Typography variant="h5" color="textPrimary">{selectedSubscription.name}</Typography>
+                    <LayoutCentered fullHeight>
+                        <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+                            <Grid item container>
+                                <Breadcrumbs aria-label="breadcrumb">
+                                    <Link className={css.breadcrumbLink} to={`/account`} >
+                                        {t('labels.account')}
+                                    </Link>
+                                    <Typography variant="body1" color="textPrimary">{t('labels.subscriptions')}</Typography>
+                                    <Typography variant="body1" color="textPrimary">{subscriptionid}</Typography>
+                                    <Typography variant="body1" color="textPrimary"> &gt;</Typography>
+                                </Breadcrumbs>
+                            </Grid>
+                            <Grid item container direction="row">
+                                <ClassIcon fontSize="medium" color="primary" style={{ marginTop: "6px", marginRight: "2px" }} />
+                                <Grid item>
+                                    <Typography variant="h5" color="textPrimary">{selectedSubscription.name}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleEditSubscriptionDrawer}
+
+                                >
+                                    {t('labels.edit')}
+                                </Button>
+
+                                {(selectedSubscription.subscriptionType === "free-trial" && new Date(selectedSubscription.expires) < new Date()) ? <Button variant="text"
+                                    color="primary"
+                                    startIcon={<Forward30Icon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleExtendTrialSubscriptionDrawer}
+                                >
+                                    {t('labels.extendTrialSubscription')}
+                                </Button> : <></>}
+
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<DynamicFeedIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleUpgradeSubscriptionDrawer}
+                                >
+                                    {t('labels.upgradeSubscription')}
+                                </Button>
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<CancelIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleCancelSubscriptionDrawer}
+
+                                >
+                                    {t('labels.cancelSubscription')}
+                                </Button>
+
+
+
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={() => refreshData()}
+                                >
+                                    {t('labels.refresh')}
+                                </Button>
+
+                            </Grid>
+                            {(selectedSubscription) ? generateGeneralInfoTable(selectedSubscription) : <Grid item>&nbsp;</Grid>}
+
+
+
+                            <Grid item container >
+                                <DataspaceContext.Consumer>
+                                    {({ dataspaceState }) => (
+                                        renderContent()
+                                    )}
+                                </DataspaceContext.Consumer>
+                            </Grid>
+                            <Grid item>
+                                &nbsp;
+                            </Grid>
+
+                            <Grid item>
+                                &nbsp;
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Divider />
-                    <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleEditSubscriptionDrawer}
+                    </LayoutCentered>
+                </LayoutPage>
+            </AuthenticatedTemplate>
 
-                        >
-                            {t('labels.edit')}
-                        </Button>
+            <UnauthenticatedTemplate>
 
-                        {(selectedSubscription.subscriptionType === "free-trial" && new Date(selectedSubscription.expires) < new Date()) ? <Button variant="text"
-                            color="primary"
-                            startIcon={<Forward30Icon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleExtendTrialSubscriptionDrawer}
-                        >
-                            {t('labels.extendTrialSubscription')}
-                        </Button> : <></>}
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
 
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
 
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<DynamicFeedIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleUpgradeSubscriptionDrawer}
-                        >
-                            {t('labels.upgradeSubscription')}
-                        </Button>
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/settings/subscriptions/${subscriptionid}` })} >Login first</Button>
 
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<CancelIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={toggleCancelSubscriptionDrawer}
-
-                        >
-                            {t('labels.cancelSubscription')}
-                        </Button>
-
-
-
-                        <Button variant="text"
-                            color="primary"
-                            startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                            onClick={() => refreshData()}
-                        >
-                            {t('labels.refresh')}
-                        </Button>
-
-                    </Grid>
-                    {(selectedSubscription) ? generateGeneralInfoTable(selectedSubscription) : <Grid item>&nbsp;</Grid>}
-                 
-
-
-                        <Grid item container >
-                            <DataspaceContext.Consumer>
-                                {({ dataspaceState }) => (
-                                    renderContent()
-                                )}
-                            </DataspaceContext.Consumer>
-                        </Grid>
-                        <Grid item>
-                            &nbsp;
-                        </Grid>
-                 
-                    <Grid item>
-                        &nbsp;
-                    </Grid>
                 </Grid>
 
-            </LayoutCentered>
-        </LayoutPage>
-        </AuthenticatedTemplate>
-
-<UnauthenticatedTemplate>
-
-    <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
-
-        <Typography variant="h1">{t('messages.signedOut')}</Typography>
-        <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
-
-        <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/settings/subscriptions/${subscriptionid}` })} >Login first</Button>
-
-    </Grid>
-
-</UnauthenticatedTemplate>
-</>
+            </UnauthenticatedTemplate>
+        </>
 
     );
 };

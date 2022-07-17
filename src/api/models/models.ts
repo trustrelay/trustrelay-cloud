@@ -533,3 +533,10 @@ export interface GeoScore{
   id:string;
   value?:number;
 }
+
+export interface Invoice{
+  id:string;
+  amount:string;
+  currency:string;
+  timestamp:string;
+}

@@ -291,6 +291,9 @@
     "setAsMyOrganization":"Establecer como mi organización",
     "redirectingTo":"redirigiendo a",
     "weCanEmailYouAboutYourFeedback":"Podemos enviarle un correo respecto a su retroalimentacion",
-    "renewAccessKey":"Regenerar clave de acceso"
+    "renewAccessKey":"Regenerar clave de acceso",
+    "invoices":"Facturas",
+    "amount":"Monto",
+    "currency":"Moneda"
   }
 }

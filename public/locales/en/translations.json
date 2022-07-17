@@ -306,6 +306,9 @@
     "setAsMyOrganization":"Set as my organization",
     "redirectingTo":"redirecting to",
     "weCanEmailYouAboutYourFeedback":"We can email you about your feedback",
-    "renewAccessKey":"Renew access key"
+    "renewAccessKey":"Renew access key",
+    "invoices":"Invoices",
+    "amount":"Amount",
+    "currency":"Currency"
   } 
 }
