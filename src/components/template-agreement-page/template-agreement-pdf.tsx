@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { Page, Text, Document, StyleSheet  } from '@react-pdf/renderer';
+import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer';
 import { TemplateAgreement } from '../../api/models/models';
-import { toUpper } from 'lodash'; 
+import { toUpper } from 'lodash';
+import { formatDate, formatDateTime } from '../../api/utils';
+import Countries from '../../api/models/iso3-countries'
 
 // rename helper for react17 overload
 const MyDocument: any = Document
@@ -10,9 +12,12 @@ const MyText: any = Text;
 
 
 const TemplateAgreementPdf = ({
+  dataspaceName,
   agreement
+
 }: {
-  agreement: TemplateAgreement
+  dataspaceName: string;
+  agreement: TemplateAgreement;
 }) => {
 
   const styles = StyleSheet.create({
@@ -81,6 +86,15 @@ const TemplateAgreementPdf = ({
 
   //   };
 
+
+  const renderSimple = (content: string) => {
+    return (
+      <MyText style={styles.text}>
+        {content}
+      </MyText>
+    )
+  }
+
   const renderSection = (index: number, name: string, include: boolean, content: string) => {
     if (include) {
       return (<><MyText style={styles.subtitle}>
@@ -131,54 +145,53 @@ const TemplateAgreementPdf = ({
 
       result.push(renderSection(index, 'Purpose', true, agreement.purpose))
 
+      // index = index + 1;
 
-
-      index = index + 1;
-
-      result.push(renderSection(index, 'Data assets', true, agreement.dataAssets))
-
+      // result.push(renderSection(index, 'Data assets', true, agreement.dataAssets))
 
       index = index + 1;
 
       result.push(renderSection(index, 'Rights and responsibilities', true, agreement.rightsAndResponsibilities))
 
+      index = index + 1;
+
+      var content = `The Data Provider grants to the Data Consumer a non-exclusive, non-transferable, revocable, worldwide licence (“Licence”) for the Permitted Use only, during the Term, subject to the licence restrictions set out in this agreement, to: ${agreement.permissions}`
+
+      result.push(renderSection(index, 'Permissions', true, content))
 
       index = index + 1;
 
-      result.push(renderSection(index, 'Permissions', true, agreement.permissions))
-
-
-      index = index + 1;
-
-      result.push(renderSection(index, 'Duration Type', true, agreement.durationType))
+      // result.push(renderSection(index, 'Duration Type', true, agreement.durationType))
 
       if (agreement.durationType === 'relative') {
-        result.push(renderSection(index, 'Duration Period', true, agreement.durationPeriod))
+        var content = `Unless otherwise terminated under this clause, this Agreement shall take commence on the date of last signature and shall continue for an initial term of ${agreement.durationPeriod} the (“Initial Term”).`
+        result.push(renderSection(index, 'Duration Period', true, content))
       } else {
-        result.push(renderSection(index, 'Duration From', true, agreement.durationFrom.toString()))
-        result.push(renderSection(index, 'Duration Until', true, agreement.durationUntil.toString()))
+        var content = `Unless otherwise terminated under this clause, this Agreement shall take commence on ${formatDate(agreement.durationFrom)} and shall continue until ${formatDate(agreement.durationUntil)}.`
+        result.push(renderSection(index, 'Duration', true, content))
+
       }
 
+      index = index + 1;
+      var content = `The Data Provider provides access to Data Consumer with data updated with a ${agreement.frequencyOfUpdates} frequency.`
+      result.push(renderSection(index, 'Frequency of updates', true, content))
 
-
-
-
+      index = index + 1;
+      var content = `Upon termination of this Agreement, all rights to the Data granted to the Data Consumer hereunder shall revert to Data Provider, and the Data Consumer shall immediately refrain from any further processing or exploitation of the Data. With a retention period of ${agreement.dataRetentionPeriod} the Data Consumer shall destroy all physical copies, and irrevocably delete all electronic copies. At the request of the Data Provider, the Data Consumer must confirm fulfilment of these obligations in writing.`
+      result.push(renderSection(index, 'Data retention period', true, content))
 
       index = index + 1;
 
-      result.push(renderSection(index, 'Frequency of updates', true, agreement.frequencyOfUpdates))
+      var content = `This Agreement may be terminated by either party  upon notice in writing to the other having in count a notice period of ${agreement.terminationNoticePeriod}`
+      result.push(renderSection(index, 'Termination notice period', true, content))
 
       index = index + 1;
 
-      result.push(renderSection(index, 'Data retention period', true, agreement.dataRetentionPeriod))
+      var selectedCountry = Countries.find(x => x.code == agreement.jurisdiction)
 
-      index = index + 1;
 
-      result.push(renderSection(index, 'Termination notice period', true, agreement.terminationNoticePeriod))
-
-      index = index + 1;
-
-      result.push(renderSection(index, 'Jurisdiction', true, agreement.jurisdiction))
+      var content = `This Agreement shall be deemed to be made in ${selectedCountry?.name}, and shall be governed by and construed in accordance with the laws of ${selectedCountry?.name}. The parties agree to submit to the exclusive jurisdiction of the courts of ${selectedCountry?.name}.`
+      result.push(renderSection(index, 'Jurisdiction', true, content))
 
 
       return <>{result}</>
@@ -188,7 +201,7 @@ const TemplateAgreementPdf = ({
   }
 
   useEffect(() => {
- 
+
     // registerFont()
   }, [agreement])
 
@@ -202,27 +215,21 @@ const TemplateAgreementPdf = ({
             {`~ ${agreement.title} ~`}
           </MyText>
           <MyText style={styles.title}>{agreement.title}</MyText>
-          <MyText style={styles.author}>Dataspace name</MyText>
+          <MyText style={styles.author}>Dataspace ID: {dataspaceName}</MyText>
 
 
-          <MyText style={styles.text}>
-            This Data Sharing Agreement (this “Agreement”) is made on [AGREEMENT_DATE] (the
-            “Effective Date”) between [PROVIDER_FULL_NAME], with its principal place of business at [PROVIDER_ADDRESS],
-            hereinafter referred to as “PROVIDER” and [RECIPIENT_FULL_NAME], with its
-            principal place of business at [RECIPIENT_ADDRESS], hereinafter referred to as “RECIPIENT”
-            (referred to collectively hereinafter as the “Parties” and individually as “Party”).
-          </MyText>
+          {renderSimple(agreement.intro)}
 
           {renderSections()}
 
 
           <MyText style={styles.subtitle} break>
-            Agreed &amp; Accepted:
+            Agreed &amp; Accepted: {'{{AGREEMENT-DATE}}'}
           </MyText>
           <MyText style={styles.text}>
 
           </MyText>
-          <MyText style={styles.pageNumber} render={({ pageNumber, totalPages }:{pageNumber:any; totalPages:any}) => (
+          <MyText style={styles.pageNumber} render={({ pageNumber, totalPages }: { pageNumber: any; totalPages: any }) => (
             `${pageNumber} / ${totalPages}`
           )} fixed />
         </MyPage>

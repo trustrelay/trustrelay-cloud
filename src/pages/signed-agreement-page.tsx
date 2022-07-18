@@ -120,6 +120,7 @@ const SignedAgreementPage = () => {
         organizationName:"",
         organizationDomain:"",
         timestamp: "",
+        intro:"",
         isLocked:false
     };
     const [templateAgreement, setTemplateAgreement] = useState(emptyTemplateAgreement);

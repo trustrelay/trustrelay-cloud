@@ -36,6 +36,10 @@ The application must be configured as SPA and not as Web
 The attribute `newUser: true` will only appear if the user registered through the sign up page.
 If the user is created through the Graph API this attribute will NOT appear.
 
+## RESET PASSWORD: 
+
+https://trustrelay.b2clogin.com/trustrelay.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_password_reset_v2&client_id=75ea59fc-943d-441f-8ae3-6a7f32e5675c&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fcloudsandbox.trustrelay.io%2Fredirect&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=1z8H3ZjhfEHANjMW-jXbiPGBiB4_Ak0lSuuKUe-sbEA
+
 ## Google Chrome Developer Console Warnings
 
 There were some warnings related to external chrome plugins,
