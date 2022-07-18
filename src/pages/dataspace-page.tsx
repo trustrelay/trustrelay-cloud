@@ -3,7 +3,7 @@ import { useToast } from '../hooks/toast-hook';
 import { Grid, Typography, Button, Breadcrumbs, TableContainer, Table, TableRow, TableCell, TableBody, Divider, Accordion, AccordionSummary, AccordionDetails, AppBar, Tabs, Tab, IconButton, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import { Dataspace, Agent } from '../api/models/models';
+import { Dataspace, Agent, DataspaceSummary } from '../api/models/models';
 import { DataspaceContext, ToastMessageType } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
@@ -68,6 +68,8 @@ const DataspacePage = () => {
     const [agentsLoaded, setAgentsLoaded] = useState(false);
     const emptyAgentsList: Array<Agent> = [];
     const [agents, setAgents] = useState(emptyAgentsList);
+
+    const [dataspaceSummary, setDataspaceSummary] = useState<DataspaceSummary | null>()
 
     const [secret, setSecret] = useState('');
 
@@ -190,6 +192,9 @@ const DataspacePage = () => {
         setSelectedDataspace(emptyDataspace);
         setDataspaceLoaded(false);
     }
+
+    const isDataspaceAdmin = () => account?.username === dataspaceSummary?.admin
+
 
     function generateGeneralInfoTable(dataspace: Dataspace) {
         if (dataspace) {
@@ -443,6 +448,20 @@ const DataspacePage = () => {
 
     }, [selectedDataspace, agentsLoaded])
 
+
+    useEffect(() => {
+
+        if (jwt !== "") {
+            trustRelayService.getDataspaceSummary(jwt, dataspaceid!).then((res) => {
+                setDataspaceSummary(res);
+            }).catch((err: Error) => {
+                toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+            });
+        }
+
+    }, [jwt, dataspaceid, isAuthenticated])
+
+
     useEffect(() => {
         if (isAuthenticated) {
 
@@ -537,49 +556,49 @@ const DataspacePage = () => {
                             <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
 
-
-                                {(account && account.localAccountId) ? <Button variant="text"
+                                {isDataspaceAdmin() && <>
+                                    <Button variant="text"
                                     color="primary"
                                     startIcon={<EditIcon fontSize="small" style={{ color: "#0090BF" }} />}
                                     onClick={toggleEditDataspaceDrawer}
                                 >
                                     {t('labels.edit')}
-                                </Button> : <></>}
-
-                                {(account && account.localAccountId) ? <Button variant="text"
+                                    </Button>
+                                    <Button variant="text"
                                     color="primary"
                                     startIcon={<DeleteIcon fontSize="small" style={{ color: "#0090BF" }} />}
                                     onClick={toggleDeleteDataspaceDrawer}
                                 >
                                     {t('labels.delete')}
-                                </Button> : <></>}
+                                    </Button>
 
-                                {(displayInviteMember()) ?
+
                                     <Button variant="text"
                                         color="primary"
                                         startIcon={<PersonAddIcon fontSize="small" style={{ color: "#0090BF" }} />}
                                         onClick={toggleInviteMemberDrawer}
                                     >
                                         {t('labels.inviteMember')}
-                                    </Button> : <></>}
+                                    </Button>
 
-                                {(displayInviteMember()) ?
+
                                     <Button variant="text"
                                         color="primary"
                                         startIcon={<PersonAddDisabledIcon fontSize="small" style={{ color: "#0090BF" }} />}
                                         onClick={toggleDisableMembershipDrawer}
                                     >
                                         {t('labels.uninviteMember')}
-                                    </Button> : <></>}
+                                    </Button>
 
-                                {(displayInviteMember()) ?
+
                                     <Button variant="text"
                                         color="primary"
                                         startIcon={<GroupAddIcon fontSize="small" style={{ color: "#0090BF" }} />}
                                         onClick={toggleCreateAnonymousInviteDrawer}
                                     >
                                         {t('labels.setAnonymousInvite')}
-                                    </Button> : <></>}
+                                    </Button>
+                                </>}
 
                                 <Button variant="text"
                                     color="primary"
