@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer';
 import { TemplateAgreement } from '../../api/models/models';
 import { toUpper } from 'lodash';
-import { getCountryNameByIsoCode } from '../../api/utils';
+import { formatDateTime, getCountryNameByIsoCode } from '../../api/utils';
 
 
 // rename helper for react17 overload
@@ -84,6 +84,14 @@ const SignedAgreementPdf = ({
   //   });
 
   //   };
+
+  const renderSimple = (content: string) =>{
+    return(
+      <MyText style={styles.text}>
+      {content}
+    </MyText>
+    )
+  }
 
   const renderSection = (index: number, name: string, include: boolean, content: string) => {
     if (include) {
@@ -194,6 +202,7 @@ const SignedAgreementPdf = ({
     // registerFont()
   }, [agreement])
 
+  
 
   return (
 
@@ -205,21 +214,14 @@ const SignedAgreementPdf = ({
           </MyText>
           <MyText style={styles.title}>{agreement.title}</MyText>
           <MyText style={styles.author}>{dataspaceName}</MyText>
-
-
-          <MyText style={styles.text}>
-            This Data Sharing Agreement (this “Agreement”) is made on [AGREEMENT_DATE] (the
-            “Effective Date”) between [PROVIDER_FULL_NAME], with its principal place of business at [PROVIDER_ADDRESS],
-            hereinafter referred to as “PROVIDER” and [RECIPIENT_FULL_NAME], with its
-            principal place of business at [RECIPIENT_ADDRESS], hereinafter referred to as “RECIPIENT”
-            (referred to collectively hereinafter as the “Parties” and individually as “Party”).
-          </MyText>
+ 
+          {renderSimple(agreement.intro)}
 
           {renderSections()}
 
 
           <MyText style={styles.subtitle} break>
-            Agreed &amp; Accepted:
+          Agreed &amp; Accepted: {formatDateTime(agreement.timestamp)}
           </MyText>
           <MyText style={styles.text}>
 

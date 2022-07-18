@@ -181,6 +181,7 @@ export interface TemplateAgreement {
   organization:string;
   organizationName:string;
   organizationDomain:string;
+  intro:string;
   isLocked:boolean;
 }
 

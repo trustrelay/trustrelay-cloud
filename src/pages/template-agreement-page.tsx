@@ -73,6 +73,7 @@ const TemplateAgreementPage = () => {
         organization: "",
         organizationName: "",
         organizationDomain: "",
+        intro:"",
         isLocked:false
     };
     const [agreement, setAgreement] = useState(emptyAgreement);
@@ -191,6 +192,7 @@ const TemplateAgreementPage = () => {
                 {(agreement && agreement.id !== "") ? (<MyPDFViewer style={{ width: "100%", minHeight: "500px" }}>
                     <TemplateAgreementPdf
                         agreement={agreement}
+                        dataspaceName={dataspace.dataspaceState!}
                     />
                 </MyPDFViewer>) : <>...</>}
 

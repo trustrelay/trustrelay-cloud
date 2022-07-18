@@ -95,15 +95,14 @@ const TemplateAgreementWizardPage = () => {
 
     const titleText = 'Data sharing agreement'
 
-    const purposeSampleText = 'e.g. The Parties are entering into this Agreement so that [RECIPIENT] and its partners and ' +
-        'the public anywhere may access certain MNO Data, analyze and use such MNO Data alongside ' +
-        'geospatial data and other relevant data for the purposes of helping to understand population ' +
-        'movements and other behaviors of demographic segments.'
+    const purposeSampleText = 'e.g. The Parties are entering into this Agreement so that {{DATA-CONSUMER}} and its partners ' +
+        'may access [DATASET NAME], analyze and use such data ' +
+        'and other relevant data for the purposes of [PURPOSE].'  
 
 
-    const rightsAndResponsibilitiesText = 'e.g. [PROVIDER] has the right to grant [RECIPIENT] the rights to the Licensed ' +
-        'Data granted in this Agreement, and that the use and public disclosure of the Licensed Data by ' +
-        '[RECIPIENT] in accordance with the license will not infringe or violate the rights of any third party.';
+    const rightsAndResponsibilitiesText = 'e.g. {{DATA-PROVIDER}} has the right to grant {{DATA-CONSUMER}} the rights to the Licensed ' +
+        'Data granted in this Agreement, the use of the Licensed Data by ' +
+        '{{DATA-CONSUMER}} in accordance with the license will not infringe or violate the rights of any third party.';
 
     var d = new Date();
     var year = d.getFullYear();
