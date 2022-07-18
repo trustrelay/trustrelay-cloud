@@ -8,10 +8,7 @@ import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
 import { getToastMessageTypeByName } from '../components/toast';
-import { useTranslation } from 'react-i18next';
-import "prismjs/components/prism-sql";
-import 'prismjs/components/prism-css';
-import 'prismjs/themes/prism-funky.css';
+import { useTranslation } from 'react-i18next'; 
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DataspaceSummary, InvitationStatus } from '../api/models/models';
@@ -81,11 +78,11 @@ const JoinPage = () => {
   }
 
   const goToDashboard = () => {
-    navigate(`/dataspaces/${dataspaceid}/dashboard`)
+    navigate(`/`)
   }
 
   const handleCancel = () => {
-    navigate(`/dataspaces/${dataspaceid}/dashboard`)
+    navigate(`/`)
   }
 
   const handleJoin = () => {
@@ -131,25 +128,25 @@ const JoinPage = () => {
                     <Table className={css.table} aria-label="simple table">
 
                       <TableBody>
-                        <TableRow key="">
+                        <TableRow key="name">
                           <TableCell component="th" scope="row">Name</TableCell>
                           <TableCell align="right">{dataspaceSummary.name}</TableCell>
                         </TableRow>
 
-                        <TableRow key="">
+                        <TableRow key="type">
                           <TableCell component="th" scope="row">Invitation Type</TableCell>
                           <TableCell align="right">{invitationStatus.invitationType}</TableCell>
                         </TableRow>
 
-                        <TableRow key="">
+                        <TableRow key="admin">
                           <TableCell component="th" scope="row">Admin</TableCell>
                           <TableCell align="right">{dataspaceSummary.admin}</TableCell>
                         </TableRow>
-                        <TableRow key="">
+                        <TableRow key="members">
                           <TableCell component="th" scope="row"> # Members  </TableCell>
                           <TableCell align="right">{dataspaceSummary.members}</TableCell>
                         </TableRow>
-                        <TableRow key="">
+                        <TableRow key="commons">
                           <TableCell component="th" scope="row"> # Commons </TableCell>
                           <TableCell align="right">{dataspaceSummary.commons}</TableCell>
                         </TableRow>
