@@ -294,6 +294,7 @@
     "renewAccessKey":"Regenerar clave de acceso",
     "invoices":"Facturas",
     "amount":"Monto",
-    "currency":"Moneda"
+    "currency":"Moneda",
+    "signedBy":"Firmado por"
   }
 }

@@ -3,7 +3,7 @@ import { useToast } from '../hooks/toast-hook';
 import { Grid, Typography, Button, Breadcrumbs, TableContainer, Table, TableRow, TableCell, TableBody, Divider, Accordion, AccordionSummary, AccordionDetails, AppBar, Tabs, Tab, IconButton, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import { Dataspace, Agent, DataspaceSummary } from '../api/models/models';
+import { Dataspace, Agent, DataspaceSummary, CommonAgreementSummary } from '../api/models/models';
 import { DataspaceContext, ToastMessageType } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
@@ -32,6 +32,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import KeyIcon from '@mui/icons-material/Key';
 import CreateAnonymousInviteDrawer from '../components/dataspace-page/create-anonymous-invite-drawer';
 import { makeStyles } from '@mui/styles';
+import SignedAgreementList from '../components/common-page/signed-agreement-list';
 
 const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
@@ -72,6 +73,10 @@ const DataspacePage = () => {
     const [dataspaceSummary, setDataspaceSummary] = useState<DataspaceSummary | null>()
 
     const [secret, setSecret] = useState('');
+
+    const emptyCommonAgreements: Array<CommonAgreementSummary> = [];
+    const [commonAgreements, setCommonAgreements] = useState(emptyCommonAgreements);
+    const [loadedCommonAgreements, setLoadedCommonAgreements] = useState(false);
 
     const handleTabChange = (event: any, newValue: number) => {
         setValue(newValue);
@@ -175,6 +180,16 @@ const DataspacePage = () => {
         }
 
     }
+
+
+    const handleTerminateAgreement = (agreement: string) => {
+        trustRelayService.terminateAgreement(jwt, selectedDataspaceState, agreement).then((res) => { 
+
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }
+
 
     const renewAccessKey = () => {
 
@@ -328,14 +343,16 @@ const DataspacePage = () => {
             return <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
                 <AppBar position="static">
-                    <Tabs variant="scrollable" value={value} onChange={handleTabChange} aria-label="dashboard tabs">
+                    <Tabs variant="scrollable" value={value} onChange={handleTabChange} aria-label="dataspace tabs">
                         <Tab label={t('labels.agents')} {...a11yProps(0)} />
+                        <Tab label={t('labels.signedAgreements')} {...a11yProps(1)} />
+
                     </Tabs>
                 </AppBar>
 
 
 
-                <TabPanel id="partners" value={value} index={0}>
+                <TabPanel id="agents" value={value} index={0}>
                     <Grid item container spacing={2} rowGap={1}>
                         <Grid item container>
                             &nbsp;
@@ -347,6 +364,21 @@ const DataspacePage = () => {
                             <AgentList agents={agents} />
                         </Grid>
                     </Grid>
+                </TabPanel>
+
+
+                <TabPanel id="agreements" value={value} index={1}>
+                <Grid item container spacing={2} rowGap={1}>
+                            <Grid item container>
+                                &nbsp;
+                            </Grid>
+                            <Grid item xl={10} lg={10} md={12} sm={12} xs={12}>
+                                <SignedAgreementList
+                                    signedAgreements={commonAgreements}
+                                    onTerminate={handleTerminateAgreement}
+                                />
+                            </Grid>
+                        </Grid>
                 </TabPanel>
 
                 <InviteMemberDrawer
@@ -447,6 +479,28 @@ const DataspacePage = () => {
         }
 
     }, [selectedDataspace, agentsLoaded])
+
+    useEffect(() => {
+ 
+
+        if (agentsLoaded && !loadedCommonAgreements && jwt !== "") {
+
+
+            trustRelayService.getSignedAgreementsByDataspace(jwt, dataspaceid!).then((res) => {
+                setCommonAgreements(res);
+                setLoadedCommonAgreements(true);
+            }).catch((err: Error) => {
+                toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+            });
+
+
+        }
+        else {
+       
+        }
+
+
+    }, [agentsLoaded, loadedCommonAgreements])
 
 
     useEffect(() => {
