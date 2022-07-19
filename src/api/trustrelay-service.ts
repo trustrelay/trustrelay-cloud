@@ -378,6 +378,15 @@ class TrustRelayService extends BaseService {
       }
     });
 
+    getSignedAgreementsByDataspace = async (jwt: string, dataspace: string): Promise<Array<CommonAgreementSummary>> =>
+    await this.simpleGet(`/dataspaces/${dataspace}/signed-agreements`, jwt).then((res: any) => {
+      if (res && res.value) {
+        return res.value as Array<CommonAgreementSummary>;
+      } else {
+        throw new Error('Failed request to get signed agreements by dataspace');
+      }
+    });
+
 
   getServiceConnection = async (jwt: string, dataspace: string, serviceConnection: string): Promise<ServiceConnection> =>
     await this.simpleGet(`/dataspaces/${dataspace}/settings/service-connections/${serviceConnection}`, jwt).then((res: any) => {

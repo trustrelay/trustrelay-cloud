@@ -309,6 +309,7 @@
     "renewAccessKey":"Renew access key",
     "invoices":"Invoices",
     "amount":"Amount",
-    "currency":"Currency"
+    "currency":"Currency",
+    "signedBy":"Signed by"
   } 
 }
