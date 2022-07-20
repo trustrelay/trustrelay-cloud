@@ -228,7 +228,8 @@ const SignedAgreementPage = () => {
                                  {(signedAgreement && templateAgreement && signedAgreement.id!=="" && templateAgreement.id !=="") ? (<MyPDFViewer style={{width:"100%", minHeight:"500px"}}>
                         <SignedAgreementPdf 
                         dataspaceName={signedAgreement.dataspaceName}
-                        agreement={templateAgreement}
+                        templateAgreement={templateAgreement}
+                        signedAgreement={signedAgreement}
                         />
                     </MyPDFViewer>) : <>...</>}
                                 
