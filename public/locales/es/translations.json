@@ -51,6 +51,8 @@
     "export": "Exportar",
     "runModel": "Ejecutar modelo",
     "checkSchema": "Revisar esquema",
+    "configureSchema": "Configurar esquema",
+    "url": "URL",
     "checkSla": "Revisar SLA",
     "copy": "Copiar",
     "createSynthenticCopy": "Crear copia sintética",

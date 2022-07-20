@@ -201,6 +201,21 @@ class TrustRelayService extends BaseService {
     });
   }
 
+  setNewSchemaFromUrl = async (jwt: string, commonId: string, url: string): Promise<void> => {
+    let data = {
+      schemaUrl: url
+    }
+
+    await this.postWithResponse<string>(`/commons/${commonId}/set-schema`, jwt, data).then((res: any) => {
+      if (res && res.value) {
+        return
+      } else {
+        throw new Error('Failed request to send invitation');
+      }
+    });
+
+  }
+
   inviteMember = async (jwt: string, dataspace: string, email: string): Promise<void> => {
     let data = {
       email: email

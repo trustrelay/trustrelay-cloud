@@ -59,6 +59,8 @@
     "export":"Export",
     "runModel":"Run model",
     "checkSchema": "Check schema",
+    "configureSchema": "Configure schema",
+    "url": "URL",
     "checkSla": "Check SLA",
     "copy":"Copy",
     "createSynthenticCopy":"Create synthentic copy",

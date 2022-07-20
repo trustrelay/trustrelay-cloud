@@ -26,11 +26,13 @@ import QueuePlayNextIcon from '@mui/icons-material/QueuePlayNext';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import SchemaIcon from '@mui/icons-material/Schema';
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 import BlurOnIcon from '@mui/icons-material/BlurOn';
 import CreateSynthenticCopyDrawer from '../components/common-page/create-synthetic-copy-drawer';
 import CreateCommonCopyDrawer from '../components/common-page/create-common-copy-drawer';
 import RunModelDrawer from '../components/common-page/run-model-drawer';
 import CheckSchemaDrawer from '../components/common-page/check-schema-drawer';
+import ConfigureSchemaDrawer from '../components/common-page/configure-schema-drawer';
 import CheckSlaDrawer from '../components/common-page/check-sla-drawer';
 import EditCommonDrawer from '../components/common-page/edit-common-drawer';
 import ExportCommonDrawer from '../components/common-page/export-common-drawer';
@@ -79,6 +81,8 @@ const CommonPage = () => {
     const [selectedCommon, setSelectedCommon] = useState(emptyCommon);
     const [commonLoaded, setCommonLoaded] = useState(false);
 
+    const isAdmin = account?.localAccountId === selectedCommon?.createdBy;
+
     const [value, setValue] = React.useState(0); 
     const emptyCommonAgreements: Array<CommonAgreementSummary> = [];
     const [commonAgreements, setCommonAgreements] = useState(emptyCommonAgreements);
@@ -95,6 +99,7 @@ const CommonPage = () => {
     const [isCreateCommonCopyDrawerOpen, setIsCreateCommonCopyDrawerOpen] = useState(false);
     const [isRunModelDrawerOpen, setIsRunModelDrawerOpen] = useState(false);
     const [isCheckSchemaDrawerOpen, setIsCheckSchemaDrawerOpen] = useState(false);
+    const [isConfigureSchemaDrawerOpen, setIsConfigureSchemaDrawerOpen] = useState(false);
     const [isCheckSlaDrawerOpen, setIsCheckSlaDrawerOpen] = useState(false);
     const [isTerminateAgreementDrawerOpen, setIsTerminateAgreementDrawerOpen] = useState(false);
 
@@ -134,6 +139,10 @@ const CommonPage = () => {
       setIsCheckSchemaDrawerOpen(!isCheckSchemaDrawerOpen);
     }
 
+    const toggleConfigureSchemaDrawer = () => {
+        setIsConfigureSchemaDrawerOpen(!isConfigureSchemaDrawerOpen);
+    }
+
     const toggleCheckSlaDrawer = () => {
       setIsCheckSlaDrawerOpen(!isCheckSlaDrawerOpen);
     }
@@ -167,6 +176,14 @@ const CommonPage = () => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
         });
     }
+
+    const configureCommon = (commonId: string, url: string) => {
+        trustRelayService.setNewSchemaFromUrl(jwt, commonId, url).then((res) => {
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }
+
 
     const handleDeleteCommon = (deleteServiceConnection: boolean) => {
         trustRelayService.deleteCommon(jwt, dataspaceid!, commonid!, deleteServiceConnection).then(() => {
@@ -256,6 +273,13 @@ const CommonPage = () => {
                         handleClose={toggleCheckSchemaDrawer}
                         serviceConnections={serviceConnections}
                         onAction={() => console.log('not supported')}
+                    />
+
+                    <ConfigureSchemaDrawer
+                        open={isConfigureSchemaDrawerOpen}
+                        handleClose={toggleConfigureSchemaDrawer}
+                        common={selectedCommon}
+                        onAction={configureCommon}
                     />
 
                     <CheckSlaDrawer
@@ -695,6 +719,14 @@ const CommonPage = () => {
                         >
                           {t('labels.checkSchema')}
                         </Button>}
+
+                                {!isAdmin && <Button variant="text" // [true] Temp for test!
+                                    color="primary"
+                                    startIcon={<DisplaySettingsIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleConfigureSchemaDrawer}
+                                >
+                                    {t('labels.configureSchema')}
+                                </Button>}
 
                         {(selectedCommon.allowCopy) ? <Button variant="text"
                             color="primary"
