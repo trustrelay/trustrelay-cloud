@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer';
-import { TemplateAgreement } from '../../api/models/models';
+import { SignedAgreement, TemplateAgreement } from '../../api/models/models';
 import { toUpper } from 'lodash';
-import { formatDateTime, getCountryNameByIsoCode } from '../../api/utils';
+import { formatDate, formatDateTime, getCountryNameByIsoCode } from '../../api/utils';
+//import Countries from '../../api/models/countries';
 
 
 // rename helper for react17 overload
@@ -11,10 +12,12 @@ const MyPage: any = Page
 const MyText: any = Text;
 
 const SignedAgreementPdf = ({
-  agreement,
+  templateAgreement,
+  signedAgreement,
   dataspaceName,
 }: {
-  agreement: TemplateAgreement;
+  templateAgreement: TemplateAgreement;
+  signedAgreement: SignedAgreement;
   dataspaceName: string;
 }) => {
 
@@ -85,11 +88,11 @@ const SignedAgreementPdf = ({
 
   //   };
 
-  const renderSimple = (content: string) =>{
-    return(
+  const renderSimple = (content: string) => {
+    return (
       <MyText style={styles.text}>
-      {content}
-    </MyText>
+        {content}
+      </MyText>
     )
   }
 
@@ -137,26 +140,27 @@ const SignedAgreementPdf = ({
     var index: number = 0;
 
 
-    if (agreement) {
+    if (templateAgreement) {
 
 
 
       index = index + 1;
 
-      result.push(renderSection(index, 'Purpose', true, agreement.purpose))
+      result.push(renderSection(index, 'Purpose', true, templateAgreement.purpose))
+
+      // index = index + 1; 
+
+      // result.push(renderSection(index, 'Data assets', true, `The data assets provided will be in ${agreement.dataAssets} format.`))
 
       index = index + 1;
 
-
-      result.push(renderSection(index, 'Data assets', true, `The data assets provided will be in ${agreement.dataAssets} format.`))
-
-      index = index + 1;
-
-      result.push(renderSection(index, 'Rights and responsibilities', true, agreement.rightsAndResponsibilities))
+      result.push(renderSection(index, 'Rights and responsibilities', true, templateAgreement.rightsAndResponsibilities))
 
       index = index + 1;
 
-      result.push(renderSection(index, 'Permissions', true, `[RECIPIENT] will be able to perform the following operations on the data provided: ${agreement.permissions}.`))
+      var content = `The Data Provider grants to the Data Consumer a non-exclusive, non-transferable, revocable, worldwide licence (“Licence”) for the Permitted Use only, during the Term, subject to the licence restrictions set out in this agreement, to: ${templateAgreement.permissions}`
+
+      result.push(renderSection(index, 'Permissions', true, content))
 
 
       index = index + 1;
@@ -164,31 +168,36 @@ const SignedAgreementPdf = ({
       // result.push(renderSection(index, 'Duration Type', true, agreement.durationType))
 
 
-      if (agreement.durationType === 'relative') {
-        result.push(renderSection(index, 'Duration', true, `[RECIPIENT] will be able to access the data provided for the next ${agreement.durationPeriod}.`))
+      if (templateAgreement.durationType === 'relative') {
+        var content = `Unless otherwise terminated under this clause, this Agreement shall take commence on the date of last signature and shall continue for an initial term of ${templateAgreement.durationPeriod} the (“Initial Term”).`
+        result.push(renderSection(index, 'Duration Period', true, content))
       } else {
-        // result.push(renderSection(index, 'Duration From', true, agreement.durationFrom.toString()))
-        // result.push(renderSection(index, 'Duration Until', true, agreement.durationUntil.toString()))
-        result.push(renderSection(index, 'Duration', true, `[RECIPIENT] will be able to access the data provided until ${agreement.durationUntil.toString()}.`))
+        var content = `Unless otherwise terminated under this clause, this Agreement shall take commence on ${formatDate(templateAgreement.durationFrom)} and shall continue until ${formatDate(templateAgreement.durationUntil)}.`
+        result.push(renderSection(index, 'Duration', true, content))
 
       }
 
 
       index = index + 1;
+      var content = `The Data Provider provides access to Data Consumer with data updated with a ${templateAgreement.frequencyOfUpdates} frequency.`
+      result.push(renderSection(index, 'Frequency of updates', true, content))
 
-      result.push(renderSection(index, 'Frequency of updates', true, `[PROVIDER] will perform updates in a ${agreement.frequencyOfUpdates} interval.`))
+      index = index + 1;
+      var content = `Upon termination of this Agreement, all rights to the Data granted to the Data Consumer hereunder shall revert to Data Provider, and the Data Consumer shall immediately refrain from any further processing or exploitation of the Data. With a retention period of ${templateAgreement.dataRetentionPeriod} the Data Consumer shall destroy all physical copies, and irrevocably delete all electronic copies. At the request of the Data Provider, the Data Consumer must confirm fulfilment of these obligations in writing.`
+      result.push(renderSection(index, 'Data retention period', true, content))
 
       index = index + 1;
 
-      result.push(renderSection(index, 'Data retention period', true, `At the termination of this agreement [RECIPIENT] is able to retain data up to ${agreement.dataRetentionPeriod}.`))
+      var content = `This Agreement may be terminated by either party  upon notice in writing to the other having in count a notice period of ${templateAgreement.terminationNoticePeriod}`
+      result.push(renderSection(index, 'Termination notice period', true, content))
 
       index = index + 1;
 
-      result.push(renderSection(index, 'Termination notice period', true, `Both parties are able to terminate this agreement provided a ${agreement.terminationNoticePeriod} notice period.`))
+      // var selectedCountry = Countries.find(x => x.code == templateAgreement.jurisdiction)
+      var selectedCountry = getCountryNameByIsoCode(templateAgreement.jurisdiction)
 
-      index = index + 1;
-
-      result.push(renderSection(index, 'Jurisdiction', true, `The jurisdiction that applies to this agreement is: ${agreement.jurisdiction.split(',').map((item) => getCountryNameByIsoCode(item)).join(',')}.`))
+      var content = `This Agreement shall be deemed to be made in ${selectedCountry}, and shall be governed by and construed in accordance with the laws of ${selectedCountry}. The parties agree to submit to the exclusive jurisdiction of the courts of ${selectedCountry}.`
+      result.push(renderSection(index, 'Jurisdiction', true, content))
 
 
       return <>{result}</>
@@ -200,28 +209,27 @@ const SignedAgreementPdf = ({
   useEffect(() => {
 
     // registerFont()
-  }, [agreement])
+  }, [templateAgreement])
 
-  
+
 
   return (
-
-    <MyDocument>
-      {(agreement) ? (
+    <>{(templateAgreement) ?
+      <MyDocument>
         <MyPage style={styles.body}>
           <MyText style={styles.header} fixed>
-            {`~ ${agreement.title} ~`}
+            {`~ ${templateAgreement.title} ~`}
           </MyText>
-          <MyText style={styles.title}>{agreement.title}</MyText>
+          <MyText style={styles.title}>{templateAgreement.title}</MyText>
           <MyText style={styles.author}>{dataspaceName}</MyText>
- 
-          {renderSimple(agreement.intro)}
+
+          {renderSimple(templateAgreement.intro)}
 
           {renderSections()}
 
 
           <MyText style={styles.subtitle} break>
-          Agreed &amp; Accepted: {formatDateTime(agreement.timestamp)}
+            Agreed &amp; Accepted:  {formatDateTime(templateAgreement.timestamp)}
           </MyText>
           <MyText style={styles.text}>
 
@@ -230,8 +238,7 @@ const SignedAgreementPdf = ({
             `${pageNumber} / ${totalPages}`
           )} fixed />
         </MyPage>
-      ) : <></>}
-    </MyDocument>
+      </MyDocument> : <></>}</>
 
   )
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer';
 import { TemplateAgreement } from '../../api/models/models';
 import { toUpper } from 'lodash';
-import { formatDate, formatDateTime } from '../../api/utils';
+import { formatDate, formatDateTime, getCountryNameByIsoCode } from '../../api/utils';
 import Countries from '../../api/models/iso3-countries'
 
 // rename helper for react17 overload
@@ -187,10 +187,11 @@ const TemplateAgreementPdf = ({
 
       index = index + 1;
 
-      var selectedCountry = Countries.find(x => x.code == agreement.jurisdiction)
+     // var selectedCountry = Countries.find(x => x.code == templateAgreement.jurisdiction)
+     var selectedCountry = getCountryNameByIsoCode(agreement.jurisdiction)
 
 
-      var content = `This Agreement shall be deemed to be made in ${selectedCountry?.name}, and shall be governed by and construed in accordance with the laws of ${selectedCountry?.name}. The parties agree to submit to the exclusive jurisdiction of the courts of ${selectedCountry?.name}.`
+      var content = `This Agreement shall be deemed to be made in ${selectedCountry}, and shall be governed by and construed in accordance with the laws of ${selectedCountry}. The parties agree to submit to the exclusive jurisdiction of the courts of ${selectedCountry}.`
       result.push(renderSection(index, 'Jurisdiction', true, content))
 
 

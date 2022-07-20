@@ -1,5 +1,5 @@
 import moment from 'moment'; 
-import Countries from './models/countries'
+import Countries from './models/iso3-countries'
 import _ from 'lodash'
 
 export const isEmptyObject = (obj: any) => {

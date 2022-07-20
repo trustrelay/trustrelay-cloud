@@ -62,7 +62,7 @@ const NewServiceConnectionDrawer = ({
 
   const [serviceConnectionName, setServiceConnectionName] = useState('');
   const [storageProvider, setStorageProvider] = useState<string>('az-stg-acc-table');
-  const [storageLocation, setStorageLocation] = useState('CHE');
+  const [storageLocation, setStorageLocation] = useState('switzerland-north');
   const [hostOrService, setHostOrService] = useState('');
   const [hostPort, setHostPort] = useState(443);
   const [databaseOrContainer, setDatabaseOrContainer] = useState('');
