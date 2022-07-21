@@ -15,6 +15,7 @@
     "errorAcknowledging":"Un error ha ocurrido durante la confirmación. Por favor intente de nuevo."
   },
   "labels": {
+    "new": "Nuevo",
     "homePage": "Página de inicio",
     "dashboard": "Tablero",
     "dataspaces": "Espacios de datos",
@@ -51,6 +52,9 @@
     "export": "Exportar",
     "runModel": "Ejecutar modelo",
     "checkSchema": "Revisar esquema",
+    "schemas": "Schemas",
+    "configureSchema": "Configurar esquema",
+    "url": "URL",
     "checkSla": "Revisar SLA",
     "copy": "Copiar",
     "createSynthenticCopy": "Crear copia sintética",

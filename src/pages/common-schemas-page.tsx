@@ -2,20 +2,25 @@ import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
 import { Grid, Typography, Button, Breadcrumbs,    Divider, Theme } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
-import  { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams, Link } from "react-router-dom";
+
 import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import { AuditLogsRequest, AuditLogEntry } from '../api/models/models';
+import { AuditLogsRequest, AuditLogEntry, Common } from '../api/models/models';
 import { getToastMessageTypeByName } from '../components/toast';
 import AuditLogList from '../components/audit-logs-page/audit-log-item-list';
+import AddIcon from '@mui/icons-material/Add';
+
 import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import LogDetailsDrawer from '../components/audit-logs-page/log-details-drawer';
 import { makeStyles  } from '@mui/styles';
+import AddNewSchemaDrawer from '../components/common-schemas-page/add-new-schema-drawer';
+import { emptyCommon } from './common-page';
 
 const useStyles = makeStyles((theme:Theme) => ({
     breadcrumbLink: {
@@ -51,20 +56,26 @@ const CommonSchemasPage = () => {
     let emptyLogEntry: AuditLogEntry = { timestamp: "", category: "", target: "", activityType: "", dataspace: "", userAgent: "", status: "", statusReason: "" }
 
     const [selectedLogEntry, setSelectedLogEntry] = useState(emptyLogEntry)
+    const [selectedCommon, setSelectedCommon] = useState(emptyCommon);
 
     const emptyAuditLogs: Array<AuditLogEntry> = [];
     const [auditLogs, setAuditLogs] = useState(emptyAuditLogs);
     const [loadedAuditLogs, setLoadedAuditLogs] = useState(false);
+    const [isAddNewSchemaDrawerOpen, setIsAddNewSchemaDrawerOpen] = useState(false);
 
     const dataspaceCtx = useContext(DataspaceContext);
     const [selectedDataspace, setSelectedDataspace] = useState('');
 
     const [isLogDetailsDrawerOpen, setIsLogDetailsDrawerOpen] = useState(false);
 
-    const { dataspaceid } = useParams<{ dataspaceid: string }>();
+    const { dataspaceid, commonid } = useParams<{ dataspaceid: string, commonid: string }>();
 
     const toggleLogDetailsDrawer = () => {
         setIsLogDetailsDrawerOpen(!isLogDetailsDrawerOpen);
+    }
+
+    const toggleAddNewSchemaDrawer = () => {
+        setIsAddNewSchemaDrawerOpen(!isAddNewSchemaDrawerOpen)
     }
 
     const renderContent = () => {
@@ -85,7 +96,12 @@ const CommonSchemasPage = () => {
                         handleClose={toggleLogDetailsDrawer}
                         logEntry={selectedLogEntry}
                     />
-
+                    <AddNewSchemaDrawer
+                        open={isAddNewSchemaDrawerOpen}
+                        handleClose={toggleAddNewSchemaDrawer}
+                        common={selectedCommon}
+                        onAction={configureCommon}
+                    />
 
                 </Grid>)
         } else {
@@ -93,27 +109,35 @@ const CommonSchemasPage = () => {
         }
     }
 
-
     useEffect(() => {
+        trustRelayService.getCommon(jwt, dataspaceid!, commonid!).then((res) => {
+            setSelectedCommon(res);
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }, [])
 
 
-        if (jwt !== "") {
 
-            var auditLogsReq: AuditLogsRequest = { continuationNextPartitionKey: "", continuationNextRowKey: "" }
 
-            trustRelayService.getAuditLogs(jwt, selectedDataspace, auditLogsReq).then((res) => {
-                setLoadedAuditLogs(true);
-                setAuditLogs(res.value);
-            }).catch((err: Error) => {
-                toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
-            });
+    // useEffect(() => {
 
-        }
-        else {
-          
-        }
 
-    }, [selectedDataspace, loadedAuditLogs])
+    //     if (jwt !== "") {
+
+    //         var auditLogsReq: AuditLogsRequest = { continuationNextPartitionKey: "", continuationNextRowKey: "" }
+
+    //         trustRelayService.getAuditLogs(jwt, selectedDataspace, auditLogsReq).then((res) => {
+    //             // setLoadedAuditLogs(true);
+    //             // setAuditLogs(res.value);
+    //         }).catch((err: Error) => {
+    //             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+    //         });
+
+    //     }
+
+
+    // }, [])
 
 
 
@@ -169,6 +193,13 @@ const CommonSchemasPage = () => {
         dataspaceCtx.dataspaceState
     ])
 
+    const configureCommon = (commonId: string, url: string) => {
+        trustRelayService.setNewSchemaFromUrl(jwt, commonid!, url).then((res) => {
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }
+
     return (
         <>
 
@@ -188,6 +219,9 @@ const CommonSchemasPage = () => {
                             </Link>
                             <Typography variant="body1" color="textPrimary">{t('labels.auditLogs')}</Typography>
                         </Breadcrumbs>
+
+
+
                     </Grid>
                     <Grid item container direction="row">
                         <ChromeReaderModeIcon fontSize="medium" color="primary" style={{ marginTop: "6px" }} />
@@ -197,7 +231,15 @@ const CommonSchemasPage = () => {
                         </Grid>
                     </Grid>
                     <Divider />
-                     
+                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleAddNewSchemaDrawer}
+                                >
+                                    {t('labels.new')}
+                                </Button>
+                            </Grid>
                         <Grid item container xl={11} lg={11} md={11} sm={11} xs={11}  >
                             <DataspaceContext.Consumer>
                                 {({ dataspaceState }) => (

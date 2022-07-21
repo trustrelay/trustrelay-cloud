@@ -55,6 +55,7 @@ const CommonPage = () => {
     const toast = useToast();
     const { t } = useTranslation();
     const navigate = useNavigate();
+
     const css = useStyles();
  
     const { instance, accounts, inProgress } = useMsal();
@@ -148,6 +149,7 @@ const CommonPage = () => {
             'aria-controls': `simple-tabpanel-${index}`,
         };
     }
+
 
 
     const handleTerminateAgreement = (agreement: string) => {
@@ -687,14 +689,14 @@ const CommonPage = () => {
                           {t('labels.runModel')}
                         </Button>}
 
-                        {isVisible(account, selectedCommon, "checkSchema") && 
+
                           <Button variant="text"
                           color="primary"
                           startIcon={<SchemaIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                          onClick={toggleCheckSchemaDrawer}
+                                    onClick={() => navigate(`/dataspaces/${dataspaceid}/commons/${selectedCommon.id}/schemas`)}
                         >
-                          {t('labels.checkSchema')}
-                        </Button>}
+                                    {t('labels.schemas')}
+                                </Button>
 
                         {(selectedCommon.allowCopy) ? <Button variant="text"
                             color="primary"

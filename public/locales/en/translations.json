@@ -15,6 +15,7 @@
     "errorAcknowledging":"An error ocurred while acknowledging your session. Please try again."
   },  
   "labels":{
+    "new": "New",
     "homePage":"Home page",
     "dashboard":"Dashboard", 
     "notificationsDrawer":"Notifications", 
@@ -59,6 +60,9 @@
     "export":"Export",
     "runModel":"Run model",
     "checkSchema": "Check schema",
+    "schemas": "Schemas",
+    "configureSchema": "Configure schema",
+    "url": "URL",
     "checkSla": "Check SLA",
     "copy":"Copy",
     "createSynthenticCopy":"Create synthentic copy",
