@@ -40,7 +40,8 @@ import {
   DataspaceSummary,
   InvitationStatus,
   Organization,
-  CommonAgreementSummary
+  CommonAgreementSummary,
+  CommonSchema
 } from './models/models';
 
 
@@ -1134,7 +1135,14 @@ class TrustRelayService extends BaseService {
     });
   }
 
-
+  getSchemasByCommon = async (jwt: string, dataspace: string, common: string): Promise<Array<CommonSchema>> =>
+    await this.simpleGet(`/dataspaces/${dataspace}/commons/${common}/schemas`, jwt).then((res: any) => {
+      if (res && res.value) {
+        return res.value as Array<CommonSchema>;
+      } else {
+        throw new Error('Failed request to get schemas by common');
+      }
+    });
 
 
   getUploadSasInfo = async (jwt: string): Promise<GetSasInfoResponse> => {
