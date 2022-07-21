@@ -38,6 +38,7 @@ import { useDarkMode } from './hooks/dark-mode';
 
 import { LicenseInfo } from '@mui/x-license-pro';
 import CliSignedPage from './pages/cli-signed-page';
+import CommonSchemasPage from './pages/common-schemas-page';
 
 const DashboardPage = lazy(() => import('./pages/dashboard-page'));
 
@@ -236,6 +237,14 @@ const App = (
 
                             element={<Page title="TrustRelay | Commons">
                               <CommonsPage />
+                            </Page>}
+                          />
+
+<Route
+                            path="/dataspaces/:dataspaceid/commons/:commonid/schemas"
+
+                            element={<Page title="TrustRelay | Common Schemas">
+                              <CommonSchemasPage />
                             </Page>}
                           />
 

@@ -30,7 +30,7 @@ import BlurOnIcon from '@mui/icons-material/BlurOn';
 import CreateSynthenticCopyDrawer from '../components/common-page/create-synthetic-copy-drawer';
 import CreateCommonCopyDrawer from '../components/common-page/create-common-copy-drawer';
 import RunModelDrawer from '../components/common-page/run-model-drawer';
-import CheckSchemaDrawer from '../components/common-page/check-schema-drawer';
+import CheckSchemaDrawer from '../components/common-schemas-page/check-schema-drawer';
 import CheckSlaDrawer from '../components/common-page/check-sla-drawer';
 import EditCommonDrawer from '../components/common-page/edit-common-drawer';
 import ExportCommonDrawer from '../components/common-page/export-common-drawer';
