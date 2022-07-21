@@ -194,7 +194,7 @@ const CommonSchemasPage = () => {
     ])
 
     const configureCommon = (commonId: string, url: string) => {
-        trustRelayService.setNewSchemaFromUrl(jwt, commonid!, url).then((res) => {
+        trustRelayService.setNewSchemaFromUrl(jwt, commonid!, url, dataspaceid!).then((res) => {
         }).catch((err: Error) => {
             toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
         });

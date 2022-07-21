@@ -329,12 +329,12 @@ class TrustRelayService extends BaseService {
       }
     });
 
-    setNewSchemaFromUrl = async (jwt: string, commonId: string, url: string): Promise<void> => {
+    setNewSchemaFromUrl = async (jwt: string, commonId: string, url: string, dataspaceId: string): Promise<void> => {
       let data = {
         schemaUrl: url
       }
   
-      await this.postWithResponse<string>(`/commons/${commonId}/schemas`, jwt, data).then((res: any) => {
+      await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/commons/${commonId}/schemas`, jwt, data).then((res: any) => {
         if (res && res.value) {
           return
         } else {
