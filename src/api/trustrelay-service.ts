@@ -330,6 +330,21 @@ class TrustRelayService extends BaseService {
       }
     });
 
+    setNewSchemaFromUrl = async (jwt: string, commonId: string, url: string, dataspaceId: string): Promise<void> => {
+      let data = {
+        schemaUrl: url
+      }
+  
+      await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/commons/${commonId}/schemas`, jwt, data).then((res: any) => {
+        if (res && res.value) {
+          return
+        } else {
+          throw new Error('Failed request to send invitation');
+        }
+      });
+  
+    }
+
   getCommon = async (jwt: string, dataspace: string, common: string): Promise<Common> =>
     await this.simpleGet(`/dataspaces/${dataspace}/commons/${common}`, jwt).then((res: any) => {
       if (res && res.value) {
