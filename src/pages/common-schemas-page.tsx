@@ -15,6 +15,8 @@ import AddIcon from '@mui/icons-material/Add';
 import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import { makeStyles } from '@mui/styles';
 import AddNewSchemaDrawer from '../components/common-schemas-page/add-new-schema-drawer';
+import UpdateSchemaDrawer from '../components/common-schemas-page/update-schema-drawer';
+import DeleteSchemaDrawer from '../components/common-schemas-page/delete-schema-drawer';
 import { emptyCommon } from './common-page';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SchemaList from '../components/common-schemas-page/common-schema-item-list';
@@ -59,6 +61,9 @@ const CommonSchemasPage = () => {
  
 
     const [isAddNewSchemaDrawerOpen, setIsAddNewSchemaDrawerOpen] = useState(false);
+    const [isUpdateSchemaDrawerOpen, setIsUpdateSchemaDrawerOpen] = useState(false);
+    const [isDeleteSchemaDrawerOpen, setIsDeleteSchemaDrawerOpen] = useState(false);
+
     const [selectedSchemaEntry, setSelectedSchemaEntry] = useState(emptySchema)
 
     const emptySchemas: Array<CommonSchema> = [];
@@ -80,6 +85,14 @@ const CommonSchemasPage = () => {
         setIsAddNewSchemaDrawerOpen(!isAddNewSchemaDrawerOpen)
     }
 
+    const toggleUpdateSchemaDrawer = () => {
+        setIsUpdateSchemaDrawerOpen(!isUpdateSchemaDrawerOpen)
+    }
+
+    const toggleDeleteSchemaDrawer = () => {
+        setIsDeleteSchemaDrawerOpen(!isDeleteSchemaDrawerOpen)
+    }
+
     const renderContent = () => {
         if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "") {
             return (
@@ -99,6 +112,18 @@ const CommonSchemasPage = () => {
                         handleClose={toggleAddNewSchemaDrawer}
                         common={commonid!}
                         onAction={configureCommon}
+                    />
+                    <UpdateSchemaDrawer
+                        open={isUpdateSchemaDrawerOpen}
+                        handleClose={toggleUpdateSchemaDrawer}
+                        common={commonid!}
+                        onAction={() => { }}
+                    />
+                    <DeleteSchemaDrawer
+                        open={isDeleteSchemaDrawerOpen}
+                        handleClose={toggleDeleteSchemaDrawer}
+                        common={commonid!}
+                        onAction={() => { }}
                     />
 
 
@@ -243,6 +268,24 @@ const CommonSchemasPage = () => {
                                 >
                                     {t('labels.refresh')}
                                 </Button>
+
+                                {/* 
+                                   
+                                EXAMPLE OF UPDATE DELETE SCHEMA BUTTONS!
+
+                                <Button variant="text"
+                                    color="primary"
+                                    onClick={toggleUpdateSchemaDrawer}
+                                >
+                                    update
+                                </Button>
+
+                                <Button variant="text"
+                                    color="primary"
+                                    onClick={toggleDeleteSchemaDrawer}
+                                >
+                                    delete
+                                </Button> */}
 
 
                             </Grid>

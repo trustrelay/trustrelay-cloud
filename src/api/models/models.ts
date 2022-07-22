@@ -426,7 +426,7 @@ export interface GetCheckoutSessionResponse {
   value: string
 }
 
-export interface CommonSchema{
+export interface CommonSchema {
   id:string
   url:string
   timestamp:string
