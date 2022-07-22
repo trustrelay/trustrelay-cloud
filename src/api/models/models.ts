@@ -426,6 +426,13 @@ export interface GetCheckoutSessionResponse {
   value: string
 }
 
+export interface CommonSchema{
+  id:string
+  url:string
+  timestamp:string
+}
+
+ 
 export interface GetSasInfoResponse {
   value: SasInfo;
 }
@@ -433,6 +440,7 @@ export interface GetSasInfoResponse {
 export interface GetAccountResponse {
   value: TrustRelayAccount;
 }
+
 
 
 export interface SasInfo {
