@@ -240,10 +240,10 @@ const App = (
                             </Page>}
                           />
 
-<Route
+                          <Route
                             path="/dataspaces/:dataspaceid/commons/:commonid/schemas"
 
-                            element={<Page title="TrustRelay | Common Schemas">
+                            element={<Page title="TrustRelay | Schemas">
                               <CommonSchemasPage />
                             </Page>}
                           />

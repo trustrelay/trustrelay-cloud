@@ -7,17 +7,18 @@ import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
-import { useParams, Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import { AuditLogsRequest, AuditLogEntry, CommonSchema } from '../api/models/models';
+import { CommonSchema } from '../api/models/models';
 import { getToastMessageTypeByName } from '../components/toast';
-import AuditLogList from '../components/audit-logs-page/audit-log-item-list';
+import AddIcon from '@mui/icons-material/Add';
 import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
-import LogDetailsDrawer from '../components/audit-logs-page/log-details-drawer';
 import { makeStyles } from '@mui/styles';
+import AddNewSchemaDrawer from '../components/common-schemas-page/add-new-schema-drawer';
+import { emptyCommon } from './common-page';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SchemaList from '../components/common-schemas-page/common-schema-item-list';
+import { Link, useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
@@ -54,8 +55,10 @@ const CommonSchemasPage = () => {
 
     const account = useAccount(accounts[0] || {});
 
-    let emptySchema: CommonSchema = { id:"", url:"", timestamp: "" }
+    let emptySchema: CommonSchema = { id: "", url: "", timestamp: "" }
+ 
 
+    const [isAddNewSchemaDrawerOpen, setIsAddNewSchemaDrawerOpen] = useState(false);
     const [selectedSchemaEntry, setSelectedSchemaEntry] = useState(emptySchema)
 
     const emptySchemas: Array<CommonSchema> = [];
@@ -73,6 +76,10 @@ const CommonSchemasPage = () => {
         setIsSchemaDetailsDrawerOpen(!isSchemaDetailsDrawerOpen);
     }
 
+    const toggleAddNewSchemaDrawer = () => {
+        setIsAddNewSchemaDrawerOpen(!isAddNewSchemaDrawerOpen)
+    }
+
     const renderContent = () => {
         if (dataspaceCtx && dataspaceCtx.dataspaceState !== null && dataspaceCtx.dataspaceState !== "") {
             return (
@@ -86,7 +93,14 @@ const CommonSchemasPage = () => {
                         </Grid>
                     </Grid>
 
-                   
+
+                    <AddNewSchemaDrawer
+                        open={isAddNewSchemaDrawerOpen}
+                        handleClose={toggleAddNewSchemaDrawer}
+                        common={commonid!}
+                        onAction={configureCommon}
+                    />
+
 
 
                 </Grid>)
@@ -96,24 +110,24 @@ const CommonSchemasPage = () => {
     }
 
 
+
+
     useEffect(() => {
-
-
-        if (jwt !== "") {
-
-            // var auditLogsReq: AuditLogsRequest = { continuationNextPartitionKey: "", continuationNextRowKey: "" }
-
-            trustRelayService.getSchemasByCommon(jwt, selectedDataspace, commonid!).then((res) => {
+        // var auditLogsReq: AuditLogsRequest = { continuationNextPartitionKey: "", continuationNextRowKey: "" }
+        if (selectedDataspace !== "" && !loadedSchemas && jwt !== "") {
+            trustRelayService.getSchemasByCommon(jwt, dataspaceid!, commonid!).then((res) => {
                 setLoadedSchemas(true);
                 setSchemas(res);
             }).catch((err: Error) => {
                 toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
             });
-
         }
-        else {
-
+        else{
+            console.log('dataspace or common undefined')
         }
+
+
+
 
     }, [selectedDataspace, loadedSchemas])
 
@@ -171,6 +185,13 @@ const CommonSchemasPage = () => {
         dataspaceCtx.dataspaceState
     ])
 
+    const configureCommon = (commonId: string, url: string) => {
+        trustRelayService.setNewSchemaFromUrl(jwt, commonid!, url, dataspaceid!).then((res) => {
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }
+
     return (
         <>
 
@@ -201,12 +222,19 @@ const CommonSchemasPage = () => {
                                 <ChromeReaderModeIcon fontSize="medium" color="primary" style={{ marginTop: "6px" }} />
                                 <Grid item>
                                     <Typography variant="h5" color="textPrimary">{t('labels.common')}</Typography>
-                                    <Typography variant="body2" color="textPrimary">{t('labels.commonSchemas')}</Typography>
+                                    <Typography variant="body2" color="textPrimary">{t('labels.schemas')}</Typography>
                                 </Grid>
                             </Grid>
                             <Divider />
                             <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
+                                <Button variant="text"
+                                    color="primary"
+                                    startIcon={<AddIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                    onClick={toggleAddNewSchemaDrawer}
+                                >
+                                    {t('labels.new')}
+                                </Button>
 
                                 <Button variant="text"
                                     color="primary"
