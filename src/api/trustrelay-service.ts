@@ -1,23 +1,23 @@
 import BaseService from './base-service';
 import {
- 
+
   GetCheckoutSessionResponse,
- 
-  AppNotification, 
-   GetSasInfoResponse,
+
+  AppNotification,
+  GetSasInfoResponse,
   TrustRelayAccount, GetAccountResponse,
   Membership, Agent,
   Common,
   Dispute, DisputeMessage,
   Task, Acl,
- 
+
   DataspaceInfo,
   SignedAgreement,
   TemplateAgreement,
   ServiceConnection,
 
   QueryResponse,
- 
+
   CreateTemplateAgreementPayload,
   TemplateAgreementSummary,
   SignedAgreementSummary,
@@ -35,13 +35,14 @@ import {
   Usage,
   AuditLogsRequest,
   AuditLogsResponse,
-  
+
   GeoScores,
   DataspaceSummary,
   InvitationStatus,
   Organization,
   CommonAgreementSummary,
-  CommonSchema
+  CommonSchema,
+  ValidateQueryWithSchemaResponse
 } from './models/models';
 
 
@@ -299,7 +300,7 @@ class TrustRelayService extends BaseService {
     });
 
 
-  
+
 
 
   getAclsByAgent = async (jwt: string, dataspace: string): Promise<Array<Acl>> =>
@@ -321,7 +322,7 @@ class TrustRelayService extends BaseService {
       }
     });
 
-    getSubscription = async (jwt: string, subscription: string): Promise<Subscription> =>
+  getSubscription = async (jwt: string, subscription: string): Promise<Subscription> =>
     await this.simpleGet(`/settings/subscriptions/${subscription}`, jwt).then((res: any) => {
       if (res && res.value) {
         return res.value as Subscription;
@@ -330,20 +331,53 @@ class TrustRelayService extends BaseService {
       }
     });
 
-    setNewSchemaFromUrl = async (jwt: string, commonId: string, url: string, dataspaceId: string): Promise<void> => {
-      let data = {
-        schemaUrl: url
-      }
-  
-      await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/commons/${commonId}/schemas`, jwt, data).then((res: any) => {
-        if (res && res.value) {
-          return
-        } else {
-          throw new Error('Failed request to send invitation');
-        }
-      });
-  
+  createSchema = async (jwt: string, dataspaceId: string, commonId: string, name: string, url: string): Promise<void> => {
+    let data = {
+      schemaName: name,
+      schemaUrl: url
     }
+
+    await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/commons/${commonId}/schemas`, jwt, data).then((res: any) => {
+      if (res && res.value) {
+        return
+      } else {
+        throw new Error('Failed request to send invitation');
+      }
+    });
+
+  }
+
+  deleteSchema = async (jwt: string, dataspaceId: string, commonId: string, schemaId: string): Promise<void> => {
+
+    await this.deleteWithResponse<ValidateQueryWithSchemaResponse>(`/dataspaces/${dataspaceId}/commons/${commonId}/schemas/${schemaId}`, jwt, null).then((res: ValidateQueryWithSchemaResponse) => {
+      if (res && res.value) {
+        return
+      } else {
+        throw new Error(res.error.message);
+      }
+    });
+
+  }
+
+  validateQueryWithSchema = async (jwt: string, dataspaceId: string, commonId: string, schemaId: string, query: string): Promise<void> => {
+    let data = {
+      query
+    }
+
+    await this.postWithResponse<ValidateQueryWithSchemaResponse>(`/dataspaces/${dataspaceId}/commons/${commonId}/schemas/${schemaId}/validate`, jwt, data).then((res: ValidateQueryWithSchemaResponse) => {
+      if (res) {
+        if(res.value && res.value){
+          if(res.value==="OK"){
+            return
+          } else{
+            throw new Error(res.value)  
+          }
+        }  
+      } else { 
+          throw new Error("An error ocurred while validating query with schema") 
+      }
+    })
+  }
 
   getCommon = async (jwt: string, dataspace: string, common: string): Promise<Common> =>
     await this.simpleGet(`/dataspaces/${dataspace}/commons/${common}`, jwt).then((res: any) => {
@@ -385,7 +419,7 @@ class TrustRelayService extends BaseService {
       }
     });
 
-    getSignedAgreementsByCommon = async (jwt: string, dataspace: string, common: string): Promise<Array<CommonAgreementSummary>> =>
+  getSignedAgreementsByCommon = async (jwt: string, dataspace: string, common: string): Promise<Array<CommonAgreementSummary>> =>
     await this.simpleGet(`/dataspaces/${dataspace}/commons/${common}/signed-agreements`, jwt).then((res: any) => {
       if (res && res.value) {
         return res.value as Array<CommonAgreementSummary>;
@@ -394,7 +428,7 @@ class TrustRelayService extends BaseService {
       }
     });
 
-    getSignedAgreementsByDataspace = async (jwt: string, dataspace: string): Promise<Array<CommonAgreementSummary>> =>
+  getSignedAgreementsByDataspace = async (jwt: string, dataspace: string): Promise<Array<CommonAgreementSummary>> =>
     await this.simpleGet(`/dataspaces/${dataspace}/signed-agreements`, jwt).then((res: any) => {
       if (res && res.value) {
         return res.value as Array<CommonAgreementSummary>;
@@ -506,7 +540,7 @@ class TrustRelayService extends BaseService {
         throw new Error('Failed request to acknowledge session');
       }
     });
-  
+
 
   ackNotification = async (jwt: string, notification: string): Promise<void> =>
     await this.postWithResponse<string>(`/notifications/ack?id=${notification}`, jwt).then((res: any) => {
@@ -531,7 +565,7 @@ class TrustRelayService extends BaseService {
   }
 
 
-  sendFeedback = async (jwt: string, satisfactionLevel: string, feedbackText:string, canEmailYou: boolean): Promise<void> => {
+  sendFeedback = async (jwt: string, satisfactionLevel: string, feedbackText: string, canEmailYou: boolean): Promise<void> => {
     let data = {
       satisfactionLevel,
       feedbackText,
@@ -550,7 +584,7 @@ class TrustRelayService extends BaseService {
 
   submitLearnMoreIdea = async (input: string): Promise<void> => {
     let data = {
-      input 
+      input
     }
     await this.postWithResponse<string>(`/learn-more/submit`, '', data).then((res: any) => {
       if (res && res.value) {
@@ -611,7 +645,7 @@ class TrustRelayService extends BaseService {
 
   editSubscription = async (jwt: string, subscriptionId: string, subscriptionName: string, procurementEmail: string): Promise<void> => {
     let data = {
-      subscriptionName, 
+      subscriptionName,
       procurementEmail
     }
 
@@ -626,7 +660,7 @@ class TrustRelayService extends BaseService {
 
 
   cancelSubscription = async (jwt: string, subscriptionId: string): Promise<void> => {
-    
+
     await this.postWithResponse<string>(`/settings/subscriptions/${subscriptionId}/cancel`, jwt).then((res: any) => {
       if (res && res.value) {
         return
@@ -638,7 +672,7 @@ class TrustRelayService extends BaseService {
 
 
   extendTrialSubscription = async (jwt: string, subscriptionId: string): Promise<void> => {
-    
+
     await this.postWithResponse<string>(`/settings/subscriptions/${subscriptionId}/extend-trial`, jwt).then((res: any) => {
       if (res && res.value) {
         return
@@ -680,7 +714,7 @@ class TrustRelayService extends BaseService {
     });
   }
 
-  
+
 
 
   createNewServiceConnection = async (
@@ -757,7 +791,7 @@ class TrustRelayService extends BaseService {
     });
   }
 
-  deleteOrganizationalUnit = async (jwt: string, organization: string): Promise<void> => { 
+  deleteOrganizationalUnit = async (jwt: string, organization: string): Promise<void> => {
 
     await this.deleteWithResponse<string>(`/organizations/${organization}`, jwt).then((res: any) => {
       if (res && res.value) {
@@ -782,10 +816,10 @@ class TrustRelayService extends BaseService {
     });
   }
 
-  
 
-  upgradeSubscription = async (jwt: string, subscriptionId:string, subscriptionType:string): Promise<void> => {
-     
+
+  upgradeSubscription = async (jwt: string, subscriptionId: string, subscriptionType: string): Promise<void> => {
+
     let data = {
       subscriptionType
     }
@@ -822,7 +856,7 @@ class TrustRelayService extends BaseService {
   }
 
   completeSignup = async (jwt: string): Promise<void> => {
-   
+
     return this.postWithResponse<string>(`/complete-signup`, jwt, '').then((res: any) => {
       if (res && res.value) {
         return
@@ -834,7 +868,7 @@ class TrustRelayService extends BaseService {
 
 
   createNewTemplateAgreement = async (jwt: string, dataspaceId: string, payload: CreateTemplateAgreementPayload): Promise<void> => {
-   
+
     await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/template-agreements`, jwt, payload).then((res: any) => {
       if (res && res.value) {
         return
@@ -845,13 +879,13 @@ class TrustRelayService extends BaseService {
   }
 
   renewAccessKey = async (jwt: string, dataspaceId: string): Promise<string> =>
-  await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/renew-access-key`, jwt).then((res: any) => {
-    if (res && res.value) {
-      return res.value as string;
-    } else {
-      throw new Error('Failed request to renew access key');
-    }
-  });
+    await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/renew-access-key`, jwt).then((res: any) => {
+      if (res && res.value) {
+        return res.value as string;
+      } else {
+        throw new Error('Failed request to renew access key');
+      }
+    });
 
   getDataspaceSubscription = async (jwt: string, dataspaceId: string): Promise<Subscription> =>
     await this.simpleGet(`/dataspaces/${dataspaceId}/subscription`, jwt).then((res: any) => {
@@ -864,17 +898,17 @@ class TrustRelayService extends BaseService {
 
 
   getOrganizations = async (jwt: string): Promise<Array<Organization>> =>
-  await this.simpleGet(`/my-org`, jwt).then((res: any) => {
-    if (res && res.value) {
-      return res.value as Array<Organization>;
-    } else {
-      throw new Error('Failed request to get organizations');
-    }
-  });
+    await this.simpleGet(`/my-org`, jwt).then((res: any) => {
+      if (res && res.value) {
+        return res.value as Array<Organization>;
+      } else {
+        throw new Error('Failed request to get organizations');
+      }
+    });
 
 
   createNewDataspace = async (jwt: string, subscription: string, dataspaceName: string): Promise<void> => {
-     
+
     let data = {
       dataspaceName: dataspaceName,
       subscription: subscription
@@ -891,7 +925,7 @@ class TrustRelayService extends BaseService {
 
 
   updateSettings = async (jwt: string, defaultDataspace: string): Promise<void> => {
-     
+
     let data = {
       defaultDataspace: defaultDataspace,
     }
@@ -906,7 +940,7 @@ class TrustRelayService extends BaseService {
   }
 
   changeOrganizationalUnit = async (jwt: string, organization: string): Promise<void> => {
-    
+
     let data = {
       organization
     }
@@ -922,7 +956,7 @@ class TrustRelayService extends BaseService {
 
 
   createNewCommon = async (jwt: string, dataspaceId: string, commonName: string, serviceConnection: string, templateAgreement: string): Promise<void> => {
- 
+
     let data = {
       commonName,
       serviceConnection,
@@ -939,7 +973,7 @@ class TrustRelayService extends BaseService {
   }
 
   createNewSubscription = async (jwt: string, subscriptionName: string, subscriptionType: string): Promise<void> => {
-    
+
     let data = {
       subscriptionName,
       subscriptionType
@@ -955,7 +989,7 @@ class TrustRelayService extends BaseService {
   }
 
   exportToCommon = async (jwt: string, dataspaceId: string, commonName: string, query: string, templateAgreement: string): Promise<void> => {
- 
+
     let data = {
       commonName,
       query,
@@ -973,9 +1007,9 @@ class TrustRelayService extends BaseService {
 
 
 
-  terminateAgreement = async (jwt: string, dataspaceId:string, agreementId: string): Promise<void> => {
-   
-   
+  terminateAgreement = async (jwt: string, dataspaceId: string, agreementId: string): Promise<void> => {
+
+
     await this.postWithResponse<string>(`/dataspaces/${dataspaceId}/signed-agreements/${agreementId}/terminate`, jwt).then((res: any) => {
       if (res && res.value) {
         return
@@ -988,7 +1022,7 @@ class TrustRelayService extends BaseService {
 
 
   updateCommon = async (jwt: string, dataspace: string, commonId: string, tags: Array<string>): Promise<void> => {
-  
+
     let data = {
       tags: tags
     }
@@ -1003,7 +1037,7 @@ class TrustRelayService extends BaseService {
   }
 
   updateCommonAcl = async (jwt: string, dataspace: string, commonId: string, agentId: string, allowRead: boolean, allowWrite: boolean, allowCopy: boolean, allowScript: boolean, allowExport: boolean): Promise<void> => {
-  
+
     let data = {
       agent: agentId,
       allowRead: allowRead,
@@ -1024,7 +1058,7 @@ class TrustRelayService extends BaseService {
 
 
   joinDataspace = async (jwt: string, dataspaceId: string, code: string): Promise<void> => {
-    
+
     let data = {
       code
     }
@@ -1040,7 +1074,7 @@ class TrustRelayService extends BaseService {
 
 
   verifyOrganization = async (jwt: string,
-    organization:string,
+    organization: string,
     registryIdentifier: string,
     name: string,
     addressLine1: string,
@@ -1048,7 +1082,7 @@ class TrustRelayService extends BaseService {
     city: string,
     country: string,
     website: string): Promise<void> => {
-    
+
     let data = {
       organization,
       registryIdentifier,
@@ -1070,8 +1104,8 @@ class TrustRelayService extends BaseService {
   }
 
 
-  assessOrganization = async (jwt: string, organization:string, maturityUrl: string): Promise<void> => {
-   
+  assessOrganization = async (jwt: string, organization: string, maturityUrl: string): Promise<void> => {
+
     let data = {
       organization,
       maturityUrl
@@ -1105,7 +1139,7 @@ class TrustRelayService extends BaseService {
 
 
   joinCommon = async (jwt: string, dataspaceId: string, commonId: string): Promise<void> => {
-    
+
     let data = {
       accepted: true
     }

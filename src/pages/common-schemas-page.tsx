@@ -21,6 +21,7 @@ import { emptyCommon } from './common-page';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SchemaList from '../components/common-schemas-page/common-schema-item-list';
 import { Link, useParams } from 'react-router-dom';
+import CheckSchemaDrawer from '../components/common-schemas-page/schema-details-drawer';
 
 const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
@@ -41,6 +42,7 @@ const refreshData = () => {
 }
 
 
+
 const CommonSchemasPage = () => {
 
 
@@ -57,12 +59,13 @@ const CommonSchemasPage = () => {
 
     const account = useAccount(accounts[0] || {});
 
-    let emptySchema: CommonSchema = { id: "", url: "", timestamp: "" }
+    let emptySchema: CommonSchema = { id: "", name:"", url: "", timestamp: "" }
  
 
-    const [isAddNewSchemaDrawerOpen, setIsAddNewSchemaDrawerOpen] = useState(false);
-    const [isUpdateSchemaDrawerOpen, setIsUpdateSchemaDrawerOpen] = useState(false);
+    const [isAddNewSchemaDrawerOpen, setIsAddNewSchemaDrawerOpen] = useState(false); 
     const [isDeleteSchemaDrawerOpen, setIsDeleteSchemaDrawerOpen] = useState(false);
+    const [isSchemaDetailsDrawerOpen, setIsSchemaDetailsDrawerOpen] = useState(false);
+
 
     const [selectedSchemaEntry, setSelectedSchemaEntry] = useState(emptySchema)
 
@@ -73,9 +76,10 @@ const CommonSchemasPage = () => {
     const dataspaceCtx = useContext(DataspaceContext);
     const [selectedDataspace, setSelectedDataspace] = useState('');
 
-    const [isSchemaDetailsDrawerOpen, setIsSchemaDetailsDrawerOpen] = useState(false);
 
     const { dataspaceid, commonid } = useParams<{ dataspaceid: string, commonid: string }>();
+
+    
 
     const toggleSchemaDetailsDrawer = () => {
         setIsSchemaDetailsDrawerOpen(!isSchemaDetailsDrawerOpen);
@@ -84,13 +88,31 @@ const CommonSchemasPage = () => {
     const toggleAddNewSchemaDrawer = () => {
         setIsAddNewSchemaDrawerOpen(!isAddNewSchemaDrawerOpen)
     }
-
-    const toggleUpdateSchemaDrawer = () => {
-        setIsUpdateSchemaDrawerOpen(!isUpdateSchemaDrawerOpen)
-    }
-
+ 
     const toggleDeleteSchemaDrawer = () => {
         setIsDeleteSchemaDrawerOpen(!isDeleteSchemaDrawerOpen)
+    }
+
+    const createSchema = (name:string, url: string) => {
+        trustRelayService.createSchema(jwt, dataspaceid!, commonid!, name, url).then((res) => {
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }
+    
+    const deleteSchema = (schemaId:string) => {
+        trustRelayService.deleteSchema(jwt, dataspaceid!, commonid!, schemaId).then((res) => {
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
+    }
+    
+    const validateQueryWithSchema = (schemaId:string, query:string) => {
+        trustRelayService.validateQueryWithSchema(jwt, dataspaceid!, commonid!, schemaId, query).then((res) => {
+            toast.openToast(`success`, 'Query is valid with schema', getToastMessageTypeByName('success'));
+        }).catch((err: Error) => {
+            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
+        });
     }
 
     const renderContent = () => {
@@ -102,31 +124,34 @@ const CommonSchemasPage = () => {
                     <Grid item container spacing={2} rowGap={1}>
 
                         <Grid item container direction="row">
-                            <SchemaList jwt={jwt} schemas={schemas} setSelectedSchemaEntry={setSelectedSchemaEntry} toggleSchemaDetailsDrawer={toggleSchemaDetailsDrawer} />
+                            <SchemaList jwt={jwt} 
+                            schemas={schemas} 
+                            setSelectedSchemaEntry={setSelectedSchemaEntry} 
+                            toggleSchemaDetailsDrawer={toggleSchemaDetailsDrawer}
+                            toggleDeleteSchemaDrawer={toggleDeleteSchemaDrawer}
+                             />
                         </Grid>
                     </Grid>
 
 
                     <AddNewSchemaDrawer
                         open={isAddNewSchemaDrawerOpen}
-                        handleClose={toggleAddNewSchemaDrawer}
-                        common={commonid!}
-                        onAction={configureCommon}
+                        handleClose={toggleAddNewSchemaDrawer} 
+                        onAction={createSchema}
                     />
-                    <UpdateSchemaDrawer
-                        open={isUpdateSchemaDrawerOpen}
-                        handleClose={toggleUpdateSchemaDrawer}
-                        common={commonid!}
-                        onAction={() => { }}
-                    />
+                   
                     <DeleteSchemaDrawer
                         open={isDeleteSchemaDrawerOpen}
                         handleClose={toggleDeleteSchemaDrawer}
-                        common={commonid!}
-                        onAction={() => { }}
+                        schema={selectedSchemaEntry}
+                        onAction={deleteSchema}
                     />
-
-
+                    <CheckSchemaDrawer
+                    open={isSchemaDetailsDrawerOpen}
+                    handleClose={toggleSchemaDetailsDrawer}
+                    schema={selectedSchemaEntry}
+                    onAction={validateQueryWithSchema}
+/>
 
                 </Grid>)
         } else {
@@ -210,12 +235,7 @@ const CommonSchemasPage = () => {
         dataspaceCtx.dataspaceState
     ])
 
-    const configureCommon = (commonId: string, url: string) => {
-        trustRelayService.setNewSchemaFromUrl(jwt, commonid!, url, dataspaceid!).then((res) => {
-        }).catch((err: Error) => {
-            toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
-        });
-    }
+  
 
     return (
         <>

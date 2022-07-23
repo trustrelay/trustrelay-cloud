@@ -13,23 +13,23 @@ import { useTranslation } from 'react-i18next';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import ResultsTable from '../components/dashboard-page/results-table'; 
+import ResultsTable from '../components/dashboard-page/results-table';
 // import Editor from '@uiw/react-textarea-code-editor';
 import Editor from "react-simple-code-editor";
 import Prism, { languages } from 'prismjs'
-import "prismjs/components/prism-sql"; 
+import "prismjs/components/prism-sql";
 import 'prismjs/themes/prism-funky.css';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import QueryStats from '../components/dashboard-page/query-stats';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GridColDef, GridRowsProp  } from '@mui/x-data-grid-premium';
+import { GridColDef, GridRowsProp } from '@mui/x-data-grid-premium';
 import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
 import ExportToCommonDrawer from '../components/dashboard-page/export-to-common-drawer';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
         margin: '0px 0px 0px 0px',
         display: 'flex',
@@ -55,11 +55,11 @@ const useStyles = makeStyles((theme:Theme) => ({
         "&:hover:not(.Mui-disabled)": {
             cursor: "pointer"
         }
-    } 
+    }
 })
 );
 
-const MyEditor : any = Editor;
+const MyEditor: any = Editor;
 
 const DashboardPage = () => {
 
@@ -182,7 +182,7 @@ const DashboardPage = () => {
     }
 
     const handleSearch = (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault(); 
+        event.preventDefault();
 
         if (selectedRunIndex === 0) {
             setLoading(true);
@@ -190,7 +190,8 @@ const DashboardPage = () => {
             trustRelayService.query(jwt, dataspaceid!, query).then((res) => {
                 setDrillQueryResponse(res);
                 setLoading(false);
-
+                setColumns(emptyColumns)
+                setRows(emptyRows)
 
                 if (res.columns && res.columns.length > 0) {
                     let formattedColumns: Array<GridColDef> = []
@@ -260,7 +261,7 @@ const DashboardPage = () => {
                                                 <ArchiveIcon fontSize='large' />
                                             </Grid>
                                             <Grid item alignContent="center" xs={10} sm={10} md={10} lg={10} xl={10}>
-                                                {(stats.commons < 0) ? <CircularProgress color="secondary" /> : <Typography color="primary" textAlign="center" variant="h2" style={{fontWeight:"bolder", fontSize:"60px"}} >{stats.commons}</Typography>}
+                                                {(stats.commons < 0) ? <CircularProgress color="secondary" /> : <Typography color="primary" textAlign="center" variant="h2" style={{ fontWeight: "bolder", fontSize: "60px" }} >{stats.commons}</Typography>}
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                 <Typography variant="body1">{t('labels.commonsEnabled')}</Typography>
@@ -279,7 +280,7 @@ const DashboardPage = () => {
                                                 <SettingsInputAntennaIcon fontSize='large' />
                                             </Grid>
                                             <Grid item alignContent="center" xs={10} sm={10} md={10} lg={10} xl={10}>
-                                                {(stats.members < 0) ? <CircularProgress color="secondary" /> : <Typography  color="primary" textAlign="center" variant="h2" style={{fontWeight:"bolder", fontSize:"60px"}}>{stats.members}</Typography>}
+                                                {(stats.members < 0) ? <CircularProgress color="secondary" /> : <Typography color="primary" textAlign="center" variant="h2" style={{ fontWeight: "bolder", fontSize: "60px" }}>{stats.members}</Typography>}
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                 <Typography variant="body1">{t('labels.membersInvited')}</Typography>
@@ -298,7 +299,7 @@ const DashboardPage = () => {
                                                 <CloudOffIcon color="primary" fontSize='large' />
                                             </Grid>
                                             <Grid item alignContent="center" xs={10} sm={10} md={10} lg={10} xl={10}>
-                                                {(stats.failingConnections < 0) ? <CircularProgress color="secondary" /> : <Typography color="primary" textAlign="center" variant="h2" style={{fontWeight:"bolder", fontSize:"60px"}}>{stats.failingConnections}</Typography>}
+                                                {(stats.failingConnections < 0) ? <CircularProgress color="secondary" /> : <Typography color="primary" textAlign="center" variant="h2" style={{ fontWeight: "bolder", fontSize: "60px" }}>{stats.failingConnections}</Typography>}
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                 <Typography variant="body1">{t('labels.connectionsFailed')}</Typography>
@@ -322,8 +323,8 @@ const DashboardPage = () => {
                         <Paper variant="outlined" className={css.root}>
                             <MyEditor
                                 value={query}
-                                onValueChange={(code:string)=>handleQueryChange(code)}
-                                highlight={(code:string) => Prism.highlight(code, languages.sql, 'sql')}
+                                onValueChange={(code: string) => handleQueryChange(code)}
+                                highlight={(code: string) => Prism.highlight(code, languages.sql, 'sql')}
                                 padding={10}
 
                                 style={{
@@ -331,13 +332,13 @@ const DashboardPage = () => {
                                     fontSize: 12,
                                     width: "100%",
                                     height: "150px",
-                                    backgroundColor: "rgba(var(--body), 0.1)" 
+                                    backgroundColor: "rgba(var(--body), 0.1)"
                                 }}
                             />
-                            
+
                         </Paper>
                     </Grid>
-                    
+
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <div className={css.loading}>
@@ -466,7 +467,7 @@ const DashboardPage = () => {
 
 
     useEffect(() => {
-        
+
 
         if (statsLoaded && !queriesLoaded && jwt !== "") {
 
@@ -485,7 +486,7 @@ const DashboardPage = () => {
 
         }
         else {
-             
+
         }
 
 
@@ -507,9 +508,9 @@ const DashboardPage = () => {
     }, [queriesLoaded, loadedAgreementTemplates])
 
     useEffect(() => {
-      
 
-       
+
+
         if (dataspaceid !== localDataspace) {
             setLocaDataspace(dataspaceid!)
             setStatsLoaded(false);
@@ -567,11 +568,11 @@ const DashboardPage = () => {
                     scopes: protectedResources.api.scopes,
                     account: account!
                 }).then((returnedToken) => {
-                    
+
                     setJwt(returnedToken.idToken)
 
                 }).catch((error: any) => {
-                  
+
                     console.log(error)
 
                 })
@@ -580,7 +581,7 @@ const DashboardPage = () => {
         } else {
 
             if (!inProgress) {
-                
+
                 instance.loginRedirect(loginRequest)
             }
 
@@ -598,83 +599,83 @@ const DashboardPage = () => {
     return (
         <>
 
-        <AuthenticatedTemplate>
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-            selectedDataspace={dataspaceid}
-        >
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                    selectedDataspace={dataspaceid}
+                >
 
-            {(isNewUser) ? <Grid container item xs={12} sm={12} md={12} lg={12} xl={12} style={{ marginTop: "100px" }}>
-                <Grid item xs={1} sm={1} md={2} lg={3} xl={3}>&nbsp;</Grid>
-                <Grid item container flexDirection="column" justifyContent="center" textAlign="center" xs={10} sm={10} md={8} lg={6} xl={6}>
-                    <Grid item><Typography color="primary" variant="h5">Preparing your account...</Typography></Grid>
-                    <Grid item><CircularProgress /></Grid>
-                </Grid>
-                <Grid item xs={1} sm={1} md={2} lg={3} xl={3}>&nbsp;</Grid>
-            </Grid> :
-                <LayoutCentered fullHeight>
-                    <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
-
-                        <Grid item container direction="row">
-
-                            <DashboardIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
-                            <Grid item>
-                                <Typography variant="h5" color="textPrimary">{t('labels.dashboard')}</Typography>
-                            </Grid>
+                    {(isNewUser) ? <Grid container item xs={12} sm={12} md={12} lg={12} xl={12} style={{ marginTop: "100px" }}>
+                        <Grid item xs={1} sm={1} md={2} lg={3} xl={3}>&nbsp;</Grid>
+                        <Grid item container flexDirection="column" justifyContent="center" textAlign="center" xs={10} sm={10} md={8} lg={6} xl={6}>
+                            <Grid item><Typography color="primary" variant="h5">Preparing your account...</Typography></Grid>
+                            <Grid item><CircularProgress /></Grid>
                         </Grid>
-                        <Divider />
-                      
-                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+                        <Grid item xs={1} sm={1} md={2} lg={3} xl={3}>&nbsp;</Grid>
+                    </Grid> :
+                        <LayoutCentered fullHeight>
+                            <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+
+                                <Grid item container direction="row">
+
+                                    <DashboardIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
+                                    <Grid item>
+                                        <Typography variant="h5" color="textPrimary">{t('labels.dashboard')}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Divider />
+
+                                <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
 
 
-                                <Button variant="text"
-                                    color="primary"
-                                    startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
-                                    onClick={() => refreshData()}
-                                >
-                                    {t('labels.refresh')}
-                                </Button>
+                                    <Button variant="text"
+                                        color="primary"
+                                        startIcon={<RefreshIcon fontSize="small" style={{ color: "#0090BF" }} />}
+                                        onClick={() => refreshData()}
+                                    >
+                                        {t('labels.refresh')}
+                                    </Button>
 
-                            </Grid>
+                                </Grid>
 
 
-                            <Grid item container alignItems="left" alignContent="left" direction="column" >
+                                <Grid item container alignItems="left" alignContent="left" direction="column" >
 
-                                <Grid item container >
-                                    <DataspaceContext.Consumer>
-                                        {({ dataspaceState }) => (
-                                            renderContent()
-                                        )}
-                                    </DataspaceContext.Consumer>
+                                    <Grid item container >
+                                        <DataspaceContext.Consumer>
+                                            {({ dataspaceState }) => (
+                                                renderContent()
+                                            )}
+                                        </DataspaceContext.Consumer>
+                                    </Grid>
+                                </Grid>
+
+
+                                <Grid item>
+                                    &nbsp;
                                 </Grid>
                             </Grid>
+                        </LayoutCentered>
+                    }
 
-                      
-                        <Grid item>
-                            &nbsp;
-                        </Grid>
-                    </Grid>
-                </LayoutCentered>
-            }
+                </LayoutPage>
+            </AuthenticatedTemplate>
 
-        </LayoutPage>
-        </AuthenticatedTemplate>
+            <UnauthenticatedTemplate>
 
-<UnauthenticatedTemplate>
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
 
-    <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
 
-        <Typography variant="h1">{t('messages.signedOut')}</Typography>
-        <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dashboard` })} >Login first</Button>
 
-        <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dashboard` })} >Login first</Button>
+                </Grid>
 
-    </Grid>
-
-</UnauthenticatedTemplate>
-</>
+            </UnauthenticatedTemplate>
+        </>
 
     );
 };

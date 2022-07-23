@@ -314,6 +314,10 @@
     "invoices":"Invoices",
     "amount":"Amount",
     "currency":"Currency",
-    "signedBy":"Signed by" 
+    "signedBy":"Signed by",
+    "schema":"Schema",
+    "validateQuery":"Validate query",
+    "deleteSchema":"Delete schema",
+    "schemaName":"Schema name"
   } 
 }
