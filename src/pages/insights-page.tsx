@@ -1,9 +1,9 @@
 import LayoutPage from '../components/layout-one-column';
 import { useToast } from '../hooks/toast-hook';
-import { Grid, Typography, Button, Breadcrumbs, AppBar, Tabs, Tab, Divider, Theme} from '@mui/material';
+import { Grid, Typography, Button, Breadcrumbs, AppBar, Tabs, Tab, Divider, Theme, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, InputLabel } from '@mui/material';
 import trustRelayService from '../api/trustrelay-service';
 import React, { useContext, useEffect, useState } from 'react';
-import {   DataspaceContext } from '../app-contexts';
+import { DataspaceContext } from '../app-contexts';
 import LayoutCentered from '../components/layout-centered';
 import { useMsal, useAccount, AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, protectedResources } from '../authConfig';
@@ -13,12 +13,12 @@ import { useTranslation } from 'react-i18next';
 import { getToastMessageTypeByName } from '../components/toast';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import SankeyChart from '../components/insights-page/sankey-chart';
-import { DataProvenanceSet, GeoScore, GeoScores, Usage } from '../api/models/models';
+import { DataProvenanceSet, GeoScore, GeoScores, SelectedCountryScore, Usage } from '../api/models/models';
 import ChordChart from '../components/insights-page/chord-chart';
 import GeoChart from '../components/insights-page/geo-chart';
-import { makeStyles  } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme:Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     breadcrumbLink: {
         color: theme.palette.primary.main
     }
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme:Theme) => ({
 
 const InsightsPage = () => {
 
-   
+
 
     const toast = useToast();
     const { t } = useTranslation();
@@ -48,8 +48,8 @@ const InsightsPage = () => {
     const { dataspaceid } = useParams<{ dataspaceid: string }>();
 
     const emptyGeoscores: GeoScores = {
-    maxValue:0,
-    scores:[]
+        maxValue: 0,
+        scores: []
     }
     const [geoscores, setGeoscores] = useState(emptyGeoscores);
     const [geoscoresLoaded, setGeoscoresLoaded] = useState(false);
@@ -59,6 +59,12 @@ const InsightsPage = () => {
     const emptyUsage: Usage = { data: emptyUsageData, keys: emptyUsageKeys }
     const [usage, setUsage] = useState(emptyUsage);
     const [usageLoaded, setUsageLoaded] = useState(false);
+
+    const emptySelectedCountryScore: SelectedCountryScore = { name: "", score: 0 }
+    const [selectedCountry, setSelectedCountry] = useState(emptySelectedCountryScore);
+
+
+    const [projectionScale, setProjectionScale] = useState(145);
 
     const handleTabChange = (event: any, newValue: number) => {
         setValue(newValue);
@@ -80,7 +86,7 @@ const InsightsPage = () => {
                     <AppBar position="static">
                         <Tabs value={value} onChange={handleTabChange} aria-label="source tabs">
 
-                            <Tab label={t('labels.provenance')} {...a11yProps(0)} /> 
+                            <Tab label={t('labels.provenance')} {...a11yProps(0)} />
                             <Tab label={t('labels.interactions')} {...a11yProps(1)} />
                             <Tab label={t('labels.geographicalContext')} {...a11yProps(2)} />
 
@@ -98,7 +104,7 @@ const InsightsPage = () => {
                         </Grid>
                     </TabPanel>
 
-                 
+
 
 
                     <TabPanel id="usage" value={value} index={1}>
@@ -108,7 +114,7 @@ const InsightsPage = () => {
                             </Grid>
                             <Grid item xl={10} lg={10} md={12} sm={12} xs={12} sx={{ height: "25em", width: "100%" }}>
 
-                             {(usageLoaded && usage) ?  <ChordChart data={usage.data} keys={usage.keys} /> : <></>}  
+                                {(usageLoaded && usage) ? <ChordChart data={usage.data} keys={usage.keys} /> : <></>}
 
                             </Grid>
                         </Grid>
@@ -119,8 +125,58 @@ const InsightsPage = () => {
                             <Grid item container>
                                 &nbsp;
                             </Grid>
-                            <Grid item xl={10} lg={10} md={12} sm={12} xs={12} sx={{ height: "30em", width: "100%" }}>
-                               {(geoscoresLoaded && geoscores && geoscores.scores && geoscores.scores.length>0) ?  <GeoChart maxValue={geoscores.maxValue} scores={geoscores.scores} /> : <></>}
+                            <Grid item xl={9} lg={9} md={9} sm={12} xs={12} sx={{ height: "30em", width: "100%" }}>
+                                <Grid item alignItems="center"
+                                    textAlign="center"
+                                    justifyContent="center"
+                                    justifyItems="center"><Typography variant="caption">{t('messages.clickForGeoscoreDetails')}</Typography></Grid>
+                                {(geoscoresLoaded && geoscores && geoscores.scores && geoscores.scores.length > 0) ? <GeoChart
+                                    maxValue={geoscores.maxValue}
+                                    scores={geoscores.scores}
+                                    onSelectionChange={(selected: SelectedCountryScore) => setSelectedCountry(selected)}
+                                    projectionScale={projectionScale} /> : <></>}
+                            </Grid>
+                            <Grid item xl={2} lg={2} md={3} sm={12} xs={12} sx={{ height: "30em", width: "100%" }}>
+                                <TableContainer>
+                                    <Table size="small">
+                                        <TableHead>
+                                            <TableRow sx={{ "&:hover": { backgroundColor: "inherit" } }}>
+                                                <TableCell variant="head">
+                                                    {selectedCountry.name}
+                                                </TableCell>
+                                                <TableCell variant="head">
+
+                                                </TableCell>
+
+                                            </TableRow>
+                                        </TableHead>
+                                        {(selectedCountry.name.length > 0) ? <TableBody>
+
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography variant="body1" textAlign="left">
+                                                        Score
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Typography variant="body1" textAlign="left">
+                                                        {selectedCountry.score}
+                                                    </Typography>
+                                                </TableCell>
+
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Button>Load more details</Button>
+                                                </TableCell> 
+                                                <TableCell>
+                                                    
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody> : <></>}
+
+                                    </Table>
+                                </TableContainer>
                             </Grid>
                         </Grid>
                     </TabPanel>
@@ -132,9 +188,12 @@ const InsightsPage = () => {
         }
     }
 
+    useEffect(() => {
+        console.log(`[insights-page] refreshing page with new country value`)
+    }, [selectedCountry])
 
     useEffect(() => {
-        
+
         if (selectedDataspace !== "" && jwt !== "" && !dataProvenanceLoaded) {
             trustRelayService.getDataProvenance(jwt, selectedDataspace).then((res) => {
                 setDataProvenance(res)
@@ -147,7 +206,7 @@ const InsightsPage = () => {
 
 
     useEffect(() => {
-        
+
 
         if (dataProvenanceLoaded && jwt !== "" && !usageLoaded) {
             trustRelayService.getUsage(jwt, selectedDataspace).then((res) => {
@@ -160,7 +219,7 @@ const InsightsPage = () => {
     }, [dataProvenanceLoaded, usageLoaded])
 
     useEffect(() => {
-        
+
 
         if (usageLoaded && !geoscoresLoaded && jwt !== "") {
             trustRelayService.getGeoscores(jwt, selectedDataspace).then((res) => {
@@ -174,7 +233,7 @@ const InsightsPage = () => {
 
 
     useEffect(() => {
-       
+
 
         if (isAuthenticated) {
 
@@ -191,7 +250,7 @@ const InsightsPage = () => {
                         const ds = res.defaultDataspace
                         dataspaceCtx.setDataspaceState(ds)
                         setSelectedDataspace(ds)
-                       
+
                     }).catch((err: Error) => {
                         toast.openToast(`error`, err.message, getToastMessageTypeByName('error'));
                     });
@@ -203,11 +262,11 @@ const InsightsPage = () => {
                     scopes: protectedResources.api.scopes,
                     account: account!
                 }).then((returnedToken) => {
-                  
+
                     setJwt(returnedToken.idToken)
 
                 }).catch((error: any) => {
-                   
+
                     console.log(error)
 
                 })
@@ -216,7 +275,7 @@ const InsightsPage = () => {
         } else {
 
             if (!inProgress) {
-             
+
                 instance.loginRedirect(loginRequest)
             }
 
@@ -227,74 +286,74 @@ const InsightsPage = () => {
     return (
         <>
 
-        <AuthenticatedTemplate>
-        <LayoutPage
-            toast={toast}
-            openToast={toast.openToast}
-            closeToast={toast.closeToast}
-        >
+            <AuthenticatedTemplate>
+                <LayoutPage
+                    toast={toast}
+                    openToast={toast.openToast}
+                    closeToast={toast.closeToast}
+                >
 
-            <LayoutCentered fullHeight>
-                <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
+                    <LayoutCentered fullHeight>
+                        <Grid container item direction="column" rowGap={2} columnGap={1} spacing={1}>
 
 
-                    <Grid item container>
-                        <Breadcrumbs aria-label="breadcrumb">
-                        <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
-                                {t('labels.dashboard')}
-                            </Link>
-                            <Typography variant="body1" color="textPrimary"> &gt;</Typography>
-                        </Breadcrumbs>
+                            <Grid item container>
+                                <Breadcrumbs aria-label="breadcrumb">
+                                    <Link className={css.breadcrumbLink} to={`/dataspaces/${dataspaceid}/dashboard`} >
+                                        {t('labels.dashboard')}
+                                    </Link>
+                                    <Typography variant="body1" color="textPrimary"> &gt;</Typography>
+                                </Breadcrumbs>
 
-                    </Grid>
-                    <Grid item container direction="row">
+                            </Grid>
+                            <Grid item container direction="row">
 
-                        <EqualizerIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
-                        <Grid item>
-                            <Typography variant="h5" color="textPrimary">{t('labels.insights')}</Typography>
+                                <EqualizerIcon fontSize="medium" color="primary" style={{ marginTop: "3px" }} />
+                                <Grid item>
+                                    <Typography variant="h5" color="textPrimary">{t('labels.insights')}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Divider />
+
+
+
+                            <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
+
+                            </Grid>
+
+                            <Grid item container >
+                                <DataspaceContext.Consumer>
+                                    {({ dataspaceState }) => (
+                                        renderContent(dataspaceState)
+                                    )}
+                                </DataspaceContext.Consumer>
+                            </Grid>
+                            <Grid item>
+                                &nbsp;
+                            </Grid>
+
+                            <Grid item>
+                                &nbsp;
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Divider />
 
+                    </LayoutCentered>
+                </LayoutPage>
+            </AuthenticatedTemplate>
 
+            <UnauthenticatedTemplate>
 
-                    <Grid item container direction="row" spacing={2} display="inline-flex" sx={{ marginLeft: "1px" }} >
- 
-                    </Grid>
- 
-                        <Grid item container >
-                            <DataspaceContext.Consumer>
-                                {({ dataspaceState }) => (
-                                    renderContent(dataspaceState)
-                                )}
-                            </DataspaceContext.Consumer>
-                        </Grid>
-                        <Grid item>
-                            &nbsp;
-                        </Grid>
-                  
-                    <Grid item>
-                        &nbsp;
-                    </Grid>
+                <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
+
+                    <Typography variant="h1">{t('messages.signedOut')}</Typography>
+                    <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
+
+                    <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/insights` })} >Login first</Button>
+
                 </Grid>
 
-            </LayoutCentered>
-        </LayoutPage>
-   </AuthenticatedTemplate>
-
-   <UnauthenticatedTemplate>
-
-       <Grid container direction="column" justifyContent="center" textAlign="center" alignItems="center">
-
-           <Typography variant="h1">{t('messages.signedOut')}</Typography>
-           <img alt="unauthorized" width="450" height="360" src="https://cdn.trustrelay.io/media/unauthorized.webp" />
-
-           <Button variant="contained" onClick={() => instance.loginRedirect({ scopes: [], state: `/dataspaces/${dataspaceid}/insights` })} >Login first</Button>
-
-       </Grid>
-
-   </UnauthenticatedTemplate>
-</>
+            </UnauthenticatedTemplate>
+        </>
 
     );
 };
