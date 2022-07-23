@@ -112,7 +112,7 @@ const NewCommonDrawer = ({
             onChange={handleServiceConnectionChange}
           >
 
-            {(serviceConnections && serviceConnections.length > 0) ? serviceConnections.map((item) => <MenuItem value={item.id}>{item.name}</MenuItem>) : <></>}
+            {(serviceConnections && serviceConnections.length > 0) ? serviceConnections.map((item) => <MenuItem key={`svc_key_${item.id}`} value={item.id}>{item.name}</MenuItem>) : <></>}
 
           </Select>
           <br /> <br />
