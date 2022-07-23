@@ -12,7 +12,8 @@
     "toConfirmCancellation":"confirmar cancelacion.",
     "toConfirmDeletion":"confirmar borrado.",
     "clisignedin":"Conexión exitosa. Esta ventana puede ser cerrada.",
-    "errorAcknowledging":"Un error ha ocurrido durante la confirmación. Por favor intente de nuevo."
+    "errorAcknowledging":"Un error ha ocurrido durante la confirmación. Por favor intente de nuevo.",
+    "clickForGeoscoreDetails":"Haga click en un pais para obtener mas detalles."
   },
   "labels": {
     "new": "Nuevo",
