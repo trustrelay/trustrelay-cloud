@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Drawer, Toolbar, Theme } from '@mui/material';
+import { Typography, TextField, Button, Drawer, Toolbar, Theme, InputLabel } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
+import { CommonSchema } from '../../api/models/models';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -26,27 +27,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const DeleteSchemaDrawer = ({
-    common,
+    schema,
     open,
     handleClose,
     onAction
 }: {
-    common: string;
+    schema: CommonSchema;
     open: boolean;
     handleClose: () => void;
-    onAction: any;
+    onAction: (id:string) =>void;
 }) => {
 
     const { t } = useTranslation();
 
-    const [schemaUrl, setSchemaUrl] = React.useState<string>('');
+    const [schemaName, setSchemaName] = useState<string>('');
 
 
 
     const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
-        setSchemaUrl('');
-        onAction(common, schemaUrl);
+        setSchemaName('');
+        onAction(schema.id);
         handleClose()
     }
 
@@ -57,21 +58,13 @@ const DeleteSchemaDrawer = ({
     }
 
     const handleChange = (e: any) => {
-        setSchemaUrl(e.target.value);
+        setSchemaName(e.target.value);
     }
 
-    function isValidHttpUrl(testUrl: string) {
-        let url;
-        try {
-            url = new URL(testUrl);
-        } catch (_) {
-            return false;
-        }
-        return url.protocol === "http:" || url.protocol === "https:";
-    }
+
 
     const disableContinueButton = () => {
-        return !isValidHttpUrl(schemaUrl)
+        return schemaName != schema.name
     };
 
 
@@ -83,28 +76,31 @@ const DeleteSchemaDrawer = ({
 
             <Toolbar className={css.innernav}>
 
-                <Typography variant="h5">Delete</Typography>
+                <Typography variant="h5">{t('labels.deleteSchema')}</Typography>
             </Toolbar>
 
             <div className={css.drawerContainer}>
-                {/* <TextField
-                    autoFocus
-                    autoComplete="off"
-                    margin="dense"
-                    id="name"
-                    label={t('labels.url')}
-                    onChange={handleChange}
-                    value={schemaUrl}
-                    fullWidth
-                /> */}
-                <br /><br />
-                {/* <Button onClick={handleCancel} color="primary">
-                    {t('labels.cancel')}
-                </Button>
-                <Button onClick={handleContinue} disabled={disableContinueButton()} color="primary">
-                    {t('labels.configureSchema')}
-                </Button> */}
+                <form>
 
+                    <InputLabel>Type {schema.name} <br />{t('messages.toConfirmDeletion')}</InputLabel>
+                    <TextField
+                        autoFocus
+                        autoComplete="off"
+                        margin="dense"
+                        id="name"
+                        label={t('labels.name')}
+                        onChange={handleChange}
+                        value={schemaName}
+                        fullWidth
+                    />
+                    <br /><br />
+                    <Button onClick={handleCancel} color="primary">
+                        {t('labels.cancel')}
+                    </Button>
+                    <Button onClick={handleContinue} disabled={disableContinueButton()} color="primary">
+                        {t('labels.delete')}
+                    </Button>
+                </form>
             </div>
         </Drawer>
     )

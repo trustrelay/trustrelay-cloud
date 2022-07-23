@@ -428,6 +428,7 @@ export interface GetCheckoutSessionResponse {
 
 export interface CommonSchema {
   id:string
+  name:string
   url:string
   timestamp:string
 }
@@ -441,7 +442,19 @@ export interface GetAccountResponse {
   value: TrustRelayAccount;
 }
 
+export interface ValidationErrorContext{
+  Message: string;
+}
 
+export interface ValidationError {
+  message: string;
+  context: ValidationErrorContext
+}
+
+export interface ValidateQueryWithSchemaResponse{
+  value:string;
+  error: ValidationError
+}
 
 export interface SasInfo {
   account: string;

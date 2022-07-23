@@ -299,6 +299,10 @@
     "invoices":"Facturas",
     "amount":"Monto",
     "currency":"Moneda",
-    "signedBy":"Firmado por" 
+    "signedBy":"Firmado por",
+    "schema":"Esquema",
+    "validateQuery":"Validar consulta",
+    "deleteSchema":"Borrar esquema",
+    "schemaName":"Nombre del esquema"
   }
 }
