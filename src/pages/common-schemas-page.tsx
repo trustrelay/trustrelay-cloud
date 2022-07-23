@@ -38,8 +38,6 @@ export const formatDateTime = (value: string): string => {
 
 };
 
-const refreshData = () => {
-}
 
 
 
@@ -92,6 +90,13 @@ const CommonSchemasPage = () => {
     const toggleDeleteSchemaDrawer = () => {
         setIsDeleteSchemaDrawerOpen(!isDeleteSchemaDrawerOpen)
     }
+
+    const refreshData = () => {
+         
+        setLoadedSchemas(false);
+        setSchemas(emptySchemas);
+    }
+    
 
     const createSchema = (name:string, url: string) => {
         trustRelayService.createSchema(jwt, dataspaceid!, commonid!, name, url).then((res) => {
