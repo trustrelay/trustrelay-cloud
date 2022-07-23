@@ -562,3 +562,8 @@ export interface Invoice{
   currency:string;
   timestamp:string;
 }
+
+export interface SelectedCountryScore{
+  name:string;
+  score:number;
+}
