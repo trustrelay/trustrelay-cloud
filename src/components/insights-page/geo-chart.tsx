@@ -70,7 +70,7 @@ class GeoChart extends React.Component<GeoChartProps, GeoChartState> {
             borderColor="#152538"
             tooltip={(node: any) => {
                 if (node && node.feature.data.value) {
-                    return (<div style={{ fontFamily: "raleway", backgroundColor: `${node.feature.color}`, fontSize: "14px" }}>{`${node.feature.properties.name}`}</div>)
+                    return (<div style={{ fontFamily: "raleway", backgroundColor:"#999999", borderWidth:"4px", borderColor: `${node.feature.color}`, fontSize: "14px" , padding:"4px 4px 4px 4px",  margin:"4px 4px 4px 4px"}}>{`${node.feature.properties.name}`}</div>)
                 }
                 return <></>
             }}
