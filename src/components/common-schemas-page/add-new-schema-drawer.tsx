@@ -25,13 +25,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-const AddNewSchemaDrawer = ({
-    common,
+const AddNewSchemaDrawer = ({ 
     open,
     handleClose,
     onAction
-}: {
-    common: string;
+}: { 
     open: boolean;
     handleClose: () => void;
     onAction: any;
@@ -39,14 +37,17 @@ const AddNewSchemaDrawer = ({
 
     const { t } = useTranslation();
 
-    const [schemaUrl, setSchemaUrl] = React.useState<string>('');
+    const [schemaUrl, setSchemaUrl] = useState<string>('');
+    const [schemaName, setSchemaName] = useState<string>('');
    
    
 
     const handleContinue = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         setSchemaUrl('');
-        onAction(common, schemaUrl);
+        setSchemaName('');
+
+        onAction(schemaName, schemaUrl);
         handleClose()
     }
 
@@ -56,8 +57,12 @@ const AddNewSchemaDrawer = ({
         handleClose();
     }
 
-    const handleChange = (e: any) => {
+    const handleSchemaUrlChange = (e: any) => {
         setSchemaUrl(e.target.value);
+    }
+
+    const handleSchemaNameChange = (e: any) => {
+        setSchemaName(e.target.value);
     }
 
     function isValidHttpUrl(testUrl: string) {
@@ -87,13 +92,24 @@ const AddNewSchemaDrawer = ({
             </Toolbar>
 
             <div className={css.drawerContainer}>
+            <TextField
+                    autoFocus
+                    autoComplete="off"
+                    margin="dense"
+                    id="name"
+                    label={t('labels.name')}
+                    onChange={handleSchemaNameChange}
+                    value={schemaName}
+                    fullWidth
+                />
+                <br /><br />
                 <TextField
                     autoFocus
                     autoComplete="off"
                     margin="dense"
                     id="name"
                     label={t('labels.url')}
-                    onChange={handleChange}
+                    onChange={handleSchemaUrlChange}
                     value={schemaUrl}
                     fullWidth
                 />
